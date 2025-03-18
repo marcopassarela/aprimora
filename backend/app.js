@@ -1,4 +1,3 @@
-// backend/app.js
 const express = require('express');
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
@@ -7,7 +6,6 @@ const { generateToken, verifyToken } = require('./jwt');
 const app = express();
 app.use(express.json());
 
-// Configuração CORS
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
@@ -18,16 +16,14 @@ app.use((req, res, next) => {
     next();
 });
 
-// Conexão com PostgreSQL
 const pool = new Pool({
     user: 'postgres',
-    host: 'localhost',
+    host: 'localhost', // Será substituído por variáveis de ambiente na Vercel
     database: 'DB',
     password: '5213',
     port: 5432,
 });
 
-// Rota de registro
 app.post('/register', async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -52,7 +48,6 @@ app.post('/register', async (req, res) => {
     }
 });
 
-// Rota de login
 app.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -74,20 +69,4 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Rota protegida
-app.get('/protected', (req, res, next) => {
-    const token = req.headers['authorization']?.split(' ')[1];
-    if (!token) return res.status(401).json({ error: 'Token não fornecido' });
-
-    const user = verifyToken(token);
-    if (!user) return res.status(403).json({ error: 'Token inválido' });
-
-    req.user = user;
-    next();
-}, (req, res) => {
-    res.json({ message: 'Rota protegida acessada com sucesso', user: req.user });
-});
-
-app.listen(3000, () => {
-    console.log('Servidor rodando na porta 3000');
-});
+module.exports = app; // Exporte o app para Vercel
