@@ -1,22 +1,28 @@
 // app.js (frontend)
-document.getElementById('login-form').addEventListener('submit', async function(e) {
+const API_BASE_URL = 'http://localhost:3000';
+
+const loginForm = document.getElementById('login-form');
+const errorMessage = document.getElementById('error-message');
+
+loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const username = document.getElementById('username').value;
+    const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value;
-    const errorMessage = document.getElementById('error-message');
+
+    // Validação básica no frontend
+    if (!username || !password) {
+        showError('Por favor, preencha todos os campos');
+        return;
+    }
 
     try {
-        // Faz a requisição de login para o backend
-        const response = await fetch('http://localhost:3000/login', {
+        const response = await fetch(`${API_BASE_URL}/login`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                username,
-                password
-            })
+            body: JSON.stringify({ username, password }),
         });
 
         const data = await response.json();
@@ -25,39 +31,44 @@ document.getElementById('login-form').addEventListener('submit', async function(
             throw new Error(data.error || 'Erro ao fazer login');
         }
 
-        // Se o login for bem-sucedido, armazena o token no localStorage
         localStorage.setItem('token', data.token);
-        errorMessage.style.display = 'none';
-        
-        // Redireciona para uma página protegida ou mostra mensagem de sucesso
+        hideError();
+        loginForm.reset(); // Limpa o formulário
         alert('Login realizado com sucesso!');
-        // window.location.href = '/pagina-protegida.html'; // Descomente e ajuste se tiver uma página específica
+        // Redireciona para uma página protegida (descomente se desejar)
+        // window.location.href = '/pagina-protegida.html';
 
     } catch (error) {
-        // Mostra mensagem de erro
-        errorMessage.textContent = error.message;
-        errorMessage.style.display = 'block';
+        showError(error.message);
     }
 });
 
-// Função auxiliar para verificar se usuário está logado
+// Funções utilitárias
+function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.style.display = 'block';
+}
+
+function hideError() {
+    errorMessage.style.display = 'none';
+}
+
 function isLoggedIn() {
     return !!localStorage.getItem('token');
 }
 
-// Exemplo de como usar o token para uma requisição protegida
 async function fetchProtectedData() {
     const token = localStorage.getItem('token');
     if (!token) {
         alert('Por favor, faça login primeiro');
-        return;
+        return null;
     }
 
     try {
-        const response = await fetch('http://localhost:3000/protected', {
+        const response = await fetch(`${API_BASE_URL}/protected`, {
             headers: {
-                'Authorization': `Bearer ${token}`
-            }
+                'Authorization': `Bearer ${token}`,
+            },
         });
 
         const data = await response.json();
@@ -66,7 +77,15 @@ async function fetchProtectedData() {
         }
 
         console.log('Dados protegidos:', data);
+        return data;
     } catch (error) {
         console.error('Erro:', error.message);
+        return null;
     }
+}
+
+// Verifica login ao carregar a página
+if (isLoggedIn()) {
+    console.log('Usuário já está logado');
+    // fetchProtectedData(); // Chama automaticamente se desejar
 }
