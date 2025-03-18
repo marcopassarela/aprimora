@@ -1,0 +1,344 @@
+* {
+    padding: 0;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+body {
+    text-rendering: optimizeLegibility; /* Melhora a legibilidade e suaviza as fontes */
+}
+
+html {
+    scroll-behavior: smooth;
+    font-smoothing: antialiased; /* Para navegadores como o Safari */
+}
+:root {
+    --color-blue: #007bff;
+    --color-black: #000000;
+    --color-white: #ffffff;
+    --color-background: black;
+    --color-text: white;
+}
+
+.erro-404 {
+    display: flex;
+    width: 100%;
+    height: 80vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 0; 
+    font-family: "Sora", sans-serif;
+}
+.erro-404 h1 {
+    color: #FF5F5F;
+}
+.erro-404 p{
+    width: 80%;
+    margin-top: 10px;
+    font-family: "Sora", sans-serif;
+}
+
+#privacy {
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    display: flex;
+}
+
+#privacy img {
+    width: 60px;
+    height: 60px;
+    margin-left: 150px;
+    margin-top: 40px;
+}
+.map-page {
+    margin-top: 20px;
+    margin-left: 50px;
+}
+.map-page h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    font-family: "Sora", sans-serif;
+    color: black;
+}
+.map-page a {
+    color: black;
+    font-family: "Sora", sans-serif;
+    font-size: 11px;
+    display: flex;
+    margin-bottom: 10px;
+    text-decoration: none;
+    width: 45px;
+    position: relative;
+    width: fit-content;
+}
+.map-page a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background-color: black; 
+    width: 0;
+    transition: width 0.5s ease;
+}
+.map-page a:hover::after {
+    width: 100%;
+}
+.support {
+    margin-top: 20px;
+    margin-left: 50px;
+    display: flex;
+    flex-direction: column;
+}
+.support h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    font-family: "Sora", sans-serif;
+    color: black;
+}
+.support a {
+    color: black;
+    font-family: "Sora", sans-serif;
+    font-size: 11px;
+    display: inline-block; 
+    margin-bottom: 10px;
+    text-decoration: none;
+    position: relative;
+    width: fit-content;
+}
+
+.support a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background-color: black; 
+    width: 0;
+    transition: width 0.5s ease;
+}
+
+.support a:hover::after {
+    width: 100%;
+}
+
+.redes-sociais {
+    margin-top: 20px;
+    margin-left: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.redes-sociais h3 {
+    font-size: 14px;
+    font-family: "Sora", sans-serif;
+    color: black;
+}
+.redes-sociais a {
+    color: black;
+    font-family: "Sora", sans-serif;
+    font-size: 11px;
+    text-decoration: none !important; 
+    position: relative;
+    display: inline-block;
+}
+
+.redes-sociais a:hover {
+    text-decoration: none !important;
+}
+
+.redes-sociais a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background-color: black; 
+    width: 0;
+    transition: width 0.5s ease;
+}
+
+.redes-sociais a:hover::after {
+    width: 100%;
+}
+
+.privacy-terms {
+    margin-top: 20px;
+    margin-left: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.privacy-terms h3 {
+    font-size: 14px;
+    font-family: "Sora", sans-serif;
+    color: black;
+}
+.privacy-terms a {
+    color: black;
+    font-family: "Sora", sans-serif;
+    font-size: 11px;
+    display: inline-block;
+    text-decoration: none;
+    width: 90px;
+    position: relative;
+    width: fit-content;
+}
+
+.privacy-terms a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background-color: black; 
+    width: 0;
+    transition: width 0.5s ease;
+}
+
+.privacy-terms a:hover::after {
+    width: 100%;
+}
+.redes-sociais a:hover {
+    text-decoration: underline;
+}
+/* Ícones SVG */
+.icon-theme path {
+    fill: black; /* A cor do ícone será a cor do texto do tema */
+}
+/* Outros estilos para o SVG, caso necessário */
+.icon-theme svg {
+    transition: fill 0.3s ease; /* Adiciona uma transição suave para a mudança de cor */
+}
+
+.create-by {
+    width: 100%;
+    height: 15px;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    margin-top: 120px;
+}
+.create-by p {
+    font-size: 10px;
+    color: black;
+    font-family: "Sora", sans-serif;
+}
+
+
+
+
+
+@media (max-width: 768px) {
+    .menu {
+        border-right: 0px solid transparent;
+        
+    }
+
+    #hamburger-btn {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 30px;
+        cursor: pointer;
+        color: var(--color-black);
+        z-index: 20;
+        position: absolute; /* Absoluto para o menu hambúrguer */
+        top: 20px;
+        left: 20px; /* Ajusta para o canto esquerdo */
+        position: fixed;
+    }
+
+    /* Esconde o menu desktop no mobile */
+    .menu ul.desktop {
+        display: none;
+    }
+
+    /* Exibe o menu mobile */
+    .menu ul.mobile {
+        display: block;
+        background-color: white;
+        margin-top: 0;
+        font-family: "Sora", sans-serif;
+    }
+    .menu ul.mobile li {
+        margin: 20px 0;
+        margin-left: 20px;
+        list-style: none;
+    }
+    .menu ul.mobile a {
+        text-decoration: none;
+        color: black;
+    }
+
+    /* Exibe o ícone de fechar (X) quando o menu estiver aberto */
+    .menu ul.mobile.show #close-btn {
+        display: block;
+        color: black;
+    }
+
+    /* Esconde o ícone de hambúrguer quando o menu estiver aberto */
+    .menu ul.mobile.show #hamburger-btn {
+        display: none; /* Esconde o hambúrguer quando o menu estiver aberto */
+        font-family: "Sora", sans-serif;
+    }
+    #content {
+        margin-top: 25px;
+        margin-left: 70px;
+    }
+    #content p {
+        width: 90%;
+        text-align: justify;
+        hyphens: auto;
+        font-size: 12px;
+        font-family: "Sora", sans-serif;
+    }
+    #content li {
+        text-align: justify;
+        width: 90%;
+        hyphens: auto;
+        font-size: 12px;
+        font-family: "Sora", sans-serif;
+    }
+    #privacy {
+        width: 100%;
+        height: auto;
+        gap: 20px;
+        border-top: 1px solid rgba(0, 0, 0, 0.151);
+    }
+    #privacy img {
+        width: 50px;
+        height: 50px;
+        margin-left: 0px;
+        display: flex;
+        justify-content: center;
+    }
+    .my-logo {
+        margin-left: 0px;
+    }
+    .map-page {
+        margin-left: 0px;
+        display: none;
+    }
+    .support {
+        margin-left: 0;
+    }
+    .support h3 {
+        font-size: 12px;
+    }
+    .redes-sociais {
+        margin-left: 0;
+    }
+    .redes-sociais h3 {
+        font-size: 12px;
+    }
+    .privacy-terms {
+        margin-left: 0;
+    }
+    .privacy-terms h3 {
+        font-size: 12px;
+    }
+}
