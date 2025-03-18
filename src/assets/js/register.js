@@ -1,5 +1,5 @@
 // src/assets/js/register.js
-const API_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = 'https://aprimora.vercel.app/';
 
 const registerForm = document.getElementById('register-form');
 const errorMessage = document.getElementById('error-message');
