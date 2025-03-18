@@ -1,13 +1,13 @@
-// jwt.js
+// backend/jwt.js
 const jwt = require('jsonwebtoken');
 
-const secretKey = 'sua_chave_secreta_aqui'; // Substitua por uma chave secreta forte
+const secretKey = 'sua_chave_secreta_aqui'; // Substitua por uma chave forte
 
 function generateToken(user) {
     return jwt.sign(
         { id: user.id, username: user.username },
         secretKey,
-        { expiresIn: '1h' } // Token expira em 1 hora
+        { expiresIn: '1h' }
     );
 }
 
