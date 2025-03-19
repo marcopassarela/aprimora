@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/frontend/src/styles/index.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@3.21.0/dist/tf-core.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl@3.21.0/dist/tf-backend-webgl.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection@1.0.2/dist/face-landmarks-detection.min.js"></script>
     <title>Aprimora</title>
 </head>
 <body>
@@ -19,22 +16,9 @@
                 <li><a href="#">Contato</a></li>
                 <li><a href="#">Cadastrar</a></li>
                 <li><a href="#">Login</a></li>
-                <li id="eye-tracking">
-                    <a href="#" onclick="toggleEyeTracking()">🙈</a>
-                </li>
             </ul>
         </div>
     </header>
-    
-    <div id="eye-modal" class="modal">
-        <div class="modal-content">
-            <p>Ativar rastreamento ocular?</p>
-            <button onclick="activateEyeTracking()">Ativar</button>
-            <button onclick="cancelEyeTracking()">Cancelar</button>
-        </div>
-    </div>
-
-    <div id="highlight-box" style="display: none; position: absolute; border: 2px solid #007bff; pointer-events: none;"></div>
     
     <script src="/frontend/src/utils/index.js"></script>
 </body>
