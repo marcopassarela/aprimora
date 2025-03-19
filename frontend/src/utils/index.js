@@ -55,33 +55,36 @@ window.onclick = function(event) {
 };
 
 async function startEyeTracking() {
+    console.log("Iniciando rastreamento ocular...");
     const menuItems = document.querySelectorAll("#menu ul li a:not(#eye-tracking a)");
+    const highlightBox = document.getElementById("highlight-box");
 
     // Inicializa o Face Mesh
     faceMesh = new FaceMesh({
         locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
     });
     faceMesh.setOptions({
-        maxNumFaces: 1, // Apenas um rosto
-        refineLandmarks: true, // Mais precisão nos olhos
-        selfieMode: true // Inverte para câmera frontal
+        maxNumFaces: 1,
+        refineLandmarks: true,
+        selfieMode: true
     });
 
     faceMesh.onResults((results) => {
-        if (!eyeTrackingActive || !results.multiFaceLandmarks) return;
+        if (!eyeTrackingActive || !results.multiFaceLandmarks) {
+            console.log("Nenhum rosto detectado ou rastreamento desativado");
+            highlightBox.style.display = "none";
+            return;
+        }
 
         const landmarks = results.multiFaceLandmarks[0];
-        if (!landmarks) return;
-
-        // Calcula a posição média dos olhos para determinar o olhar
-        const leftEye = landmarks[159]; // Ponto superior do olho esquerdo
-        const rightEye = landmarks[386]; // Ponto superior do olho direito
+        const leftEye = landmarks[159]; // Ponto superior olho esquerdo
+        const rightEye = landmarks[386]; // Ponto superior olho direito
         const gazeX = (leftEye.x + rightEye.x) / 2 * window.innerWidth;
         const gazeY = (leftEye.y + rightEye.y) / 2 * window.innerHeight;
 
         console.log(`Olhar em: x=${gazeX}, y=${gazeY}`);
 
-        // Verifica se o olhar está sobre um item do menu
+        // Verifica o item sob o olhar
         let itemFound = null;
         menuItems.forEach(item => {
             const rect = item.getBoundingClientRect();
@@ -91,26 +94,31 @@ async function startEyeTracking() {
             );
             if (isGazeOnItem) {
                 itemFound = item;
-                item.style.border = "2px solid #007bff";
-            } else {
-                item.style.border = "";
             }
         });
 
-        if (itemFound && itemFound !== lastSelectedItem) {
-            lastSelectedItem = itemFound;
-            console.log(`Olhando para: ${itemFound.textContent}`);
-        } else if (!itemFound) {
+        if (itemFound) {
+            if (lastSelectedItem !== itemFound) {
+                lastSelectedItem = itemFound;
+                console.log(`Olhando para: ${itemFound.textContent}`);
+                // Posiciona o quadrado de destaque
+                highlightBox.style.display = "block";
+                highlightBox.style.left = `${rect.left - 2}px`;
+                highlightBox.style.top = `${rect.top - 2}px`;
+                highlightBox.style.width = `${rect.width + 4}px`;
+                highlightBox.style.height = `${rect.height + 4}px`;
+            }
+        } else {
             lastSelectedItem = null;
+            highlightBox.style.display = "none";
         }
 
-        // Detecção de piscada (distância entre pontos superior e inferior do olho)
-        const leftEyeTop = landmarks[159].y; // Topo olho esquerdo
-        const leftEyeBottom = landmarks[145].y; // Base olho esquerdo
+        // Detecção de piscada
+        const leftEyeTop = landmarks[159].y;
+        const leftEyeBottom = landmarks[145].y;
         const eyeDistance = leftEyeBottom - leftEyeTop;
 
-        // Threshold ajustável para detectar piscada
-        if (eyeDistance < 0.02) { // Olho fechado (piscada)
+        if (eyeDistance < 0.02) { // Piscada detectada
             console.log("Piscada detectada!");
             if (lastSelectedItem && lastSelectedItem.href && lastSelectedItem.href !== "#") {
                 window.location.href = lastSelectedItem.href;
@@ -119,15 +127,24 @@ async function startEyeTracking() {
     });
 
     // Configura a câmera
-    camera = new Camera(document.createElement("video"), {
+    const videoElement = document.createElement("video");
+    camera = new Camera(videoElement, {
         onFrame: async () => {
-            await faceMesh.send({ image: camera.video });
+            await faceMesh.send({ image: videoElement });
         },
         width: 640,
         height: 480
     });
-    await camera.start(); // Pede permissão para a câmera
-    console.log("Rastreamento ocular iniciado");
+
+    try {
+        await camera.start();
+        console.log("Câmera iniciada com sucesso");
+    } catch (error) {
+        console.error("Erro ao iniciar a câmera:", error);
+        alert("Não foi possível acessar a câmera. Verifique as permissões.");
+        eyeTrackingActive = false;
+        closeModal();
+    }
 }
 
 async function stopEyeTracking() {
@@ -139,7 +156,7 @@ async function stopEyeTracking() {
         faceMesh.close();
         faceMesh = null;
     }
-    const menuItems = document.querySelectorAll("#menu ul li a:not(#eye-tracking a)");
-    menuItems.forEach(item => item.style.border = "");
+    const highlightBox = document.getElementById("highlight-box");
+    if (highlightBox) highlightBox.style.display = "none";
     console.log("Rastreamento ocular parado");
 }
