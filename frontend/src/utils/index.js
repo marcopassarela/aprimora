@@ -102,6 +102,7 @@ async function startEyeTracking() {
                 lastSelectedItem = itemFound;
                 console.log(`Olhando para: ${itemFound.textContent}`);
                 // Posiciona o quadrado de destaque
+                const rect = itemFound.getBoundingClientRect();
                 highlightBox.style.display = "block";
                 highlightBox.style.left = `${rect.left - 2}px`;
                 highlightBox.style.top = `${rect.top - 2}px`;
@@ -118,7 +119,7 @@ async function startEyeTracking() {
         const leftEyeBottom = landmarks[145].y;
         const eyeDistance = leftEyeBottom - leftEyeTop;
 
-        if (eyeDistance < 0.02) { // Piscada detectada
+        if (eyeDistance < 0.02) {
             console.log("Piscada detectada!");
             if (lastSelectedItem && lastSelectedItem.href && lastSelectedItem.href !== "#") {
                 window.location.href = lastSelectedItem.href;
@@ -128,20 +129,27 @@ async function startEyeTracking() {
 
     // Configura a câmera
     const videoElement = document.createElement("video");
+    videoElement.setAttribute("playsinline", ""); // Necessário para iPhone/Safari
+
     camera = new Camera(videoElement, {
         onFrame: async () => {
-            await faceMesh.send({ image: videoElement });
+            try {
+                await faceMesh.send({ image: videoElement });
+            } catch (error) {
+                console.error("Erro ao processar frame:", error);
+            }
         },
         width: 640,
         height: 480
     });
 
     try {
+        console.log("Solicitando acesso à câmera...");
         await camera.start();
         console.log("Câmera iniciada com sucesso");
     } catch (error) {
         console.error("Erro ao iniciar a câmera:", error);
-        alert("Não foi possível acessar a câmera. Verifique as permissões.");
+        alert("Não foi possível acessar a câmera. Verifique as permissões e se está usando HTTPS.");
         eyeTrackingActive = false;
         closeModal();
     }
