@@ -1,87 +1,145 @@
-let faceMesh;
-let videoElement = document.createElement('video');
 let eyeTrackingActive = false;
-
-async function setupFaceMesh() {
-    faceMesh = new FaceMesh({
-        locateFile: (file) => {
-            return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
-        }
-    });
-
-    faceMesh.setOptions({
-        maxNumFaces: 1,
-        refineLandmarks: true,
-        minDetectionConfidence: 0.5,
-        minTrackingConfidence: 0.5
-    });
-
-    faceMesh.onResults(onFaceMeshResults);
-}
-
-async function startCamera() {
-    const stream = await navigator.mediaDevices.getUserMedia({
-        video: true
-    });
-    videoElement.srcObject = stream;
-    videoElement.play();
-
-    const camera = new Camera(videoElement, {
-        onFrame: async () => {
-            if (eyeTrackingActive) {
-                await faceMesh.send({ image: videoElement });
-            }
-        },
-        width: 640,
-        height: 480
-    });
-    camera.start();
-}
-
-function onFaceMeshResults(results) {
-    if (!results.multiFaceLandmarks) return;
-
-    const faceLandmarks = results.multiFaceLandmarks[0];
-    const leftEye = faceLandmarks[33];
-    const rightEye = faceLandmarks[133];
-
-    // Aqui você pode adicionar o código para exibir o feedback visual
-    drawEyes(leftEye, rightEye);
-}
-
-function drawEyes(leftEye, rightEye) {
-    const canvas = document.createElement('canvas');
-    canvas.width = videoElement.videoWidth;
-    canvas.height = videoElement.videoHeight;
-    document.body.appendChild(canvas);
-    const context = canvas.getContext('2d');
-
-    // Desenhando pontos dos olhos
-    context.beginPath();
-    context.arc(leftEye.x * canvas.width, leftEye.y * canvas.height, 5, 0, 2 * Math.PI);
-    context.arc(rightEye.x * canvas.width, rightEye.y * canvas.height, 5, 0, 2 * Math.PI);
-    context.fill();
-}
+let faceMesh = null;
+let camera = null;
+let lastSelectedItem = null;
 
 function toggleEyeTracking() {
+    let eyeIcon = document.querySelector("#eye-tracking a");
     if (eyeTrackingActive) {
-        eyeTrackingActive = false;
-        document.getElementById('eye-modal').style.display = 'block'; // Exibe o modal
+        eyeIcon.textContent = "🙈";
+        closeModal();
+        stopEyeTracking();
     } else {
-        document.getElementById('eye-modal').style.display = 'none'; // Esconde o modal
+        eyeIcon.textContent = "🙉";
+        openModal();
+    }
+    eyeTrackingActive = !eyeTrackingActive;
+}
+
+function openModal() {
+    const modal = document.getElementById("eye-modal");
+    if (modal) modal.style.display = "flex";
+}
+
+function closeModal() {
+    const modal = document.getElementById("eye-modal");
+    if (modal) {
+        modal.style.display = "none";
+        let eyeIcon = document.querySelector("#eye-tracking a");
+        eyeIcon.textContent = eyeTrackingActive ? "🙉" : "🙈";
     }
 }
 
 function activateEyeTracking() {
+    alert("Rastreamento ocular ativado! Olhe para um item e pisque para clicar.");
     eyeTrackingActive = true;
-    startCamera(); // Inicia a câmera
-    document.getElementById('eye-modal').style.display = 'none'; // Fecha o modal
+    closeModal();
+    startEyeTracking();
 }
 
 function cancelEyeTracking() {
+    let eyeIcon = document.querySelector("#eye-tracking a");
+    eyeIcon.textContent = "🙈";
     eyeTrackingActive = false;
-    document.getElementById('eye-modal').style.display = 'none'; // Fecha o modal
+    stopEyeTracking();
+    closeModal();
 }
 
-// Configura o MediaPipe FaceMesh
-setupFaceMesh();
+window.onclick = function(event) {
+    const modal = document.getElementById("eye-modal");
+    if (event.target === modal) {
+        eyeTrackingActive = false;
+        stopEyeTracking();
+        closeModal();
+    }
+};
+
+async function startEyeTracking() {
+    const menuItems = document.querySelectorAll("#menu ul li a:not(#eye-tracking a)");
+
+    // Inicializa o Face Mesh
+    faceMesh = new FaceMesh({
+        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
+    });
+    faceMesh.setOptions({
+        maxNumFaces: 1, // Apenas um rosto
+        refineLandmarks: true, // Mais precisão nos olhos
+        selfieMode: true // Inverte para câmera frontal
+    });
+
+    faceMesh.onResults((results) => {
+        if (!eyeTrackingActive || !results.multiFaceLandmarks) return;
+
+        const landmarks = results.multiFaceLandmarks[0];
+        if (!landmarks) return;
+
+        // Calcula a posição média dos olhos para determinar o olhar
+        const leftEye = landmarks[159]; // Ponto superior do olho esquerdo
+        const rightEye = landmarks[386]; // Ponto superior do olho direito
+        const gazeX = (leftEye.x + rightEye.x) / 2 * window.innerWidth;
+        const gazeY = (leftEye.y + rightEye.y) / 2 * window.innerHeight;
+
+        console.log(`Olhar em: x=${gazeX}, y=${gazeY}`);
+
+        // Verifica se o olhar está sobre um item do menu
+        let itemFound = null;
+        menuItems.forEach(item => {
+            const rect = item.getBoundingClientRect();
+            const isGazeOnItem = (
+                gazeX >= rect.left && gazeX <= rect.right &&
+                gazeY >= rect.top && gazeY <= rect.bottom
+            );
+            if (isGazeOnItem) {
+                itemFound = item;
+                item.style.border = "2px solid #007bff";
+            } else {
+                item.style.border = "";
+            }
+        });
+
+        if (itemFound && itemFound !== lastSelectedItem) {
+            lastSelectedItem = itemFound;
+            console.log(`Olhando para: ${itemFound.textContent}`);
+        } else if (!itemFound) {
+            lastSelectedItem = null;
+        }
+
+        // Detecção de piscada (distância entre pontos superior e inferior do olho)
+        const leftEyeTop = landmarks[159].y; // Topo olho esquerdo
+        const leftEyeBottom = landmarks[145].y; // Base olho esquerdo
+        const eyeDistance = leftEyeBottom - leftEyeTop;
+
+        // Threshold ajustável para detectar piscada
+        if (eyeDistance < 0.02) { // Olho fechado (piscada)
+            console.log("Piscada detectada!");
+            if (lastSelectedItem && lastSelectedItem.href && lastSelectedItem.href !== "#") {
+                window.location.href = lastSelectedItem.href;
+            }
+        }
+    });
+
+    // Configura a câmera
+    camera = new Camera(document.createElement("video"), {
+        onFrame: async () => {
+            await faceMesh.send({ image: camera.video });
+        },
+        width: 640,
+        height: 480
+    });
+    await camera.start(); // Pede permissão para a câmera
+    console.log("Rastreamento ocular iniciado");
+}
+
+async function stopEyeTracking() {
+    if (camera) {
+        camera.stop();
+        camera = null;
+    }
+    if (faceMesh) {
+        faceMesh.close();
+        faceMesh = null;
+    }
+    const menuItems = document.querySelectorAll("#menu ul li a:not(#eye-tracking a)");
+    menuItems.forEach(item => item.style.border = "");
+    console.log("Rastreamento ocular parado");
+}
