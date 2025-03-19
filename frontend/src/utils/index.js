@@ -5,11 +5,11 @@ function toggleEyeTracking() {
     let eyeIcon = document.querySelector("#eye-tracking a");
 
     if (eyeTrackingActive) {
-        eyeIcon.textContent = "🙈"; // Olho fechado
+        eyeIcon.textContent = "🙈";
         closeModal();
         stopEyeTracking();
     } else {
-        eyeIcon.textContent = "🙉"; // Olho aberto
+        eyeIcon.textContent = "🙉";
         openModal();
     }
 
@@ -45,8 +45,8 @@ function closeModal() {
 function activateEyeTracking() {
     alert("Rastreamento ocular ativado! Olhe para um item e pisque para clicar.");
     eyeTrackingActive = true;
-    startEyeTracking();
-    closeModal();
+    closeModal(); // Fecha o modal antes de iniciar o WebGazer
+    startEyeTracking(); // Tenta iniciar o WebGazer depois
 }
 
 // Cancela o rastreamento ocular
@@ -70,10 +70,17 @@ window.onclick = function(event) {
 
 // Função para iniciar o rastreamento ocular
 function startEyeTracking() {
-    console.log("Iniciando WebGazer...");
+    console.log("Tentando iniciar WebGazer...");
     const menuItems = document.querySelectorAll("#menu ul li a:not(#eye-tracking a)");
 
     try {
+        // Verifica se WebGL está disponível
+        const canvas = document.createElement("canvas");
+        const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+        if (!gl) {
+            throw new Error("WebGL não é suportado neste dispositivo.");
+        }
+
         webgazer.setGazeListener(function(data, elapsedTime) {
             if (data == null || !eyeTrackingActive) {
                 console.log("Dados nulos ou rastreamento desativado");
@@ -93,9 +100,9 @@ function startEyeTracking() {
                 );
                 if (isGazeOnItem) {
                     itemFound = item;
-                    item.style.border = "2px solid #007bff"; // Destaca o item
+                    item.style.border = "2px solid #007bff";
                 } else {
-                    item.style.border = ""; // Remove destaque
+                    item.style.border = "";
                 }
             });
 
@@ -126,9 +133,12 @@ function startEyeTracking() {
 
         webgazer.showVideoPreview(false);
         webgazer.applyKalmanFilter(true);
-        // webgazer.showPredictionPoints(true); // Descomente para calibrar
+        console.log("WebGazer iniciado com sucesso");
     } catch (error) {
         console.error("Erro ao iniciar WebGazer:", error);
+        alert("Não foi possível iniciar o rastreamento ocular. WebGL pode não ser suportado.");
+        eyeTrackingActive = false;
+        closeModal();
     }
 }
 
@@ -138,9 +148,9 @@ function stopEyeTracking() {
         webgazer.pause();
         webgazer.clearGazeListener();
         webgazer.clearBlinkListener();
-        console.log("Rastreamento ocular parado");
         const menuItems = document.querySelectorAll("#menu ul li a:not(#eye-tracking a)");
-        menuItems.forEach(item => item.style.border = ""); // Remove destaques
+        menuItems.forEach(item => item.style.border = "");
+        console.log("Rastreamento ocular parado");
     } catch (error) {
         console.error("Erro ao parar WebGazer:", error);
     }
