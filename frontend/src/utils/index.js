@@ -1,5 +1,4 @@
 let eyeTrackingActive = false; // Variável para controlar o estado do rastreamento ocular
-let lastSelectedItem = null; // Para rastrear o último item selecionado
 
 // Função para alternar entre olho fechado e aberto
 function toggleEyeTracking() {
@@ -15,28 +14,36 @@ function toggleEyeTracking() {
     }
 
     eyeTrackingActive = !eyeTrackingActive;
+    console.log("Estado do rastreamento:", eyeTrackingActive);
 }
 
 // Abre o modal
 function openModal() {
-    document.getElementById("eye-modal").style.display = "flex";
+    const modal = document.getElementById("eye-modal");
+    if (modal) {
+        modal.style.display = "flex";
+        console.log("Modal aberto");
+    } else {
+        console.error("Modal não encontrado");
+    }
 }
 
 // Fecha o modal e sincroniza o ícone
 function closeModal() {
-    document.getElementById("eye-modal").style.display = "none";
-    
-    let eyeIcon = document.querySelector("#eye-tracking a");
-    if (eyeTrackingActive) {
-        eyeIcon.textContent = "🙉"; // Olho aberto
+    const modal = document.getElementById("eye-modal");
+    if (modal) {
+        modal.style.display = "none";
+        let eyeIcon = document.querySelector("#eye-tracking a");
+        eyeIcon.textContent = eyeTrackingActive ? "🙉" : "🙈";
+        console.log("Modal fechado");
     } else {
-        eyeIcon.textContent = "🙈"; // Olho fechado
+        console.error("Modal não encontrado");
     }
 }
 
 // Ativa o rastreamento ocular
 function activateEyeTracking() {
-    alert("Rastreamento ocular ativado! Olhe para um item do menu e pisque para clicar.");
+    alert("Rastreamento ocular ativado! Olhe para um item e pisque para clicar.");
     eyeTrackingActive = true;
     startEyeTracking();
     closeModal();
@@ -53,7 +60,7 @@ function cancelEyeTracking() {
 
 // Fecha o modal ao clicar fora
 window.onclick = function(event) {
-    let modal = document.getElementById("eye-modal");
+    const modal = document.getElementById("eye-modal");
     if (event.target === modal) {
         eyeTrackingActive = false;
         stopEyeTracking();
@@ -63,82 +70,78 @@ window.onclick = function(event) {
 
 // Função para iniciar o rastreamento ocular
 function startEyeTracking() {
+    console.log("Iniciando WebGazer...");
     const menuItems = document.querySelectorAll("#menu ul li a:not(#eye-tracking a)");
 
-    console.log("Iniciando rastreamento ocular...");
-
-    webgazer.setGazeListener(function(data, elapsedTime) {
-        if (data == null || !eyeTrackingActive) {
-            console.log("Dados nulos ou rastreamento desativado.");
-            return;
-        }
-
-        let x = data.x; // Posição horizontal do olhar
-        let y = data.y; // Posição vertical do olhar
-
-        // Log para depuração
-        console.log(`Olhar em: x=${x}, y=${y}`);
-
-        let itemFound = null;
-
-        // Verifica se o olhar está sobre algum item do menu
-        menuItems.forEach(item => {
-            const rect = item.getBoundingClientRect();
-            const isGazeOnItem = (
-                x >= rect.left &&
-                x <= rect.right &&
-                y >= rect.top &&
-                y <= rect.bottom
-            );
-
-            if (isGazeOnItem) {
-                itemFound = item;
+    try {
+        webgazer.setGazeListener(function(data, elapsedTime) {
+            if (data == null || !eyeTrackingActive) {
+                console.log("Dados nulos ou rastreamento desativado");
+                return;
             }
-        });
 
-        // Destaca o item atual e remove destaque do anterior
-        if (itemFound) {
-            if (lastSelectedItem !== itemFound) {
-                if (lastSelectedItem) {
-                    lastSelectedItem.style.border = "";
+            let x = data.x;
+            let y = data.y;
+            console.log(`Olhar em: x=${x}, y=${y}`);
+
+            let itemFound = null;
+            menuItems.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                const isGazeOnItem = (
+                    x >= rect.left && x <= rect.right &&
+                    y >= rect.top && y <= rect.bottom
+                );
+                if (isGazeOnItem) {
+                    itemFound = item;
+                    item.style.border = "2px solid #007bff"; // Destaca o item
+                } else {
+                    item.style.border = ""; // Remove destaque
                 }
-                itemFound.style.border = "2px solid #007bff"; // Destaca o item
-                lastSelectedItem = itemFound;
-                console.log(`Item selecionado: ${itemFound.textContent}`);
-            }
-        } else {
-            if (lastSelectedItem) {
-                lastSelectedItem.style.border = "";
-                lastSelectedItem = null;
-                console.log("Nenhum item selecionado.");
-            }
-        }
-    }).setBlinkListener(function(blinkData) {
-        if (!eyeTrackingActive || !lastSelectedItem || blinkData == null) return;
+            });
 
-        // Detecta a piscada
-        if (blinkData.blink) {
-            console.log(`Piscada detectada no item: ${lastSelectedItem.textContent}`);
-            if (lastSelectedItem.href && lastSelectedItem.href !== "#") {
-                window.location.href = lastSelectedItem.href; // Simula o clique
+            if (itemFound) {
+                console.log(`Olhando para: ${itemFound.textContent}`);
             }
-        }
-    }).begin();
+        }).setBlinkListener(function(blinkData) {
+            if (!eyeTrackingActive || blinkData == null) return;
 
-    // Configurações do WebGazer
-    webgazer.showVideoPreview(false); // Oculta o preview
-    webgazer.applyKalmanFilter(true); // Melhora a precisão
-    // webgazer.showPredictionPoints(true); // Descomente para calibrar manualmente
+            if (blinkData.blink) {
+                console.log("Piscada detectada!");
+                menuItems.forEach(item => {
+                    const rect = item.getBoundingClientRect();
+                    const x = webgazer.getCurrentPrediction().x;
+                    const y = webgazer.getCurrentPrediction().y;
+                    if (
+                        x >= rect.left && x <= rect.right &&
+                        y >= rect.top && y <= rect.bottom
+                    ) {
+                        console.log(`Clicando em: ${item.textContent}`);
+                        if (item.href && item.href !== "#") {
+                            window.location.href = item.href;
+                        }
+                    }
+                });
+            }
+        }).begin();
+
+        webgazer.showVideoPreview(false);
+        webgazer.applyKalmanFilter(true);
+        // webgazer.showPredictionPoints(true); // Descomente para calibrar
+    } catch (error) {
+        console.error("Erro ao iniciar WebGazer:", error);
+    }
 }
 
 // Função para parar o rastreamento ocular
 function stopEyeTracking() {
-    webgazer.pause();
-    webgazer.clearGazeListener();
-    webgazer.clearBlinkListener(); // Remove o listener de piscadas
-    if (lastSelectedItem) {
-        lastSelectedItem.style.border = "";
-        lastSelectedItem = null;
+    try {
+        webgazer.pause();
+        webgazer.clearGazeListener();
+        webgazer.clearBlinkListener();
+        console.log("Rastreamento ocular parado");
+        const menuItems = document.querySelectorAll("#menu ul li a:not(#eye-tracking a)");
+        menuItems.forEach(item => item.style.border = ""); // Remove destaques
+    } catch (error) {
+        console.error("Erro ao parar WebGazer:", error);
     }
-    console.log("Rastreamento ocular parado.");
 }
