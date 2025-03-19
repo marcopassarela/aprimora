@@ -10,27 +10,24 @@ html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-/* Inicialmente, todas as divs começam invisíveis */
+
 .fade-in {
     opacity: 0;
     animation: fadeInAnimation 1s forwards;
 }
 
-/* A animação */
 @keyframes fadeInAnimation {
     0% {
-        opacity: 0; /* Começa invisível */
+        opacity: 0;
     }
     100% {
-        opacity: 1; /* Fica visível */
+        opacity: 1;
     }
 }
 
-/* Aplica o atraso automaticamente com base na posição do elemento */
 .fade-in:nth-child(n) {
     animation-delay: calc(0.2s * var(--i));
 }
-
 
 header {
     width: 100%;
@@ -41,7 +38,7 @@ header {
     align-items: center;
 }
 
-header a {
+.title {
     position: relative;
     left: 25%;
     margin-top: 5px;
@@ -79,18 +76,18 @@ header a {
     font-size: 16px;
     font-weight: 400;
     position: relative;
-    padding-bottom: 1px; 
+    padding-bottom: 1px;
     transition: color 0.3s ease;
 }
 
 #menu ul li a::after {
-    content: ""; 
+    content: "";
     position: absolute;
-    bottom: 0; 
+    bottom: 0;
     left: 0;
-    width: 0%; 
-    height: 2px; 
-    background-color: black; 
+    width: 0%;
+    height: 2px;
+    background-color: black;
     transition: width 0.5s ease;
 }
 
@@ -123,7 +120,6 @@ header a {
     text-align: center;
 }
 
-/* Estilo dos botões do modal */
 .modal-content button {
     padding: 10px 20px;
     margin: 5px;
@@ -147,7 +143,6 @@ header a {
     opacity: 0.85;
 }
 
-/* Estilo do quadrado de destaque */
 #highlight-box {
     display: none;
     position: absolute;
@@ -156,47 +151,44 @@ header a {
     z-index: 1000;
 }
 
-/* Estilos do Menu Hambúrguer */
 .menu-toggle {
-    display: none; /* Checkbox invisível */
+    display: none;
 }
 
 .hamburger {
-    display: none; /* Oculto por padrão */
+    display: none;
     cursor: pointer;
-    width: 40px; /* Tamanho máximo */
-    height: 40px; /* Tamanho máximo */
+    width: 40px;
+    height: 40px;
     position: relative;
-    padding: 0; /* Remove padding para caber no 40x40 */
+    padding: 0;
 }
 
-/* Estilos das barras do hambúrguer */
 .hamburger .bar {
     display: block;
-    width: 25px; /* Largura da barra */
-    height: 3px; /* Espessura da barra */
+    width: 25px;
+    height: 3px;
     background-color: black;
     position: absolute;
-    left: 5px; /* Centraliza horizontalmente no 40px */
+    left: 5px;
     transition: all 0.3s ease-in-out;
 }
 
 .hamburger .top {
-    top: 10px; /* Espaçamento ajustado */
+    top: 10px;
 }
 
 .hamburger .middle {
-    top: 17px; /* Centro exato */
+    top: 17px;
 }
 
 .hamburger .bottom {
-    top: 25px; /* Espaçamento ajustado */
+    top: 25px;
 }
 
-/* Transformação em X vermelho quando o menu está aberto */
 #menu-toggle:checked + .hamburger .top {
     transform: rotate(45deg);
-    top: 18px; /* Centraliza para formar o X perfeito */
+    top: 18px;
     background-color: red;
 }
 
@@ -206,18 +198,29 @@ header a {
 
 #menu-toggle:checked + .hamburger .bottom {
     transform: rotate(-45deg);
-    top: 18px; /* Centraliza para formar o X perfeito */
+    top: 18px;
     background-color: red;
 }
 
 /* Media Query para celulares (max-width: 768px) */
 @media (max-width: 768px) {
-    header h1 {
+    header {
+        width: 100%;
+        height: 50px;
+        color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    header a {
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100%;
+        left: 0; /* Corrige o posicionamento relativo */
     }
+
     #menu {
         width: 100%;
         margin-left: 0;
@@ -226,51 +229,52 @@ header a {
     }
 
     .hamburger {
-        display: block; /* Mostra o ícone em celulares */
+        display: block;
         position: absolute;
         right: 10px;
         margin-top: 5px;
-        z-index: 2000; /* Garante que o ícone fique acima do menu */
+        z-index: 2000;
     }
 
     #menu ul {
-        display: flex; /* Usa flex para centralizar */
+        display: flex;
         flex-direction: column;
         justify-content: center; /* Centraliza verticalmente */
         align-items: center; /* Centraliza horizontalmente */
         width: 100%;
-        height: 100vh; /* Ocupa toda a altura da tela */
-        position: fixed; /* Fixo na tela inteira */
+        height: 100vh;
+        position: fixed;
         top: 0;
         left: 0;
         background-color: rgb(51, 51, 51);
-        padding: 0; /* Remove padding para centralização total */
-        z-index: 1000;
+        padding: 0;
         margin: 0;
-        transform: translateY(-100%); /* Começa fora da tela */
-        transition: transform 1.0s ease-in-out; /* Animação lenta */
+        transform: translateY(-100%);
+        transition: transform 1.0s ease-in-out;
+        gap: 20px; /* Espaçamento entre itens */
     }
 
     #menu ul li {
-        width: 100%;
+        width: auto; /* Ajusta ao conteúdo, sem forçar largura total */
         text-align: center;
-        padding: 2px 0; /* Mais espaço entre itens */
+        margin: 0;
+        padding: 0; /* Remove qualquer padding que possa interferir */
     }
 
     #menu ul li a {
         display: block;
-        width: 100%;
-        color: white; /* Contraste com fundo escuro */
-        font-size: 15px; /* Maior legibilidade */
+        width: auto; /* Ajusta ao conteúdo do texto */
+        color: white;
+        font-size: 18px;
+        padding: 10px; /* Padding uniforme */
+        text-align: center; /* Centraliza o texto */
     }
 
-    /* Mostra o menu com animação quando o checkbox é marcado */
     #menu-toggle:checked ~ ul {
-        transform: translateY(0); /* Desliza para dentro da tela */
+        transform: translateY(0);
     }
 
-    /* Esconde o menu quando não está marcado */
     #menu-toggle:not(:checked) ~ ul {
-        transform: translateY(-100%); /* Desliza para fora da tela */
+        transform: translateY(-100%);
     }
 }
