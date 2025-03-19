@@ -1,15 +1,18 @@
+/* Resetando margens e paddings */
 * {
     padding: 0;
     margin: 0;
     text-rendering: optimizeLegibility;
 }
 
+/* Estilização da estrutura HTML */
 html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased; /* Para Chrome e Safari */
     -moz-osx-font-smoothing: grayscale; /* Para Firefox */
 }
 
+/* Estilização do header */
 header {
     width: 100%;
     height: 50px;
@@ -19,14 +22,16 @@ header {
     align-items: center; /* Centraliza verticalmente os itens no header */
 }
 
+/* Estilo para o título */
 header h1 {
     position: relative;
     left: 25%;
     top: 3px;
-    color: black; /* Sugestão: contraste com fundo vermelho */
-    font-size: 24px; /* Ajuste opcional para harmonia */
+    color: black;
+    font-size: 24px;
 }
 
+/* Estilização do menu */
 #menu {
     width: 30%;
     height: auto;
@@ -39,6 +44,7 @@ header h1 {
     right: 35%;
 }
 
+/* Flex para os itens do menu */
 #menu ul {
     display: flex;
     list-style: none;
@@ -46,6 +52,7 @@ header h1 {
     gap: 20px;
 }
 
+/* Estilização dos links no menu */
 #menu ul li a {
     text-decoration: none;
     color: black;
@@ -53,7 +60,7 @@ header h1 {
     transition: background-color 0.3s ease;
 }
 
-/* Estiliza o item do rastreamento */
+/* Estilização do item de rastreamento ocular */
 #eye-tracking a {
     font-size: 24px; /* Aumenta o ícone */
     text-decoration: none;
@@ -79,7 +86,9 @@ header h1 {
     padding: 20px;
     border-radius: 10px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sugestão: sombra para destacar */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%;  /* Largura do modal em relação à tela */
+    max-width: 400px;  /* Limita a largura máxima do modal */
 }
 
 /* Estiliza os botões do modal */
@@ -92,16 +101,42 @@ header h1 {
     font-size: 14px;
 }
 
+/* Botão "Ativar" */
 .modal-content button:first-child {
-    background-color: #28a745; /* Verde para "Ativar" */
+    background-color: #28a745; /* Verde */
     color: white;
 }
 
+/* Botão "Cancelar" */
 .modal-content button:last-child {
-    background-color: #dc3545; /* Vermelho para "Cancelar" */
+    background-color: #dc3545; /* Vermelho */
     color: white;
 }
 
+/* Efeito de hover nos botões */
 .modal-content button:hover {
-    opacity: 0.85; /* Efeito hover suave */
+    opacity: 0.85;
+}
+
+/* Responsividade - Ajustes em dispositivos móveis */
+@media (max-width: 768px) {
+    header h1 {
+        left: 10%;  /* Ajusta a posição do título para dispositivos menores */
+    }
+
+    #menu {
+        width: 100%;
+        justify-content: space-around;  /* Centraliza e distribui os itens */
+        position: relative;
+        right: 0;
+    }
+
+    #menu ul {
+        flex-direction: column;  /* Exibe os itens do menu verticalmente em telas menores */
+        gap: 15px;
+    }
+
+    #eye-tracking a {
+        font-size: 30px;  /* Aumenta o ícone para telas pequenas */
+    }
 }
