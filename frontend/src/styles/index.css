@@ -14,7 +14,7 @@ html {
 header {
     width: 100%;
     height: 50px;
-    background-color: red;
+    color: black;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -118,10 +118,51 @@ header h1 {
 
 .hamburger {
     display: none; /* Oculto por padrão */
-    font-size: 30px;
     cursor: pointer;
-    color: black;
-    padding: 10px;
+    width: 40px; /* Tamanho máximo */
+    height: 40px; /* Tamanho máximo */
+    position: relative;
+    padding: 0; /* Remove padding para caber no 40x40 */
+}
+
+/* Estilos das barras do hambúrguer */
+.hamburger .bar {
+    display: block;
+    width: 25px; /* Largura da barra */
+    height: 3px; /* Espessura da barra */
+    background-color: black;
+    position: absolute;
+    left: 5px; /* Centraliza horizontalmente no 40px */
+    transition: all 0.3s ease-in-out;
+}
+
+.hamburger .top {
+    top: 10px; /* Espaçamento ajustado */
+}
+
+.hamburger .middle {
+    top: 17px; /* Centro exato */
+}
+
+.hamburger .bottom {
+    top: 25px; /* Espaçamento ajustado */
+}
+
+/* Transformação em X vermelho quando o menu está aberto */
+#menu-toggle:checked + .hamburger .top {
+    transform: rotate(45deg);
+    top: 18px; /* Centraliza para formar o X perfeito */
+    background-color: red;
+}
+
+#menu-toggle:checked + .hamburger .middle {
+    opacity: 0;
+}
+
+#menu-toggle:checked + .hamburger .bottom {
+    transform: rotate(-45deg);
+    top: 18px; /* Centraliza para formar o X perfeito */
+    background-color: red;
 }
 
 /* Media Query para celulares (max-width: 768px) */
@@ -138,34 +179,48 @@ header h1 {
         display: block; /* Mostra o ícone em celulares */
         position: absolute;
         right: 10px;
-        top: 10px;
+       
+        z-index: 2000; /* Garante que o ícone fique acima do menu */
     }
 
     #menu ul {
-        display: none; /* Oculta o menu por padrão */
+        display: flex; /* Usa flex para centralizar */
         flex-direction: column;
+        justify-content: center; /* Centraliza verticalmente */
+        align-items: center; /* Centraliza horizontalmente */
         width: 100%;
-        position: absolute;
-        top: 50px;
+        height: 100vh; /* Ocupa toda a altura da tela */
+        position: fixed; /* Fixo na tela inteira */
+        top: 0;
         left: 0;
-        background-color: rgb(81, 255, 0);
-        padding: 10px 0;
+        background-color: rgb(51, 51, 51);
+        padding: 0; /* Remove padding para centralização total */
         z-index: 1000;
+        margin: 0;
+        transform: translateY(-100%); /* Começa fora da tela */
+        transition: transform 0.5s ease; /* Animação lenta */
     }
 
     #menu ul li {
         width: 100%;
         text-align: center;
-        padding: 10px 0;
+        padding: 2px 0; /* Mais espaço entre itens */
     }
 
     #menu ul li a {
         display: block;
         width: 100%;
+        color: white; /* Contraste com fundo escuro */
+        font-size: 18px; /* Maior legibilidade */
     }
 
-    /* Mostra o menu quando o checkbox é marcado */
+    /* Mostra o menu com animação quando o checkbox é marcado */
     #menu-toggle:checked ~ ul {
-        display: flex;
+        transform: translateY(0); /* Desliza para dentro da tela */
+    }
+
+    /* Esconde o menu quando não está marcado */
+    #menu-toggle:not(:checked) ~ ul {
+        transform: translateY(-100%); /* Desliza para fora da tela */
     }
 }
