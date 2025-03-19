@@ -24,7 +24,9 @@ header h1 {
     position: relative;
     left: 25%;
     top: 3px;
-    color: white;
+    color: black;
+    font-family: "Poppins", sans-serif;
+    font-size: 25px;
 }
 
 #menu {
@@ -38,6 +40,7 @@ header h1 {
     margin-left: auto;
     position: relative;
     right: 35%;
+    font-family: "Poppins", sans-serif;
 }
 
 #menu ul {
@@ -167,6 +170,12 @@ header h1 {
 
 /* Media Query para celulares (max-width: 768px) */
 @media (max-width: 768px) {
+    header h1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
     #menu {
         width: 100%;
         background-color: rgb(81, 255, 0);
@@ -179,7 +188,7 @@ header h1 {
         display: block; /* Mostra o ícone em celulares */
         position: absolute;
         right: 10px;
-       
+        margin-top: 5px;
         z-index: 2000; /* Garante que o ícone fique acima do menu */
     }
 
@@ -198,7 +207,7 @@ header h1 {
         z-index: 1000;
         margin: 0;
         transform: translateY(-100%); /* Começa fora da tela */
-        transition: transform 0.5s ease; /* Animação lenta */
+        transition: transform 1.0s ease-in-out; /* Animação lenta */
     }
 
     #menu ul li {
@@ -211,7 +220,7 @@ header h1 {
         display: block;
         width: 100%;
         color: white; /* Contraste com fundo escuro */
-        font-size: 18px; /* Maior legibilidade */
+        font-size: 15px; /* Maior legibilidade */
     }
 
     /* Mostra o menu com animação quando o checkbox é marcado */
