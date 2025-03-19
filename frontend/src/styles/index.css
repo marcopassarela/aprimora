@@ -10,6 +10,27 @@ html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+/* Inicialmente, todas as divs começam invisíveis */
+.fade-in {
+    opacity: 0;
+    animation: fadeInAnimation 1s forwards;
+}
+
+/* A animação */
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0; /* Começa invisível */
+    }
+    100% {
+        opacity: 1; /* Fica visível */
+    }
+}
+
+/* Aplica o atraso automaticamente com base na posição do elemento */
+.fade-in:nth-child(n) {
+    animation-delay: calc(0.2s * var(--i));
+}
+
 
 header {
     width: 100%;
@@ -68,14 +89,12 @@ header h1 {
     width: 0%; 
     height: 2px; 
     background-color: black; 
-    transition: width 0.3s ease;
+    transition: width 0.5s ease;
 }
-
 
 #menu ul li a:hover::after {
     width: 100%;
 }
-
 
 #eye-tracking a {
     font-size: 24px;
