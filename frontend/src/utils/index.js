@@ -7,11 +7,11 @@ function toggleEyeTracking() {
 
     if (eyeTrackingActive) {
         eyeIcon.textContent = "🙈"; // Olho fechado
-        closeModal(); // Fecha o modal
-        stopEyeTracking(); // Para o rastreamento
+        closeModal();
+        stopEyeTracking();
     } else {
         eyeIcon.textContent = "🙉"; // Olho aberto
-        openModal(); // Abre o modal
+        openModal();
     }
 
     eyeTrackingActive = !eyeTrackingActive;
@@ -36,7 +36,7 @@ function closeModal() {
 
 // Ativa o rastreamento ocular
 function activateEyeTracking() {
-    alert("Rastreamento ocular ativado! Olhe para os itens do menu para destacá-los.");
+    alert("Rastreamento ocular ativado! Olhe para um item do menu e pisque para clicar.");
     eyeTrackingActive = true;
     startEyeTracking();
     closeModal();
@@ -76,7 +76,7 @@ function startEyeTracking() {
         let x = data.x; // Posição horizontal do olhar
         let y = data.y; // Posição vertical do olhar
 
-        // Log das coordenadas para depuração
+        // Log para depuração
         console.log(`Olhar em: x=${x}, y=${y}`);
 
         let itemFound = null;
@@ -90,8 +90,6 @@ function startEyeTracking() {
                 y >= rect.top &&
                 y <= rect.bottom
             );
-
-            console.log(`Item: ${item.textContent}, Rect: left=${rect.left}, right=${rect.right}, top=${rect.top}, bottom=${rect.bottom}, Gaze: ${isGazeOnItem}`);
 
             if (isGazeOnItem) {
                 itemFound = item;
@@ -115,6 +113,16 @@ function startEyeTracking() {
                 console.log("Nenhum item selecionado.");
             }
         }
+    }).setBlinkListener(function(blinkData) {
+        if (!eyeTrackingActive || !lastSelectedItem || blinkData == null) return;
+
+        // Detecta a piscada
+        if (blinkData.blink) {
+            console.log(`Piscada detectada no item: ${lastSelectedItem.textContent}`);
+            if (lastSelectedItem.href && lastSelectedItem.href !== "#") {
+                window.location.href = lastSelectedItem.href; // Simula o clique
+            }
+        }
     }).begin();
 
     // Configurações do WebGazer
@@ -127,8 +135,9 @@ function startEyeTracking() {
 function stopEyeTracking() {
     webgazer.pause();
     webgazer.clearGazeListener();
+    webgazer.clearBlinkListener(); // Remove o listener de piscadas
     if (lastSelectedItem) {
-        lastSelectedItem.style.border = ""; // Remove destaque
+        lastSelectedItem.style.border = "";
         lastSelectedItem = null;
     }
     console.log("Rastreamento ocular parado.");
