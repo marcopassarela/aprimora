@@ -36,7 +36,6 @@ header h1 {
     list-style: none;
     justify-content: center;
     align-items: center;
-    
     margin-left: auto;
     position: relative;
     right: 35%;
@@ -55,7 +54,28 @@ header h1 {
     text-decoration: none;
     color: black;
     font-size: 16px;
+    font-weight: 400;
+    position: relative;
+    padding-bottom: 1px; 
+    transition: color 0.3s ease;
 }
+
+#menu ul li a::after {
+    content: ""; 
+    position: absolute;
+    bottom: 0; 
+    left: 0;
+    width: 0%; 
+    height: 2px; 
+    background-color: black; 
+    transition: width 0.3s ease;
+}
+
+
+#menu ul li a:hover::after {
+    width: 100%;
+}
+
 
 #eye-tracking a {
     font-size: 24px;
@@ -179,7 +199,6 @@ header h1 {
     }
     #menu {
         width: 100%;
-        background-color: rgb(81, 255, 0);
         margin-left: 0;
         right: 0;
         position: relative;
