@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/frontend/src/styles/index.css">
     <title>Aprimora</title>
 </head>
@@ -10,16 +13,30 @@
     <header>
         <h1>Aprimora</h1>
         <div id="menu">
+            <!-- Checkbox invisível para controlar o menu -->
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            <label for="menu-toggle" class="hamburger">☰</label>
             <ul>
                 <li><a href="https://www.google.com">Home</a></li>
                 <li><a href="#">Sobre</a></li>
                 <li><a href="#">Contato</a></li>
                 <li><a href="#">Cadastrar</a></li>
                 <li><a href="#">Login</a></li>
+                <li id="eye-tracking">
+                    <a href="#" onclick="toggleEyeTracking()">🙈</a>
+                </li>
             </ul>
         </div>
     </header>
     
-    <script src="/frontend/src/utils/index.js"></script>
+    <div id="eye-modal" class="modal">
+        <div class="modal-content">
+            <p>Ativar rastreamento ocular?</p>
+            <button onclick="activateEyeTracking()">Ativar</button>
+            <button onclick="cancelEyeTracking()">Cancelar</button>
+        </div>
+    </div>
+    
+<script src="/frontend/src/utils/index.js"></script>
 </body>
 </html>
