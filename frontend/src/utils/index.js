@@ -66,9 +66,8 @@ async function startEyeTracking() {
     // Carrega o modelo
     console.log("Carregando modelo Face Landmarks Detection...");
     try {
-        detector = await faceLandmarksDetection.createDetector(
-            faceLandmarksDetection.SupportedModels.MediaPipeFaceMesh,
-            { runtime: "tfjs" }
+        detector = await faceLandmarksDetection.load(
+            faceLandmarksDetection.SupportedModels.MediaPipeFaceMesh
         );
         console.log("Modelo carregado com sucesso");
     } catch (error) {
@@ -115,7 +114,7 @@ async function startEyeTracking() {
         }
 
         try {
-            const faces = await detector.estimateFaces(video);
+            const faces = await detector.estimateFaces({ input: video });
             if (faces.length === 0) {
                 console.log("Nenhum rosto detectado");
                 highlightBox.style.display = "none";
