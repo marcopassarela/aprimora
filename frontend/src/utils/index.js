@@ -25,7 +25,7 @@ async function startCamera() {
     });
     videoElement.srcObject = stream;
     videoElement.play();
-    
+
     const camera = new Camera(videoElement, {
         onFrame: async () => {
             if (eyeTrackingActive) {
@@ -42,11 +42,10 @@ function onFaceMeshResults(results) {
     if (!results.multiFaceLandmarks) return;
 
     const faceLandmarks = results.multiFaceLandmarks[0];
-    // Aqui você pode pegar os pontos dos olhos, por exemplo:
-    const leftEye = faceLandmarks[33]; // Ponto de referência para o olho esquerdo
-    const rightEye = faceLandmarks[133]; // Ponto de referência para o olho direito
+    const leftEye = faceLandmarks[33];
+    const rightEye = faceLandmarks[133];
 
-    // Exemplo de como desenhar no canvas, você pode fazer algo visual com os pontos
+    // Aqui você pode adicionar o código para exibir o feedback visual
     drawEyes(leftEye, rightEye);
 }
 
@@ -67,21 +66,22 @@ function drawEyes(leftEye, rightEye) {
 function toggleEyeTracking() {
     if (eyeTrackingActive) {
         eyeTrackingActive = false;
-        document.getElementById('eye-modal').style.display = 'block';
+        document.getElementById('eye-modal').style.display = 'block'; // Exibe o modal
     } else {
-        document.getElementById('eye-modal').style.display = 'none';
+        document.getElementById('eye-modal').style.display = 'none'; // Esconde o modal
     }
 }
 
 function activateEyeTracking() {
     eyeTrackingActive = true;
-    startCamera();
-    document.getElementById('eye-modal').style.display = 'none';
+    startCamera(); // Inicia a câmera
+    document.getElementById('eye-modal').style.display = 'none'; // Fecha o modal
 }
 
 function cancelEyeTracking() {
     eyeTrackingActive = false;
-    document.getElementById('eye-modal').style.display = 'none';
+    document.getElementById('eye-modal').style.display = 'none'; // Fecha o modal
 }
 
+// Configura o MediaPipe FaceMesh
 setupFaceMesh();
