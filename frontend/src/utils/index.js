@@ -17,7 +17,9 @@ let eyeTrackingActive = false;
             webgazer.setRegression('ridge') // Algoritmo de rastreamento
                 .setTracker('clmtrackr') // Usa modelo CLM para rastreamento facial
                 .begin()
-                .showPredictionPoints(true); // Mostra os pontos rastreados
+                .showPredictionPoints(true) // Mostra os pontos rastreados
+                .showVideoPreview(false) // Esconde o vídeo da câmera
+                .showFaceOverlay(false); // Esconde a marcação no rosto
 
             webgazer.setGazeListener((data) => {
                 if (eyeTrackingActive && data) {
@@ -45,6 +47,9 @@ let eyeTrackingActive = false;
                     }
                 }
             });
+
+            // Ajuste para melhorar a calibração
+            webgazer.showPredictionPoints(true);
         }
 
         function stopEyeTracking() {
