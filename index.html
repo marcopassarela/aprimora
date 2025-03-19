@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/frontend/src/styles/index.css">
+    <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
     <title>Aprimora</title>
 </head>
 <body>
@@ -12,20 +13,17 @@
         <div id="menu">
             <ul>
                 <li><a href="https://www.google.com">Home</a></li>
-                <li><a href="https://www.youtube.com">Sobre</a></li>
+                <li><a href="#">Sobre</a></li>
                 <li><a href="#">Contato</a></li>
                 <li><a href="#">Cadastrar</a></li>
                 <li><a href="#">Login</a></li>
                 <li id="eye-tracking">
-                    <a href="#" onclick="toggleEyeTracking()">
-                        🙈 <!-- Ícone de olho fechado -->
-                    </a>
+                    <a href="#" onclick="toggleEyeTracking()">🙈</a>
                 </li>
             </ul>
         </div>
     </header>
     
-    <!-- Modal -->
     <div id="eye-modal" class="modal">
         <div class="modal-content">
             <p>Ativar rastreamento ocular?</p>
@@ -34,9 +32,6 @@
         </div>
     </div>
     
-    
-    
-<script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
-<script src="/frontend/src/utils/index.js"></script>
+    <script src="/frontend/src/utils/index.js"></script>
 </body>
 </html>
