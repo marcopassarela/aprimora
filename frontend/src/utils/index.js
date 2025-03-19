@@ -63,20 +63,44 @@ window.onclick = function(event) {
 
 // Função para iniciar o rastreamento ocular com WebGazer
 function startEyeTracking() {
+    // Seleciona todos os links do menu
+    const menuItems = document.querySelectorAll("#menu ul li a:not(#eye-tracking a)");
+
     webgazer.setGazeListener(function(data, elapsedTime) {
         if (data == null || !eyeTrackingActive) return; // Só processa se ativado
 
         let x = data.x; // Posição horizontal do olhar
         let y = data.y; // Posição vertical do olhar
 
-        // Exemplo: rolar a página com base na posição do olhar
+        // Verifica se o olhar está sobre algum item do menu
+        menuItems.forEach(item => {
+            const rect = item.getBoundingClientRect();
+            const isGazeOnItem = (
+                x >= rect.left &&
+                x <= rect.right &&
+                y >= rect.top &&
+                y <= rect.bottom
+            );
+
+            if (isGazeOnItem) {
+                // Adiciona um destaque visual temporário (opcional)
+                item.style.backgroundColor = "#ffff99"; // Amarelo claro
+                setTimeout(() => {
+                    item.style.backgroundColor = ""; // Remove o destaque
+                    // Simula o clique no item
+                    if (item.href && item.href !== "#") {
+                        window.location.href = item.href; // Navega para o link
+                    }
+                }, 1000); // Aguarda 1 segundo antes de clicar (ajuste conforme necessário)
+            }
+        });
+
+        // Rolar a página (mantido do código anterior)
         if (y < 100) {
             window.scrollBy(0, -10); // Rola para cima
         } else if (y > window.innerHeight - 100) {
             window.scrollBy(0, 10); // Rola para baixo
         }
-
-        // Você pode adicionar mais interações aqui, como clicar em links do menu
     }).begin();
 
     // Configurações opcionais do WebGazer
