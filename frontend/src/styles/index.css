@@ -17,6 +17,7 @@ header {
     background-color: red;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 header h1 {
@@ -50,4 +51,121 @@ header h1 {
     text-decoration: none;
     color: black;
     font-size: 16px;
+}
+
+#eye-tracking a {
+    font-size: 24px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Estilo dos botões do modal */
+.modal-content button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.modal-content button:first-child {
+    background-color: #28a745;
+    color: white;
+}
+
+.modal-content button:last-child {
+    background-color: #dc3545;
+    color: white;
+}
+
+.modal-content button:hover {
+    opacity: 0.85;
+}
+
+/* Estilo do quadrado de destaque */
+#highlight-box {
+    display: none;
+    position: absolute;
+    border: 2px solid #007bff;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Estilos do Menu Hambúrguer */
+.menu-toggle {
+    display: none; /* Checkbox invisível */
+}
+
+.hamburger {
+    display: none; /* Oculto por padrão */
+    font-size: 30px;
+    cursor: pointer;
+    color: black;
+    padding: 10px;
+}
+
+/* Media Query para celulares (max-width: 768px) */
+@media (max-width: 768px) {
+    #menu {
+        width: 100%;
+        background-color: rgb(81, 255, 0);
+        margin-left: 0;
+        right: 0;
+        position: relative;
+    }
+
+    .hamburger {
+        display: block; /* Mostra o ícone em celulares */
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+
+    #menu ul {
+        display: none; /* Oculta o menu por padrão */
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        background-color: rgb(81, 255, 0);
+        padding: 10px 0;
+        z-index: 1000;
+    }
+
+    #menu ul li {
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    #menu ul li a {
+        display: block;
+        width: 100%;
+    }
+
+    /* Mostra o menu quando o checkbox é marcado */
+    #menu-toggle:checked ~ ul {
+        display: flex;
+    }
 }
