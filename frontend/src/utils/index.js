@@ -119,9 +119,12 @@ async function startEyeTracking() {
         const leftEyeBottom = landmarks[145].y;
         const eyeDistance = leftEyeBottom - leftEyeTop;
 
+        console.log(`Distância do olho: ${eyeDistance}`);
+
         if (eyeDistance < 0.02) {
             console.log("Piscada detectada!");
             if (lastSelectedItem && lastSelectedItem.href && lastSelectedItem.href !== "#") {
+                console.log(`Redirecionando para: ${lastSelectedItem.href}`);
                 window.location.href = lastSelectedItem.href;
             }
         }
