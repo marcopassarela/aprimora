@@ -10,6 +10,7 @@ function toggleEyeTracking() {
     if (eyeTrackingActive) {
         eyeIcon.textContent = "🙉"; // Olho aberto
         openModal();
+        startEyeTracking();
     } else {
         eyeIcon.textContent = "🙈"; // Olho fechado
         stopEyeTracking();
@@ -32,9 +33,9 @@ function closeModal() {
     }
 }
 
-// Ativar rastreamento ocular e fechar o modal
+// Ativar rastreamento ocular simulado e fechar o modal
 function activateEyeTracking() {
-    alert("Rastreamento ocular ativado! Olhe para um item e pisque para clicar.");
+    alert("Rastreamento ocular (simulado) ativado! Mova o cursor e clique para simular uma piscada.");
     eyeTrackingActive = true;
     closeModal();
     startEyeTracking();
@@ -57,58 +58,66 @@ window.onclick = function(event) {
     }
 };
 
-// Iniciar rastreamento ocular
+// Iniciar rastreamento ocular simulado com o cursor
 function startEyeTracking() {
-    webgazer.setRegression('ridge')
-        .setTracker('clmtrackr')
-        .begin();
-
-    webgazer.setGazeListener((data, elapsedTime) => {
-        if (!eyeTrackingActive || !data) return;
-
-        let x = data.x;
-        let y = data.y;
-        console.log(`Olhar em: x=${x}, y=${y}`);
-
-        let menuItems = document.querySelectorAll("#menu ul li a:not(#eye-tracking a)");
-        let itemFound = null;
-
-        menuItems.forEach(item => {
-            let rect = item.getBoundingClientRect();
-            let isGazeOnItem = (
-                x >= rect.left && x <= rect.right &&
-                y >= rect.top && y <= rect.bottom
-            );
-
-            if (isGazeOnItem) {
-                item.style.border = "2px solid #007bff";
-                itemFound = item;
-            } else {
-                item.style.border = "";
-            }
-        });
-
-        if (itemFound && itemFound !== lastItem) {
-            lastItem = itemFound;
-
-            // Aguarda 1.5 segundos antes de registrar a piscada para evitar falsos positivos
-            clearTimeout(gazeTimeout);
-            gazeTimeout = setTimeout(() => {
-                if (eyeTrackingActive) {
-                    console.log("Piscada detectada!");
-                    if (lastItem && lastItem.href && lastItem.href !== "#") {
-                        window.location.href = lastItem.href;
-                    }
-                }
-            }, 1500);
-        }
-    });
+    document.addEventListener("mousemove", simulateGaze);
+    document.addEventListener("click", simulateBlink);
 }
 
-// Parar rastreamento ocular
+// Simula o rastreamento ocular com base no cursor
+function simulateGaze(event) {
+    if (!eyeTrackingActive) return;
+
+    let x = event.clientX;
+    let y = event.clientY;
+    console.log(`Olhar simulado em: x=${x}, y=${y}`);
+
+    let menuItems = document.querySelectorAll("#menu ul li a:not(#eye-tracking a)");
+    let itemFound = null;
+
+    menuItems.forEach(item => {
+        let rect = item.getBoundingClientRect();
+        let isCursorOnItem = (
+            x >= rect.left && x <= rect.right &&
+            y >= rect.top && y <= rect.bottom
+        );
+
+        if (isCursorOnItem) {
+            item.style.border = "2px solid #007bff";
+            itemFound = item;
+        } else {
+            item.style.border = "";
+        }
+    });
+
+    if (itemFound && itemFound !== lastItem) {
+        lastItem = itemFound;
+
+        // Aguarda 1.5 segundos antes de registrar um clique como piscada
+        clearTimeout(gazeTimeout);
+        gazeTimeout = setTimeout(() => {
+            if (eyeTrackingActive) {
+                console.log("Preparado para piscada simulada (clique)!");
+            }
+        }, 1500);
+    }
+}
+
+// Simula uma piscada ao clicar
+function simulateBlink() {
+    if (!eyeTrackingActive || !lastItem) return;
+
+    console.log("Piscada simulada! (Clique detectado)");
+    if (lastItem.href && lastItem.href !== "#") {
+        window.location.href = lastItem.href;
+    }
+}
+
+// Parar rastreamento ocular simulado
 function stopEyeTracking() {
-    webgazer.pause();
+    document.removeEventListener("mousemove", simulateGaze);
+    document.removeEventListener("click", simulateBlink);
     clearTimeout(gazeTimeout);
     document.querySelectorAll("#menu ul li a").forEach(item => item.style.border = "");
-    console.log("WebGazer.js parado");
+    console.log("Rastreamento ocular simulado parado.");
 }
