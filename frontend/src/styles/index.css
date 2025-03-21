@@ -35,31 +35,34 @@ html {
 /* Conteúdo do Modal */
 .modal-content {
     background-color: #121212;
-    margin: 10% auto; /* Mantido, mas será sobrescrito pelas novas propriedades */
+    margin: 10% auto;
     padding: 20px;
     border: none;
     max-width: 800px;
     color: #fff;
-    font-family: 'Arial', sans-serif; /* Substitua por 'Circular' se tiver a fonte */
+    font-family: 'Arial', sans-serif;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    /* Adicionado para centralizar */
     position: absolute;
-    top: 30%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
 /* Botão de Fechar */
 .close {
-    color: #b3b3b3;
+    color: #b3b3b3; /* Cor padrão quando o modal está fechado */
     float: right;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
 }
+.modal[style*="display: block"] .close,
+.modal:not([style*="display: none"]) .close {
+    color: red; /* Cor vermelha quando o modal está aberto */
+}
 .close:hover {
-    color: #fff;
+    color: #fff; /* Mantém o hover branco */
 }
 
 /* Título */
@@ -75,11 +78,14 @@ html {
     margin-bottom: 20px;
 }
 
-/* Grid de Idiomas */
+/* Contêiner da Lista de Idiomas */
 .language-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    width: 300px;
+    height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 8px;
+    padding: 10px;
 }
 
 /* Lista */
@@ -88,14 +94,14 @@ ul {
     padding: 0;
     margin: 0;
 }
-.grid:hover {
-    text-decoration: underline;
-    color: black;
-}
+
 /* Itens da Lista */
 li {
     margin: 35px 0;
+    display: flex;
+    justify-content: center;
 }
+
 /* Links */
 a {
     display: flex;
@@ -104,6 +110,7 @@ a {
     color: #ffffff;
     font-size: 16px;
     transition: color 0.2s ease;
+    text-align: center;
 }
 
 /* Prévia do Idioma (nativo) */
@@ -112,6 +119,7 @@ a {
     color: #000000;
     line-height: 1.2;
     margin-bottom: 5px;
+    direction: rtl;
 }
 
 /* Variante (tradução em português) */
@@ -119,6 +127,7 @@ a {
     font-size: 14px;
     color: #000000;
     line-height: 1.2;
+    direction: ltr;
 }
 
 
