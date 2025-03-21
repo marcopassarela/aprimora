@@ -49,8 +49,8 @@ menuLinks.forEach(link => {
 function changeLanguage(language) {
     const languageMap = {
         'en': { file: 'en.json', urlCode: 'en' },
-        'pt-BR': { file: 'pt_BR.json', urlCode: 'pt' },
-        'pt-PT': { file: 'pt_PT.json', urlCode: 'pt-pt' },
+        'pt-BR': { file: 'pt-BR.json', urlCode: 'pt' },
+        'pt-PT': { file: 'pt-PT.json', urlCode: 'pt-pt' },
         'es': { file: 'es.json', urlCode: 'es' },
         'it': { file: 'it.json', urlCode: 'it' },
         'fr': { file: 'fr.json', urlCode: 'fr' },
@@ -69,7 +69,7 @@ function changeLanguage(language) {
     // Fechar o modal de idiomas imediatamente
     modal.style.display = "none";
 
-    const url = `/locales/${language}/${fileName}`;
+    const url = `frontend/public/locales/${language}/${fileName}`;
     console.log("Carregando:", url);
 
     fetch(url)
