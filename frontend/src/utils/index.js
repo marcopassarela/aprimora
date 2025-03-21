@@ -58,7 +58,6 @@ function changeLanguage(language) {
     const fileName = langConfig.file;
     const urlCode = langConfig.urlCode;
 
-    // Caminho ajustado para Vercel
     const url = `frontend/public/locales/${language}/${fileName}`;
     console.log("Carregando:", url);
 

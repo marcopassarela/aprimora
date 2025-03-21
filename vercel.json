@@ -1,12 +1,6 @@
 {
     "rewrites": [
-        {
-            "source": "/intl-:lang*",
-            "destination": "/index.html"
-        },
-        {
-            "source": "/(.*)",
-            "destination": "/index.html"
-        }
+        {"source": "/intl-:lang*", "destination": "/index.html"},
+        {"source": "/(.*)", "destination": "/index.html"}
     ]
 }
