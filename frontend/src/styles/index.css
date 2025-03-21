@@ -59,11 +59,16 @@ html {
 }
 
 /* Título */
-h2 {
-    color: #fff;
+.modal-content h2 {
+    color: black;
     font-size: 24px;
-    margin-bottom: 20px;
     font-weight: bold;
+    margin-bottom: 5px;
+}
+.modal-content p {
+    color: black;
+    font-size: 15px;
+    margin-bottom: 20px;
 }
 
 /* Grid de Idiomas */
@@ -79,39 +84,40 @@ ul {
     padding: 0;
     margin: 0;
 }
-
+.grid:hover {
+    text-decoration: underline;
+    color: black;
+}
 /* Itens da Lista */
 li {
     margin: 15px 0;
 }
-
 /* Links */
 a {
     display: flex;
     flex-direction: column;
     text-decoration: none;
-    color: #b3b3b3;
+    color: #ffffff;
     font-size: 16px;
     transition: color 0.2s ease;
-}
-a:hover {
-    color: #1db954; /* Verde Spotify */
 }
 
 /* Prévia do Idioma (nativo) */
 .preview {
-    font-size: 18px;
-    font-weight: bold;
-    color: #fff;
+    font-size: 16px;
+    color: #000000;
     line-height: 1.2;
+    margin-bottom: 5px;
 }
+
 
 /* Variante (tradução em português) */
 .variant {
     font-size: 14px;
-    color: #b3b3b3;
+    color: #000000;
     line-height: 1.2;
 }
+
 
 
 
