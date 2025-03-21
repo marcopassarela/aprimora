@@ -24,7 +24,7 @@ html {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 3;
     left: 0;
     top: 0;
     width: 100%;
@@ -35,15 +35,19 @@ html {
 /* Conteúdo do Modal */
 .modal-content {
     background-color: #121212;
-    margin: 10% auto;
+    margin: 10% auto; /* Mantido, mas será sobrescrito pelas novas propriedades */
     padding: 20px;
     border: none;
-    width: 90%;
     max-width: 800px;
     color: #fff;
     font-family: 'Arial', sans-serif; /* Substitua por 'Circular' se tiver a fonte */
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    /* Adicionado para centralizar */
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* Botão de Fechar */
@@ -109,7 +113,6 @@ a {
     line-height: 1.2;
     margin-bottom: 5px;
 }
-
 
 /* Variante (tradução em português) */
 .variant {
@@ -542,6 +545,9 @@ main {
     .img {
         width: 100%;
         height: 250px;
+    }
+    .modal-content {
+        top: 50%;
     }
    
 }
