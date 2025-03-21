@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <a href="#" class="title animated">Aprimora</a>
+        <a href="#" class="title animated" data-i18n="title">Aprimora</a>
         <div id="menu">
             <input type="checkbox" id="menu-toggle" class="menu-toggle">
             <label for="menu-toggle" class="hamburger animated">
@@ -25,19 +25,32 @@
                 <li><a href="#">Contato</a></li>
                 <li><a href="#">Cadastrar</a></li>
                 <li><a href="#">Login</a></li>
-                <li class="languages">
-                    <a href="#menu">
-                        <img src="/frontend/src/assets/bandeira-do-brasil.jpg" style="width: 15px; height: 11px;">
-                    </a>
-                    <a href="/frontend/src/pages/index-en.html">
-                        <img src="/frontend/src/assets/bandeira-do-eua.jpg" style="width: 15px; height: 11px;">
-                    </a>
-                    <a href="/frontend/src/pages/index-ru.html">
-                        <img src="/frontend/src/assets/bandeira-da-russia.jpg" style="width: 15px; height: 11px;">
-                    </a>
-                </li>
+                <li><a href="#" id="openModal">Idioma</a></li>
             </ul>
         </div>
+
+        <!-- Modal -->
+        <div id="languageModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeModal">×</span>
+                <h2>Escolha o Idioma</h2>
+                <ul>
+                    <li><a href="javascript:void(0);" onclick="changeLanguage('pt-BR')">Português (Brasil)</a></li>
+                    <li><a href="javascript:void(0);" onclick="changeLanguage('pt-PT')">Português (Portugal)</a></li>
+                    <li><a href="javascript:void(0);" onclick="changeLanguage('es')">Espanhol</a></li>
+                    <li><a href="javascript:void(0);" onclick="changeLanguage('en')">Inglês</a></li>
+                    <li><a href="javascript:void(0);" onclick="changeLanguage('it')">Italiano</a></li>
+                    <li><a href="javascript:void(0);" onclick="changeLanguage('fr')">Francês</a></li>
+                    <li><a href="javascript:void(0);" onclick="changeLanguage('ar-MA')">Árabe (Marrocos)</a></li>
+                    <li><a href="javascript:void(0);" onclick="changeLanguage('ar-SA')">Árabe (Arábia Saudita)</a></li>
+                    <li><a href="javascript:void(0);" onclick="changeLanguage('ar-EG')">Árabe (Egito)</a></li>
+                    <li><a href="javascript:void(0);" onclick="changeLanguage('ja')">Japonês</a></li>
+                    <li><a href="javascript:void(0);" onclick="changeLanguage('zh')">Chinês</a></li>
+                    <li><a href="javascript:void(0);" onclick="changeLanguage('ru')">Russo</a></li>
+                </ul>
+            </div>
+        </div>
+        
     </header>
 
     <main>
