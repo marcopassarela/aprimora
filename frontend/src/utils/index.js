@@ -41,8 +41,8 @@ const modal = document.getElementById("languageModal");
         function changeLanguage(language) {
             const languageMap = {
                 'en': { file: 'en.json', urlCode: 'en' },              // Inglês
-                'pt-BR': { file: 'pt_BR.json', urlCode: 'pt' },        // Português (Brasil)
-                'pt-PT': { file: 'pt_PT.json', urlCode: 'pt-pt' },     // Português (Portugal)
+                'pt-BR': { file: 'pt-BR.json', urlCode: 'pt' },        // Português (Brasil)
+                'pt-PT': { file: 'pt-PT.json', urlCode: 'pt-pt' },     // Português (Portugal)
                 'es': { file: 'es.json', urlCode: 'es' },              // Espanhol
                 'it': { file: 'it.json', urlCode: 'it' },              // Italiano
                 'fr': { file: 'fr.json', urlCode: 'fr' },              // Francês
