@@ -41,8 +41,8 @@ window.onclick = function(event) {
 function changeLanguage(language) {
     const languageMap = {
         'en': { file: 'en.json', urlCode: 'en' },
-        'pt-BR': { file: 'pt_BR.json', urlCode: 'pt' },
-        'pt-PT': { file: 'pt_PT.json', urlCode: 'pt-pt' },
+        'pt-BR': { file: 'pt-BR.json', urlCode: 'pt' },
+        'pt-PT': { file: 'pt-PT.json', urlCode: 'pt-pt' },
         'es': { file: 'es.json', urlCode: 'es' },
         'it': { file: 'it.json', urlCode: 'it' },
         'fr': { file: 'fr.json', urlCode: 'fr' },
@@ -58,7 +58,8 @@ function changeLanguage(language) {
     const fileName = langConfig.file;
     const urlCode = langConfig.urlCode;
 
-    const url = `/frontend/public/locales/${language}/${fileName}`;
+    // Caminho ajustado para Vercel
+    const url = `/locales/${language}/${fileName}`;
     console.log("Carregando:", url);
 
     fetch(url)
@@ -102,10 +103,10 @@ window.onload = function() {
             'zh': 'zh',
             'ru': 'ru'
         };
-        const language = languageMap[langCode] || 'pt-BR'; // Default para pt-BR
+        const language = languageMap[langCode] || 'pt-BR';
         console.log("Idioma detectado:", language);
         changeLanguage(language);
     } else {
-        changeLanguage('pt-BR'); // Idioma padrão
+        changeLanguage('pt-BR');
     }
 };
