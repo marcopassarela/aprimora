@@ -1,3 +1,4 @@
+// Animação ao rolar a página
 document.addEventListener("DOMContentLoaded", function () {
     const elements = document.querySelectorAll(".animated");
 
@@ -6,22 +7,22 @@ document.addEventListener("DOMContentLoaded", function () {
             const position = element.getBoundingClientRect().top;
             const windowHeight = window.innerHeight;
 
-            if (position < windowHeight - 100) { // Ajuste fino para ativar antes
+            if (position < windowHeight - 100) {
                 element.classList.add("show");
             }
         });
     }
 
-    // Verifica o scroll ao carregar e ao rolar a página
     window.addEventListener("scroll", checkScroll);
-    checkScroll(); // Garante que elementos visíveis de cara já apareçam
+    checkScroll();
 });
-
 
 // Seleção dos elementos com tradução
 const modal = document.getElementById("languageModal");
 const openModal = document.getElementById("openModal");
 const closeModal = document.getElementById("closeModal");
+const menuToggle = document.getElementById("menu-toggle");
+const menuLinks = document.querySelectorAll("#menu ul li a");
 
 openModal.onclick = function(event) {
     event.preventDefault();
@@ -38,11 +39,18 @@ window.onclick = function(event) {
     }
 };
 
+// Fechar o menu hambúrguer ao clicar em qualquer link
+menuLinks.forEach(link => {
+    link.addEventListener("click", function() {
+        menuToggle.checked = false; // Desmarca o checkbox, fechando o menu
+    });
+});
+
 function changeLanguage(language) {
     const languageMap = {
         'en': { file: 'en.json', urlCode: 'en' },
-        'pt-BR': { file: 'pt-BR.json', urlCode: 'pt' },
-        'pt-PT': { file: 'pt-PT.json', urlCode: 'pt-pt' },
+        'pt-BR': { file: 'pt_BR.json', urlCode: 'pt' },
+        'pt-PT': { file: 'pt_PT.json', urlCode: 'pt-pt' },
         'es': { file: 'es.json', urlCode: 'es' },
         'it': { file: 'it.json', urlCode: 'it' },
         'fr': { file: 'fr.json', urlCode: 'fr' },
@@ -58,7 +66,10 @@ function changeLanguage(language) {
     const fileName = langConfig.file;
     const urlCode = langConfig.urlCode;
 
-    const url = `frontend/public/locales/${language}/${fileName}`;
+    // Fechar o modal de idiomas imediatamente
+    modal.style.display = "none";
+
+    const url = `/locales/${language}/${fileName}`;
     console.log("Carregando:", url);
 
     fetch(url)
@@ -75,7 +86,6 @@ function changeLanguage(language) {
                     element.textContent = data[key];
                 }
             });
-            modal.style.display = "none";
             const newUrl = `/intl-${urlCode}`;
             window.history.pushState({ language: language }, '', newUrl);
             console.log("URL atualizada para:", newUrl);
