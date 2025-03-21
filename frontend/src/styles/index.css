@@ -10,6 +10,18 @@ html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+/* Estado inicial: invisível */
+.animated {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+/* Quando o elemento entrar na tela, ele aparecerá gradualmente */
+.animated.show {
+    opacity: 1;
+}
+
+
 
 header {
     width: 100%;
