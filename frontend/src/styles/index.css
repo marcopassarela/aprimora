@@ -242,12 +242,23 @@ main {
     border: 1px solid transparent;
     color: rgb(255, 255, 255);
     margin-top: 60px;
+    transition: all 0.3s ease-in-out;
+    animation: animacaoSaibamais .9s infinite alternate ease-in-out;
+    z-index: 1;
+}
+@keyframes animacaoSaibamais {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.05);
+    }
+    
 }
 
 .svgArrow {
     width: 15px;
     height: 15px;
-    fill: rgb(255, 255, 255);
     margin-top: 2px;
 }
 
@@ -283,7 +294,7 @@ main {
         position: absolute;
         right: 10px;
         margin-top: 5px;
-        z-index: 2000;
+        z-index: 9999;
     }
 
     #menu ul {
@@ -294,6 +305,7 @@ main {
         width: 100%;
         height: 100vh;
         position: fixed;
+        z-index: 9998;
         top: 0;
         left: 0;
         background-color: white !important;
