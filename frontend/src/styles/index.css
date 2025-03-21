@@ -13,7 +13,7 @@ html {
 /* Estado inicial: invisível */
 .animated {
     opacity: 0;
-    transition: opacity 1s ease-in-out;
+    transition: opacity 1.4s ease-in-out;
 }
 
 /* Quando o elemento entrar na tela, ele aparecerá gradualmente */
