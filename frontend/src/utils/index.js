@@ -1,4 +1,3 @@
-// Animação ao rolar a página
 document.addEventListener("DOMContentLoaded", function () {
     const elements = document.querySelectorAll(".animated");
 
@@ -7,15 +6,17 @@ document.addEventListener("DOMContentLoaded", function () {
             const position = element.getBoundingClientRect().top;
             const windowHeight = window.innerHeight;
 
-            if (position < windowHeight - 100) {
+            if (position < windowHeight - 100) { // Ajuste fino para ativar antes
                 element.classList.add("show");
             }
         });
     }
 
+    // Verifica o scroll ao carregar e ao rolar a página
     window.addEventListener("scroll", checkScroll);
-    checkScroll();
+    checkScroll(); // Garante que elementos visíveis de cara já apareçam
 });
+
 
 // Seleção dos elementos com tradução
 const modal = document.getElementById("languageModal");
@@ -40,8 +41,8 @@ window.onclick = function(event) {
 function changeLanguage(language) {
     const languageMap = {
         'en': { file: 'en.json', urlCode: 'en' },
-        'pt-BR': { file: 'pt_BR.json', urlCode: 'pt' }, // Ajustei para pt_BR.json conforme sua estrutura
-        'pt-PT': { file: 'pt_PT.json', urlCode: 'pt-pt' },
+        'pt-BR': { file: 'pt-BR.json', urlCode: 'pt' },
+        'pt-PT': { file: 'pt-PT.json', urlCode: 'pt-pt' },
         'es': { file: 'es.json', urlCode: 'es' },
         'it': { file: 'it.json', urlCode: 'it' },
         'fr': { file: 'fr.json', urlCode: 'fr' },
@@ -57,11 +58,7 @@ function changeLanguage(language) {
     const fileName = langConfig.file;
     const urlCode = langConfig.urlCode;
 
-    // Fechar o modal imediatamente ao clicar
-    modal.style.display = "none";
-
-    // Ajustar o caminho para Vercel (assumindo que os arquivos estão em public/locales/)
-    const url = `/locales/${language}/${fileName}`;
+    const url = `frontend/public/locales/${language}/${fileName}`;
     console.log("Carregando:", url);
 
     fetch(url)
@@ -78,6 +75,7 @@ function changeLanguage(language) {
                     element.textContent = data[key];
                 }
             });
+            modal.style.display = "none";
             const newUrl = `/intl-${urlCode}`;
             window.history.pushState({ language: language }, '', newUrl);
             console.log("URL atualizada para:", newUrl);
