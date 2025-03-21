@@ -1,4 +1,10 @@
 {
-    "title": "Aprimorar"
+    "title": "Aprimorar",
+    "home": "Inicio",
+    "about": "Sobre",
+    "contact": "Contato",
+    "register": "Registrar",
+    "login": "Login",
+    "language": "Idioma"
 }
   
