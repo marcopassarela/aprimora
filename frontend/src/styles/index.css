@@ -20,7 +20,7 @@ html {
 .animated.show {
     opacity: 1;
 }
-/* Modal */
+/* Modal idioma */
 .modal {
     display: none;
     position: fixed;
@@ -100,18 +100,6 @@ html {
     pointer-events: none; /* Não interfere com a interação */
 }
 
-/* Estilizando a barra de rolagem (funciona em alguns navegadores, mas não no Safari/iOS) */
-.language-grid::-webkit-scrollbar {
-    width: 8px;
-}
-.language-grid::-webkit-scrollbar-thumb {
-    background-color: #b3b3b3;
-    border-radius: 4px;
-}
-.language-grid::-webkit-scrollbar-track {
-    border-radius: 8px;
-}
-
 /* Lista */
 ul {
     list-style: none;
@@ -145,7 +133,6 @@ a {
     margin-bottom: 5px;
     direction: rtl;
 }
-
 /* Variante (tradução em português) */
 .variant {
     font-size: 14px;
@@ -582,5 +569,18 @@ main {
     .modal-content {
         top: 50%;
     }
-   
+    #content {
+        align-items: center;
+        width: 100%;
+        height: auto;
+    }
+    #content h1 {
+        font-size: 18px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    #content h4 {
+        font-size: 16px;
+        
+    }
 }
