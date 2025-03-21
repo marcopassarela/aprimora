@@ -86,19 +86,29 @@ html {
     overflow-x: hidden; /* Sem rolagem horizontal */
     border-radius: 8px;
     padding: 10px;
-    -webkit-overflow-scrolling: touch; /* Melhora a rolagem em iOS */
+    -webkit-overflow-scrolling: touch; /* Melhora a rolagem no iOS */
+    position: relative; /* Para posicionar a dica visual */
 }
 
-/* Estilizando a barra de rolagem */
+/* Dica visual de rolagem */
+.language-grid::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none; /* Não interfere com a interação */
+}
+
+/* Estilizando a barra de rolagem (funciona em alguns navegadores, mas não no Safari/iOS) */
 .language-grid::-webkit-scrollbar {
-    width: 5px; /* Largura da barra */
+    width: 8px;
 }
 .language-grid::-webkit-scrollbar-thumb {
-    background-color: #b3b3b3; /* Cor da barra de rolagem */
-    border-radius: 4px; /* Bordas arredondadas */
+    background-color: #b3b3b3;
+    border-radius: 4px;
 }
 .language-grid::-webkit-scrollbar-track {
-    background-color: #ffffff; /* Cor do fundo da trilha */
     border-radius: 8px;
 }
 
