@@ -54,9 +54,9 @@ function changeLanguage(language) {
         'es': { file: 'es.json', urlCode: 'es' },
         'it': { file: 'it.json', urlCode: 'it' },
         'fr': { file: 'fr.json', urlCode: 'fr' },
-        'ar-MA': { file: 'ar_MA.json', urlCode: 'ar-ma' },
-        'ar-SA': { file: 'ar_SA.json', urlCode: 'ar-sa' },
-        'ar-EG': { file: 'ar_EG.json', urlCode: 'ar-eg' },
+        'ar-MA': { file: 'ar-MA.json', urlCode: 'ar-ma' },
+        'ar-SA': { file: 'ar-SA.json', urlCode: 'ar-sa' },
+        'ar-EG': { file: 'ar-EG.json', urlCode: 'ar-eg' },
         'ja': { file: 'ja.json', urlCode: 'ja' },
         'zh': { file: 'zh.json', urlCode: 'zh' },
         'ru': { file: 'ru.json', urlCode: 'ru' }
