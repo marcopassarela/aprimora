@@ -372,7 +372,7 @@ main {
     width: 120px;
     height: 40px;
     border-radius: 30px;
-    background-color: blue;
+    background-color: #42145E;
     font-family: "Poppins", sans-serif;
     border: 1px solid transparent;
     color: rgb(255, 255, 255);
@@ -467,9 +467,90 @@ main {
 
 #escola {
     width: 100%;
-    height: 200px;
-    background-color: red;
+    height: 120px;
+    background-color: #42145E;
     margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 15px 0;
+}
+#escola h1 {
+    color: white;
+}
+.btnEscola {
+    color: rgb(0, 0, 0);
+    width: 150px;
+    height: 40px;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    border-radius: 30px;
+    font-family: "Poppins", sans-serif;
+    animation: animacaoSaibamais .9s infinite alternate ease-in-out;
+}
+
+#paraEscola {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+#description {
+    display: flex;
+    width: 100%;
+    height: auto;
+    background: red;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+.box {
+    width: 300px;
+    height: 400px;
+    background: black;
+    border-radius: 15px;
+    padding: 15px 0;
+}
+
+#paraEscola h1 {
+    font-size: 25px;
+    font-family: "Poppins", sans-serif;
+}
+
+#paraEscola p {
+    font-size: 15px;
+    font-family: "Poppins", sans-serif;
+    width: 50%;
+}
+
+#paraPais {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+#paraPais h1 {
+    font-size: 25px;
+    font-family: "Poppins", sans-serif;
+}
+#paraPais p {
+    font-size: 15px;
+    font-family: "Poppins", sans-serif;
+    width: 50%;
 }
 
 
@@ -586,6 +667,13 @@ main {
     }
     #content h4 {
         font-size: 16px;
-        
+    }
+    #escola {
+        gap: 10px;
+        width: 100%;
+    }
+    #escola h1 {
+        width: 60%;
+        letter-spacing: 1.1px;
     }
 }
