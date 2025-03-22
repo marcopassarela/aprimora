@@ -571,6 +571,9 @@ main {
     font-family: "Poppins", sans-serif;
     width: 50%;
 }
+#doubt h1{
+    margin-top: 20px;
+}
 
 #doubt p {
     font-size: 15px;
@@ -767,5 +770,17 @@ main {
     #paraEscola p {
         width: 90%;
         letter-spacing: 1px;
+    }
+    #paraPais p{
+        width: 90%;
+    }
+    #form form {
+        width: 90%;
+    }
+    #form input {
+        width: 90%;
+    }
+    #tx_mensagem {
+        width: 90%;
     }
 }
