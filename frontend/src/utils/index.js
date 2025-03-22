@@ -121,19 +121,6 @@ window.onload = function() {
 };
 
 
-//validar reCAPTCHA
-document.querySelector('form').addEventListener('submit', function(event) {
-    // Verifica se o reCAPTCHA foi preenchido corretamente
-    var recaptchaResponse = grecaptcha.getResponse();
-    if (recaptchaResponse.length == 0) {
-        alert('Por favor, complete o reCAPTCHA!');
-        event.preventDefault();  // Impede o envio do formulário
-    } else {
-        // Se o reCAPTCHA estiver ok, o formulário pode ser enviado
-        return true;
-    }
-  });
-
 // Redirecionamento após envio 
 document.querySelector('form').addEventListener('submit', function(event) {
     // Verifica se o reCAPTCHA foi preenchido corretamente
