@@ -4,6 +4,9 @@
     margin: 0;
     text-rendering: optimizeLegibility;
 }
+:root {
+    --color-roxo: #42145E;
+}
 
 html {
     scroll-behavior: smooth;
@@ -503,21 +506,37 @@ main {
     margin-top: 20px;
     margin-bottom: 40px;
 }
-#description {
+#descriptionEscola {
     display: flex;
     width: 100%;
     height: auto;
-    background: red;
     gap: 20px;
     justify-content: center;
     margin-top: 20px;
+    flex-wrap: wrap;
 }
 .box {
     width: 300px;
     height: 400px;
-    background: black;
+    background: white;
     border-radius: 15px;
-    padding: 15px 0;
+    padding: 15px;
+    border: 1px solid #dfe1e5;
+    box-shadow: 0px 2px 8px 0px rgba(60, 64, 67, 0.25);
+    transition: all .3s ease-in-out;
+}
+.box:hover {
+    border: 1px solid var(--color-roxo);
+    transform: scale(1.01);
+}
+#descriptionPais {
+    display: flex;
+    width: 100%;
+    height: auto;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
 }
 
 #paraEscola h1 {
@@ -552,6 +571,70 @@ main {
     font-family: "Poppins", sans-serif;
     width: 50%;
 }
+#doubt p {
+    font-size: 15px;
+}
+#form {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#form form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+#form input {
+    width: 300px;
+    padding: 7px;
+    border: 1px solid rgba(0, 0, 0, 0.116);
+    border-radius: 6px;
+    font-size: 16px !important;
+    outline: none;
+}
+
+#form input::placeholder {
+    font-size: 12px !important;
+}
+#tx_mensagem {
+    width: 300px;
+    height: 120px;
+    resize: none;
+    overflow: auto;
+    border-radius: 6px;
+    padding: 7px;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px !important;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, 0.116);
+}
+#tx_mensagem::placeholder {
+    font-size: 12px !important;
+}
+.btnSubmit {
+    width: 120px;
+    height: 30px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background: var(--color-roxo);
+    color: white;
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+
+
 
 
 
@@ -675,5 +758,9 @@ main {
     #escola h1 {
         width: 60%;
         letter-spacing: 1.1px;
+    }
+    #paraEscola p {
+        width: 90%;
+        letter-spacing: 1px;
     }
 }
