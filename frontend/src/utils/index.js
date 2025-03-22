@@ -122,20 +122,14 @@ window.onload = function() {
 
 
 // Redirecionamento após envio 
-document.querySelector('form').addEventListener('submit', function(event) {
-    // Verifica se o reCAPTCHA foi preenchido corretamente
-    var recaptchaResponse = grecaptcha.getResponse();
-    if (recaptchaResponse.length == 0) {
-        alert('Por favor, complete o reCAPTCHA!');
-        event.preventDefault();  // Impede o envio do formulário
-    } else {
-        // Se o reCAPTCHA estiver ok, o formulário pode ser enviado
-        // Bloqueia o envio para fazer a exibição de sucesso
-        event.preventDefault();  // Impede o envio para o FormSubmit
-        // Simula um envio bem-sucedido (por exemplo, usando AJAX)
-        setTimeout(function() {
-            // Exibe a mensagem de agradecimento
-            document.getElementById('form').innerHTML = '<h2>Obrigado por entrar em contato! Sua mensagem foi enviada com sucesso.</h2>';
-        }, 500);  // Simula um pequeno atraso (ajuste o tempo conforme necessário)
-    }
+document.querySelector('form').addEventListener('submit', function() {
+    setTimeout(function() {
+      window.location.href = 'pagina-agradecimento.html';  // Substitua pelo link da página de agradecimento
+    }, 1000);  // Aguarda 1 segundo para garantir que o envio foi processado
+  });
+
+
+  document.querySelector('form').addEventListener('submit', function() {
+    document.getElementById('submitBtn').style.display = 'none';
+    document.getElementById('loading').style.display = 'block';
   });
