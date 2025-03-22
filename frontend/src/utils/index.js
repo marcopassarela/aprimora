@@ -122,14 +122,19 @@ window.onload = function() {
 
 
 // Redirecionamento após envio 
-document.querySelector('form').addEventListener('submit', function() {
+document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault();  // Evita o envio imediato do formulário
+    document.getElementById('submitBtn').style.display = 'none';  // Esconde o botão
+    document.getElementById('loading').style.display = 'block';  // Mostra a mensagem de "Processando..."
+
+    // Simula um tempo de espera (1 segundo) para demonstrar a troca de mensagens
     setTimeout(function() {
-      window.location.href = 'pagina-agradecimento.html';  // Substitua pelo link da página de agradecimento
-    }, 1000);  // Aguarda 1 segundo para garantir que o envio foi processado
-  });
+        document.getElementById('loading').style.display = 'none';  // Esconde a mensagem de "Processando..."
+        document.getElementById('thankYouMessage').style.display = 'block';  // Mostra a mensagem de "Obrigado"
+    }, 3000);  // Aguarda 3 segundos para simular o processamento
 
-
-  document.querySelector('form').addEventListener('submit', function() {
-    document.getElementById('submitBtn').style.display = 'none';
-    document.getElementById('loading').style.display = 'block';
-  });
+    // Após o "tempo de espera", envia o formulário real
+    setTimeout(function() {
+        event.target.submit();  // Envia o formulário para o FormSubmit
+    }, 3000);  // Envia o formulário após o tempo de simulação
+});
