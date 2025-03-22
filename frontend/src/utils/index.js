@@ -134,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Exibe o loading e esconde o botão de envio
         submitButton.style.display = 'none';
         loadingMessage.style.display = 'block';
+        loadingMessage.style.fontSize = '15px';
 
         // Simula um tempo de espera (3 segundos) para demonstrar a troca de mensagens
         setTimeout(function() {
