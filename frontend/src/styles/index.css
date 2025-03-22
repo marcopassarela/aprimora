@@ -757,6 +757,8 @@ main {
     #escola {
         gap: 10px;
         width: 100%;
+        display: flex;
+        flex-direction: column;
     }
     #escola h1 {
         width: 60%;
