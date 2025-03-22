@@ -138,7 +138,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Simula um tempo de espera (3 segundos) para demonstrar a troca de mensagens
         setTimeout(function() {
             loadingMessage.style.display = 'none';  // Esconde a mensagem de "Processando..."
-            thankYouMessage.style.display = 'block';  // Exibe a mensagem de "Obrigado"
+            
+            // Exibe a mensagem de "Obrigado" e define o tamanho da fonte
+            thankYouMessage.style.display = 'block';
+            thankYouMessage.style.fontSize = '15px';
+
+            // Após 4 segundos, volta ao estado normal
+            setTimeout(function() {
+                thankYouMessage.style.display = 'none';  // Esconde a mensagem de "Obrigado"
+                submitButton.style.display = 'inline-block';  // Exibe o botão novamente
+            }, 4000);  // Fica exposta por 4 segundos
         }, 3000);  // Aguarda 3 segundos para simular o processamento
 
         // Envia o formulário real para o FormSubmit após a simulação
