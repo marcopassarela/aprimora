@@ -122,19 +122,28 @@ window.onload = function() {
 
 
 // Redirecionamento após envio 
-document.getElementById('contactForm').addEventListener('submit', function(event) {
-    event.preventDefault();  // Evita o envio imediato do formulário
-    document.getElementById('submitBtn').style.display = 'none';  // Esconde o botão
-    document.getElementById('loading').style.display = 'block';  // Mostra a mensagem de "Processando..."
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('#form form'); // Seleciona o formulário
+    const submitButton = form.querySelector('.btnSubmit'); // Botão de envio
+    const loadingMessage = form.querySelector('#loading'); // Mensagem de carregamento
+    const thankYouMessage = form.querySelector('#thankYouMessage'); // Mensagem de agradecimento
 
-    // Simula um tempo de espera (3 segundos) para demonstrar a troca de mensagens
-    setTimeout(function() {
-        document.getElementById('loading').style.display = 'none';  // Esconde a mensagem de "Processando..."
-        document.getElementById('thankYouMessage').style.display = 'block';  // Mostra a mensagem de "Obrigado"
-    }, 3000);  // Aguarda 3 segundos para simular o processamento
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();  // Impede o envio imediato do formulário
 
-    // Envia o formulário real para o FormSubmit após a simulação de "Processando..."
-    setTimeout(function() {
-        document.getElementById('contactForm').submit();  // Envia o formulário real para o FormSubmit
-    }, 3000);  // Envia o formulário após 3 segundos
+        // Exibe o loading e esconde o botão de envio
+        submitButton.style.display = 'none';
+        loadingMessage.style.display = 'block';
+
+        // Simula um tempo de espera (3 segundos) para demonstrar a troca de mensagens
+        setTimeout(function() {
+            loadingMessage.style.display = 'none';  // Esconde a mensagem de "Processando..."
+            thankYouMessage.style.display = 'block';  // Exibe a mensagem de "Obrigado"
+        }, 3000);  // Aguarda 3 segundos para simular o processamento
+
+        // Envia o formulário real para o FormSubmit após a simulação
+        setTimeout(function() {
+            form.submit();  // Envia o formulário
+        }, 3000);  // Envia o formulário após 3 segundos
+    });
 });
