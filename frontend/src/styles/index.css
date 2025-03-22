@@ -465,7 +465,12 @@ main {
     text-align: center;
 }
 
-
+#escola {
+    width: 100%;
+    height: 200px;
+    background-color: red;
+    margin-top: 40px;
+}
 
 
 
