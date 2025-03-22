@@ -571,6 +571,7 @@ main {
     font-family: "Poppins", sans-serif;
     width: 50%;
 }
+
 #doubt p {
     font-size: 15px;
 }
@@ -581,6 +582,7 @@ main {
     justify-content: center;
     align-items: center;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #form form {
@@ -589,6 +591,7 @@ main {
     gap: 20px;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
 }
 #form input {
     width: 300px;

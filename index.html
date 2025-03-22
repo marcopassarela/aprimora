@@ -6,6 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <link rel="stylesheet" href="/frontend/src/styles/index.css">
     <title>Aprimora</title>
 </head>
@@ -139,17 +140,17 @@
             <p><strong>E-mail:</strong> teste@hotmail.com</p>
         </div>
 
-        <div id="form" class="animated">
-            <form action="">
-                <input type="text" placeholder="Nome">
-                <input type="email" placeholder="Email">
-                <input type="text" placeholder="Assunto">
-                <textarea name="tx_mensagem" id="tx_mensagem" cols="30" rows="10" placeholder="Sua mensagem"></textarea>
-                <button type="submit" class="btnSubmit">Enviar</button>
+        <div id="form" class="animated" method="post">
+            <form action="processar.php" method="POST"> <!-- Ação do formulário e método POST -->
+                <input type="text" placeholder="Nome" name="nome" required>
+                <input type="email" placeholder="Email" name="email" required>
+                <input type="text" placeholder="Assunto" name="assunto" required>
+                <textarea name="tx_mensagem" id="tx_mensagem" cols="30" rows="10" placeholder="Sua mensagem" required></textarea>
+                <!-- reCAPTCHA -->
                 <div class="g-recaptcha" data-sitekey="6LfH4_wqAAAAAMmXtI7Ujh-Vvn023ETWE3aVuXFM"></div>
+                <!-- Botão de envio -->
+                <button type="submit" class="btnSubmit">Enviar</button>
             </form>
-            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-            
         </div>
     </div>
 
