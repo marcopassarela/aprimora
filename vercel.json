@@ -2,5 +2,9 @@
     "rewrites": [
         {"source": "/intl-:lang*", "destination": "/index.html"},
         {"source": "/(.*)", "destination": "/index.html"}
-    ]
+    ],
+    "redirects": [
+    { "source": "/cadastro.html", "destination": "/cadastro", "permanent": true },
+    { "source": "/login.html", "destination": "/login", "permanent": true }
+  ]
 }
