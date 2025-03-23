@@ -1,4 +1,29 @@
 {
-    "title": "Benvenuto"
+    "title": "Migliorare",
+    "home": "Inizio",
+    "about": "Chi siamo",
+    "contact": "Contatto",
+    "register": "Registrati",
+    "login": "Accedi",
+    "language": "Lingua",
+    "titleSaibamais": "Dimentica l'agenda cartacea, segui la giornata e ogni passo di tuo figlio in tempo reale sul cellulare",
+    "saibamais": "Scopri di più",
+    "contenth1": "Scopri il sistema Migliora",
+    "contenth4": "La piattaforma online che rivoluzionerà il modo in cui genitori, insegnanti e scuola comunicano.",
+    "list-item-0": "Accesso Web",
+    "heading-2-0": "Carta 1",
+    "heading-3-0": "Contenuto della carta 1",
+    "paragraph-0": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis error, molestiae temporibus provident labore, voluptatem unde vero at expedita inventore in cumque id hic sint! Asperiores doloribus nulla similique modi!",
+    "list-item-1": "Accesso su Tablet",
+    "heading-2-1": "Carta 2",
+    "heading-3-1": "Contenuto della carta 2",
+    "paragraph-1": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo esse unde at qui! Sit aliquam quae mollitia voluptatibus voluptate placeat deserunt deleniti amet. Doloremque id quis quod! Quas, quis beatae?",
+    "list-item-2": "Accesso su Cellulare",
+    "heading-2-2": "Carta 3",
+    "heading-3-2": "Contenuto della carta 3",
+    "paragraph-2": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, aspernatur beatae iste dignissimos corrupti repudiandae officia suscipit molestiae porro? Voluptatum quia numquam corrupti aliquam sequi accusamus incidunt cupiditate soluta! Consectetur?",
+    "titleEscola": "Sei una scuola? Non perdere tempo!",
+    "btnEscola": "Registrati",
+    "heading-4-1": "Per la scuola",
+    "paragraph-3": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas eius quisquam minus asperiores qui? Nisi, exercitationem quidem dicta iste et minus ab, numquam illum, molestias temporibus maxime animi alias reprehenderit?"
 }
-  
