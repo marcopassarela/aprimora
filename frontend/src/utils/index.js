@@ -157,9 +157,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);  // Envia o formulário após 3 segundos
     });
 });
-
-
-//Remover .html dos links dentro da página 
-document.querySelectorAll('a').forEach(link => {
-    link.href = link.href.replace('.html', '');
-});
