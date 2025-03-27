@@ -337,7 +337,6 @@ header {
     height: auto;
     padding: 25px;
     border-radius: 10px;
-    gap: 10px;
     display: flex;
     flex-direction: column;
     font-family: "Poppins", sans-serif;
@@ -345,15 +344,14 @@ header {
     color: black;
     justify-content: center;
     align-items: center;
-    gap: 20px;
 }
-#login h1 {
+.titleLogin {
     font-family: "Poppins", sans-serif;
     font-weight: 700;
     font-size: 20px;
     color: black;
 }
-#login li {
+.descriptionLogin {
     list-style: none;
     margin-bottom: 30px;
 }
@@ -366,6 +364,8 @@ header {
     outline: none;
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 0.301);
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
 .btnSubmit {
     width: 200px;
@@ -377,6 +377,7 @@ header {
     color: white;
     transition: .3s ease-in-out;
     font-weight: 400;
+    margin-top: 20px;
 }
 .btnSubmit:hover {
     transform: scale(1.02);
