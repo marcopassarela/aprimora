@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/frontend/src/styles/login.css">
+    <title>Aprimora</title>
+</head>
+<body>
+    <header>
+        <a href="#menu" class="title animated" data-i18n="title">Aprimora</a>
+        <div id="menu">
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            <label for="menu-toggle" class="hamburger animated">
+                <span class="bar top"></span>
+                <span class="bar middle"></span>
+                <span class="bar bottom"></span>
+            </label>
+            <ul class="animated">
+                <li><a href="#" data-i18n="home" class="home">Inicio</a></li>
+                <li><a href="#paraEscola" data-i18n="about" class="about">Sobre</a></li>
+                <li><a href="#form" data-i18n="contact" class="contact">Contato</a></li>
+                <li><a href="/cadastro" data-i18n="register" class="register">Cadastrar</a></li>
+                <li><a href="/login" data-i18n="login" class="login">Login</a></li>
+                <li><a href="#" id="openModal" data-i18n="language" class="language">Idioma</a></li>
+            </ul>
+        </div>
+
+        <!-- Modal -->
+        <div id="languageModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeModal">×</span>
+                <h2>Escolha o Idioma</h2>
+                <p>Essa configuração atualiza o que você lê.</p>
+                <div class="language-grid">
+                    <ul>
+                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('pt-BR')"><span class="preview">Português</span><span class="variant">Brasil</span></a></li>
+                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('pt-PT')"><span class="preview">Português</span><span class="variant">Portugal</span></a></li>
+                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('es')"><span class="preview">Español</span><span class="variant">Espanhol</span></a></li>
+                    </ul>
+                    <ul>
+                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('en')"><span class="preview">English</span><span class="variant">Inglês</span></a></li>
+                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('it')"><span class="preview">Italian</span><span class="variant">Italiano</span></a></li>
+                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('fr')"><span class="preview">Français</span><span class="variant">Francês</span></a></li>
+                    </ul>
+                    <ul>
+                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-MA')"><span class="preview">العربية</span><span class="variant">Árabe (Marrocos)</span></a></li>
+                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-SA')"><span class="preview">العربية</span><span class="variant">Árabe (Arábia Saudita)</span></a></li>
+                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-EG')"><span class="preview">العربية</span><span class="variant">Árabe (Egípcio)</span></a></li>
+                    </ul>
+                    <ul>
+                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ja')"><span class="preview">日本語</span><span class="variant">Japonês</span></a></li>
+                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('zh')"><span class="preview">中文</span><span class="variant">Chinês</span></a></li>
+                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ru')"><span class="preview">Русский</span><span class="variant">Russo</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <form action="">
+        <div id="container">
+            <div id="login" class="animated">
+                <h1>Login - Acesse a plataforma</h1>
+                <li>Acesso para Escolas e Pais</li>
+                <input type="email" id="email" name="email" placeholder="E-mail" required>
+                <input type="password" id="senha" name="senha" placeholder="Senha" required>
+                <button type="submit" class="btnSubmit">Entrar</button>
+            </div>
+        </div>
+    </form>
+
+<script src="/frontend/src/utils/index.js"></script>
+</body>
+</html>
