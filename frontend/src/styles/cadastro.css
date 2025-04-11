@@ -321,3 +321,181 @@ header {
     top: 18px;
     background-color: red;
 }
+
+#container {
+    width: 100%;
+    height: 600px;
+    margin-top: 30px;
+}
+.content {
+    display: flex;
+}
+.img {
+    width: 50%;
+    height: 600px;
+    border-right: 1px solid rgba(0, 0, 0, 0.185);
+}
+#cadastro {
+    width: 50%;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#form {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-roxo);
+    padding: 20px;
+    border-radius: 10px;
+}
+#form h1 {
+    font-family: "Poppins", sans-serif; 
+    font-size: 30px;
+    color: white;
+}
+#form p {
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    color: white;
+    margin-bottom: 30px;
+}
+#form input {
+    padding: 10px;
+    width: 360px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+#form button {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    border-radius: 5px;
+    width: 50%;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: .2s ease-in-out;
+    background: green;
+    color: white;
+}
+#form button:hover {
+    color: white;
+    transform: scale(1.04);
+}
+
+
+
+@media screen and (min-width:320px) and (max-width: 480px) {
+    header {
+        width: 100%;
+        height: 50px;
+        color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    header a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        left: 0; /* Corrige o posicionamento relativo */
+    }
+
+    #menu {
+        width: 100%;
+        margin-left: 0;
+        right: 0;
+        position: relative;
+    }
+
+    .hamburger {
+        display: block;
+        position: absolute;
+        right: 10px;
+        margin-top: 5px;
+        z-index: 9999;
+    }
+
+    #menu ul {
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Centraliza verticalmente */
+        align-items: center; /* Centraliza horizontalmente */
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        z-index: 9998;
+        top: 0;
+        left: 0;
+        background-color: white !important;
+        padding: 0;
+        margin: 0;
+        transform: translateY(-100%);
+        transition: transform 1.4s ease-in-out; /* Velocidade Animação */
+        gap: 20px; /* Espaçamento entre itens */
+    }
+
+    #menu ul li {
+        width: auto; /* Ajusta ao conteúdo, sem forçar largura total */
+        text-align: center;
+        margin: 0;
+        padding: 0; /* Remove qualquer padding que possa interferir */
+    }
+
+    #menu ul li a {
+        display: block;
+        width: auto; /* Ajusta ao conteúdo do texto */
+        color: rgb(0, 0, 0);
+        font-size: 18px;
+        padding: 10px; /* Padding uniforme */
+        text-align: center; /* Centraliza o texto */
+    }
+
+    #menu-toggle:checked ~ ul {
+        transform: translateY(0);
+    }
+
+    #menu-toggle:not(:checked) ~ ul {
+        transform: translateY(-100%);
+    }
+
+    #login {
+        width: 80%;
+    }
+    .content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+    .img {
+        width: 90%;
+        position: relative;
+        border-right: 0px solid transparent;
+    }
+    .img::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 5%;
+        width: 90%;
+        height: 1px;
+        background: rgba(0, 0, 0, 0.258);
+    }
+    #cadastro {
+        width: 100%;
+    }
+    #form {
+        width: 80%;
+    }
+    #form input {
+        width: 280px;
+    }
+}
