@@ -348,6 +348,7 @@ header {
     background: var(--color-roxo);
     padding: 20px;
     border-radius: 10px;
+    width: 400px;
 }
 #form h1 {
     font-family: "Poppins", sans-serif; 
@@ -362,7 +363,7 @@ header {
 }
 #form input {
     padding: 10px;
-    width: 360px;
+    width: auto;
     border-radius: 5px;
     outline: none;
     border: none;
@@ -496,6 +497,6 @@ header {
         width: 80%;
     }
     #form input {
-        width: 280px;
+        width: auto;
     }
 }
