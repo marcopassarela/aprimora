@@ -26,11 +26,16 @@
       "destination": "/login.html"
     },
     {
+      "source": "/intl-:lang*",
+      "destination": "/index.html"
+    },
+    {
       "source": "/",
       "destination": "/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/$1"
     }
-  ],
-  "env": {
-    "JWT_SECRET": "@JWT_SECRET"
-  }
+  ]
 }
