@@ -14,41 +14,11 @@
       "destination": "/api/painel.js"
     },
     {
-      "source": "/cadastro",
-      "destination": "/cadastro.html"
-    },
-    {
-      "source": "/login",
-      "destination": "/login.html"
-    },
-    {
-      "source": "/intl-:lang*",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/index",
-      "destination": "/index.html"
-    },
-    {
       "source": "/(.*)",
       "destination": "/$1"
     }
   ],
   "env": {
     "JWT_SECRET": "@JWT_SECRET"
-  },
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "X-XSS-Protection", "value": "1; mode=block" }
-      ]
-    }
-  ]
+  }
 }
