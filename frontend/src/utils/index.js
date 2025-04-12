@@ -46,53 +46,6 @@ menuLinks.forEach(link => {
     });
 });
 
-function changeLanguage(language) {
-    const languageMap = {
-        'en': { file: 'en.json', urlCode: 'en' },
-        'pt-BR': { file: 'pt-BR.json', urlCode: 'pt' },
-        'pt-PT': { file: 'pt-PT.json', urlCode: 'pt-pt' },
-        'es': { file: 'es.json', urlCode: 'es' },
-        'it': { file: 'it.json', urlCode: 'it' },
-        'fr': { file: 'fr.json', urlCode: 'fr' },
-        'ar-MA': { file: 'ar-MA.json', urlCode: 'ar-ma' },
-        'ar-SA': { file: 'ar-SA.json', urlCode: 'ar-sa' },
-        'ar-EG': { file: 'ar-EG.json', urlCode: 'ar-eg' },
-        'ja': { file: 'ja.json', urlCode: 'ja' },
-        'zh': { file: 'zh.json', urlCode: 'zh' },
-        'ru': { file: 'ru.json', urlCode: 'ru' }
-    };
-
-    const langConfig = languageMap[language] || { file: `${language}.json`, urlCode: language };
-    const fileName = langConfig.file;
-    const urlCode = langConfig.urlCode;
-
-    // Fechar o modal de idiomas imediatamente
-    modal.style.display = "none";
-
-    const url = `frontend/public/locales/${language}/${fileName}`;
-    console.log("Carregando:", url);
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Erro na requisição: " + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (data[key]) {
-                    element.textContent = data[key];
-                }
-            });
-            const newUrl = `/intl-${urlCode}`;
-            window.history.pushState({ language: language }, '', newUrl);
-            console.log("URL atualizada para:", newUrl);
-        })
-        .catch(error => console.error("Erro ao carregar o idioma: ", error));
-}
-
 
 
 // Redirecionamento após envio 
