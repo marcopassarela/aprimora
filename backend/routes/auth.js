@@ -3,7 +3,7 @@ const path = require('path');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// Definir caminho absoluto para evitar problemas
+// Caminho absoluto
 const USERS_FILE = path.resolve(__dirname, '../../data/users.json');
 
 module.exports = {
@@ -19,12 +19,23 @@ module.exports = {
       throw new Error('Email e senha são obrigatórios');
     }
 
+    // Criar diretório se não existir
+    const dir = path.dirname(USERS_FILE);
+    try {
+      await fs.mkdir(dir, { recursive: true });
+      console.log('Diretório criado ou já existe:', dir);
+    } catch (err) {
+      console.error('Erro ao criar diretório:', err.message);
+      throw new Error(`Erro ao preparar salvamento: ${err.message}`);
+    }
+
     // Ler arquivo de usuários
     let users = [];
     try {
       const data = await fs.readFile(USERS_FILE, 'utf8');
+      console.log('Conteúdo bruto de users.json:', data);
       users = JSON.parse(data);
-      console.log('Arquivo users.json lido com sucesso');
+      console.log('Arquivo users.json lido com sucesso, usuários:', users);
     } catch (err) {
       if (err.code === 'ENOENT') {
         console.log('users.json não existe, inicializando como vazio');
@@ -36,14 +47,16 @@ module.exports = {
     }
 
     // Verificar se o usuário existe
-    if (users.find((user) => user.email === email)) {
-      console.error('Usuário já existe:', email);
+    const existingUser = users.find((user) => user.email === email);
+    if (existingUser) {
+      console.error('Usuário já existe:', email, 'Detalhes:', existingUser);
       throw new Error('Usuário já existe');
     }
+    console.log('Nenhum usuário existente encontrado para:', email);
 
     // Verificar limite de 30 usuários
     if (users.length >= 30) {
-      console.error('Limite de usuários atingido');
+      console.error('Limite de usuários atingido:', users.length);
       throw new Error('Limite de usuários atingido');
     }
 
@@ -55,16 +68,7 @@ module.exports = {
     // Adicionar novo usuário
     const newUser = { id: users.length + 1, email, password: hashedPassword };
     users.push(newUser);
-
-    // Criar diretório se não existir
-    const dir = path.dirname(USERS_FILE);
-    try {
-      await fs.mkdir(dir, { recursive: true });
-      console.log('Diretório criado ou já existe:', dir);
-    } catch (err) {
-      console.error('Erro ao criar diretório:', err.message);
-      throw new Error(`Erro ao preparar salvamento: ${err.message}`);
-    }
+    console.log('Novo usuário adicionado ao array:', newUser);
 
     // Verificar permissões de escrita
     try {
@@ -78,7 +82,10 @@ module.exports = {
     // Salvar no arquivo
     try {
       await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
-      console.log('Usuário salvo com sucesso:', email);
+      console.log('Usuário salvo com sucesso em users.json:', email);
+      // Verificar se o arquivo foi realmente escrito
+      const savedData = await fs.readFile(USERS_FILE, 'utf8');
+      console.log('Conteúdo após salvamento:', savedData);
     } catch (err) {
       console.error('Erro detalhado ao salvar users.json:', err);
       throw new Error(`Erro ao salvar usuário: ${err.message}`);
@@ -115,8 +122,9 @@ module.exports = {
     let users = [];
     try {
       const data = await fs.readFile(USERS_FILE, 'utf8');
+      console.log('Conteúdo bruto de users.json:', data);
       users = JSON.parse(data);
-      console.log('Arquivo users.json lido com sucesso');
+      console.log('Arquivo users.json lido com sucesso, usuários:', users);
     } catch (err) {
       console.error('Erro ao ler users.json:', err.message);
       throw new Error('Credenciais inválidas');
