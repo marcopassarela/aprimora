@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/frontend/src/styles/cadastro.css">
-    <script src="/frontend/src/utils/index.js"></script>
+    
     <title>Aprimora</title>
 </head>
 <body>
@@ -69,6 +69,7 @@
   <title>Cadastro</title>
 </head>
 <body>
+
   <div id="container">
     <div class="content">
       <div id="cadastro">
@@ -78,7 +79,7 @@
             <p class="descriptionCadastro">Acesse a plataforma</p>
             <input type="email" id="email" name="email" placeholder="E-mail" autocomplete="email" required>
             <input type="password" id="password" name="password" placeholder="Senha" required>
-            <button type="submit" class="btnSubmit">Cadastrar</button>
+            <button type="submit" id="submitButton" class="btnSubmit">Cadastrar</button>
           </form>
         </div>
       </div>
@@ -86,16 +87,27 @@
   </div>
 
   <script>
+    console.log('Script de cadastro.html carregado');
     document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM completamente carregado');
+
       const form = document.getElementById('registerForm');
+      const submitButton = document.getElementById('submitButton');
+
       if (!form) {
-        console.error('Erro: Elemento com id="registerForm" não encontrado');
+        console.error('Erro: Formulário com id="registerForm" não encontrado');
+        return;
+      }
+      if (!submitButton) {
+        console.error('Erro: Botão com id="submitButton" não encontrado');
         return;
       }
 
+      console.log('Formulário e botão encontrados');
+
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        console.log('Formulário submetido');
+        console.log('Evento de submit disparado');
 
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
@@ -129,7 +141,7 @@
           try {
             data = JSON.parse(text);
           } catch (err) {
-            console.error('Erro ao parsear JSON:', err, 'Resposta:', text);
+            console.error('Erro ao parsear JSON:', err.message, 'Resposta:', text);
             alert('Erro ao cadastrar: Resposta inválida do servidor');
             return;
           }
@@ -146,6 +158,10 @@
           console.error('Erro na requisição:', err.message);
           alert('Erro ao cadastrar: ' + err.message);
         }
+      });
+
+      submitButton.addEventListener('click', () => {
+        console.log('Botão Cadastrar clicado');
       });
     });
   </script>
