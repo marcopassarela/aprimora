@@ -1,16 +1,14 @@
 {
-    "name": "aprimora",
-    "version": "1.0.0",
-    "scripts": {
-      "dev": "vercel dev",
-      "deploy": "vercel --prod"
-    },
-    "dependencies": {
-      "bcryptjs": "^2.4.3",
-      "jsonwebtoken": "^9.0.2"
-    },
-    "devDependencies": {
-      "vercel": "^34.2.7"
-    }
+  "name": "aprimora",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "vercel": "^34.2.7"
   }
-  
+}
