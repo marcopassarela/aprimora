@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Seleção dos elementos com tradução
-const modal = document.getElementById("languageModal");
 const openModal = document.getElementById("openModal");
 const closeModal = document.getElementById("closeModal");
 const menuToggle = document.getElementById("menu-toggle");
