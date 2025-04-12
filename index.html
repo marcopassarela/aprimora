@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <a href="/index" class="title animated" data-i18n="title">Aprimora</a>
+        <a href="/index" class="title animated">Aprimora</a>
         <div id="menu">
             <input type="checkbox" id="menu-toggle" class="menu-toggle">
             <label for="menu-toggle" class="hamburger animated">
@@ -20,90 +20,57 @@
                 <span class="bar bottom"></span>
             </label>
             <ul class="animated">
-                <li><a href="/index" data-i18n="home" class="home">Inicio</a></li>
-                <li><a href="#paraEscola" data-i18n="about" class="about">Sobre</a></li>
-                <li><a href="#form" data-i18n="contact" class="contact">Contato</a></li>
-                <li><a href="/cadastro" data-i18n="register" class="register">Cadastrar</a></li>
-                <li><a href="/login" data-i18n="login" class="login">Login</a></li>
-                <li><a href="#" id="openModal" data-i18n="language" class="language">Idioma</a></li>
+                <li><a href="/index" class="home">Inicio</a></li>
+                <li><a href="#paraEscola" class="about">Sobre</a></li>
+                <li><a href="#form" class="contact">Contato</a></li>
+                <li><a href="/cadastro" class="register">Cadastrar</a></li>
+                <li><a href="/login" class="login">Login</a></li>
+                <li><a href="#" id="openModal" class="language">Idioma</a></li>
             </ul>
-        </div>
-
-        <!-- Modal -->
-        <div id="languageModal" class="modal">
-            <div class="modal-content">
-                <span class="close" id="closeModal">×</span>
-                <h2>Escolha o Idioma</h2>
-                <p>Essa configuração atualiza o que você lê.</p>
-                <div class="language-grid">
-                    <ul>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('pt-BR')"><span class="preview">Português</span><span class="variant">Brasil</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('pt-PT')"><span class="preview">Português</span><span class="variant">Portugal</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('es')"><span class="preview">Español</span><span class="variant">Espanhol</span></a></li>
-                    </ul>
-                    <ul>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('en')"><span class="preview">English</span><span class="variant">Inglês</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('it')"><span class="preview">Italian</span><span class="variant">Italiano</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('fr')"><span class="preview">Français</span><span class="variant">Francês</span></a></li>
-                    </ul>
-                    <ul>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-MA')"><span class="preview">العربية</span><span class="variant">Árabe (Marrocos)</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-SA')"><span class="preview">العربية</span><span class="variant">Árabe (Arábia Saudita)</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-EG')"><span class="preview">العربية</span><span class="variant">Árabe (Egípcio)</span></a></li>
-                    </ul>
-                    <ul>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ja')"><span class="preview">日本語</span><span class="variant">Japonês</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('zh')"><span class="preview">中文</span><span class="variant">Chinês</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ru')"><span class="preview">Русский</span><span class="variant">Russo</span></a></li>
-                    </ul>
-                </div>
-            </div>
         </div>
     </header>
 
     <main>
         <div id="container">
             <div class="capa animated">
-                <h1 data-i18n="titleSaibamais" class="titleSaibamais animated">Deixe a agenda de papel de lado! Acompanhe cada momento do dia do seu filho em tempo real, direto pelo celular.</h1>
-                <a href="#" data-i18n="saibamais" class="animated saibamais">Saiba mais</a>
+                <h1 class="titleSaibamais animated">Deixe a agenda de papel de lado! Acompanhe cada momento do dia do seu filho em tempo real, direto pelo celular.</h1>
+                <a href="#" class="animated saibamais">Saiba mais</a>
             </div>
-            <div class="img animated">
-
-            </div>
+            <div class="img animated"></div>
         </div>
     </main>
     <div id="content" class="animated">
-        <h1 data-i18n="contenth1" class="contenth1">Conheça o sistema Aprimora</h1>
-        <h4 data-i18n="contenth4" class="contenth4">A plataforma on-line que vai revolucionar a forma que pais, professores e escola se comunicam.</h4>
+        <h1 class="contenth1">Conheça o sistema Aprimora</h1>
+        <h4 class="contenth4">A plataforma on-line que vai revolucionar a forma que pais, professores e escola se comunicam.</h4>
         <div class="cards animated">
             <div class="card">
-                <li data-i18n="list-item-0" class="list-item-0">Acesso Web</li>
-                <h2 data-i18n="heading-2-0" class="heading-2-0">Painel administrativo Escolar</h2>
-                <h3 data-i18n="heading-3-0" class="heading-3-0">Controle Total em Suas Mãos</h3>
-                <p data-i18n="paragraph-0" class="paragraph-0">Com o Painel Administrativo do Aprimorar, a equipe gestora da escola terá total controle sobre turmas, alunos, responsáveis, professores e finanças, tudo em uma plataforma online intuitiva e acessível de qualquer lugar, a qualquer momento.</p>
+                <li class="list-item-0">Acesso Web</li>
+                <h2 class="heading-2-0">Painel administrativo Escolar</h2>
+                <h3 class="heading-3-0">Controle Total em Suas Mãos</h3>
+                <p class="paragraph-0">Com o Painel Administrativo do Aprimorar, a equipe gestora da escola terá total controle sobre turmas, alunos, responsáveis, professores e finanças, tudo em uma plataforma online intuitiva e acessível de qualquer lugar, a qualquer momento.</p>
             </div>
             <div class="card">
-                <li data-i18n="list-item-1" class="list-item-1">Acesso Tablet</li>
-                <h2 data-i18n="heading-2-1" class="heading-2-1">Comunicação Eficiente</h2>
-                <h3 data-i18n="heading-3-1" class="heading-3-1">Controle Total</h3>
-                <p data-i18n="paragraph-1" class="paragraph-1">Com o aplicativo Aprimorar, os professores poderão registrar as agendas dos alunos de maneira mais ágil, prática e eficiente. Além disso, poderão receber alertas sobre medicações, compartilhar fotos e enviar comunicados diretamente para pais e responsáveis.</p>
+                <li class="list-item-1">Acesso Tablet</li>
+                <h2 class="heading-2-1">Comunicação Eficiente</h2>
+                <h3 class="heading-3-1">Controle Total</h3>
+                <p class="paragraph-1">Com o aplicativo Aprimorar, os professores poderão registrar as agendas dos alunos de maneira mais ágil, prática e eficiente. Além disso, poderão receber alertas sobre medicações, compartilhar fotos e enviar comunicados diretamente para pais e responsáveis.</p>
             </div>
             <div class="card">
-                <li data-i18n="list-item-2" class="list-item-2">Acesso via Celular</li>
-                <h2 data-i18n="heading-2-2" class="heading-2-2">Aplicativo para os Pais</h2>
-                <h3 data-i18n="heading-3-2" class="heading-3-2">Tudo Sobre a Rotina do Seu Filho</h3>
-                <p data-i18n="paragraph-2" class="paragraph-2">Com o aplicativo Aprimorar, os pais poderão acompanhar de perto a rotina escolar de seus filhos, recebendo notificações sobre recados, medicações administradas pelos professores e acessando as agendas em tempo real.</p>
+                <li class="list-item-2">Acesso via Celular</li>
+                <h2 class="heading-2-2">Aplicativo para os Pais</h2>
+                <h3 class="heading-3-2">Tudo Sobre a Rotina do Seu Filho</h3>
+                <p class="paragraph-2">Com o aplicativo Aprimorar, os pais poderão acompanhar de perto a rotina escolar de seus filhos, recebendo notificações sobre recados, medicações administradas pelos professores e acessando as agendas em tempo real.</p>
             </div>          
         </div>
 
         <div id="escola" class="animated">
-            <h1 class="titleEscola" data-i18n="titleEscola">Você é uma escola? Não perca tempo!</h1>
-            <a href="" class="btnEscola" data-i18n="btnEscola">Resgistrar</a>
+            <h1 class="titleEscola">Você é uma escola? Não perca tempo!</h1>
+            <a href="" class="btnEscola">Resgistrar</a>
         </div>
 
         <div id="paraEscola" class="animated">
-            <h1 data-i18n="heading3-3" class="heading3-3">Para escola</h1>
-            <p data-i18n="paragraph-3" class="paragraph-3">O Aprimorar oferece à escola uma plataforma completa para gestão de turmas, alunos, professores e finanças, com acesso fácil e seguro. Através de uma interface intuitiva, a administração escolar se torna mais eficiente e organizada, acessível de qualquer lugar.</p>
+            <h1 class="heading3-3">Para escola</h1>
+            <p class="paragraph-3">O Aprimorar oferece à escola uma plataforma completa para gestão de turmas, alunos, professores e finanças, com acesso fácil e seguro. Através de uma interface intuitiva, a administração escolar se torna mais eficiente e organizada, acessível de qualquer lugar.</p>
             <div id="descriptionEscola" class="animated">
                 <div class="box">
                     <p id="titleBox">Acesso Web</p>
@@ -142,12 +109,12 @@
         </div>
 
         <div id="escola" class="animated">
-            <h1 class="titleEscola" data-i18n="titleEscola">Você é uma escola? Não perca tempo!</h1>
-            <a href="" class="btnEscola" data-i18n="btnEscola">Resgistrar</a>
+            <h1 class="titleEscola">Você é uma escola? Não perca tempo!</h1>
+            <a href="" class="btnEscola">Resgistrar</a>
         </div>
 
         <div id="doubt" class="animated">
-            <h1 data-i18n="doubth1" class="doubth1">Ficou com dúvidas? Entre em contato</h1>
+            <h1 class="doubth1">Ficou com dúvidas? Entre em contato</h1>
             <p><strong>E-mail:</strong> teste@hotmail.com</p>
         </div>
 
@@ -164,8 +131,6 @@
             </form>
         </div>
     </div>
-
-    
 
 <script src="/frontend/src/utils/index.js"></script>
 </body>
