@@ -1,6 +1,6 @@
 // Animação ao rolar a página
 document.addEventListener("DOMContentLoaded", function () {
-    const menuLinks = document.querySelectorAll(".animated li a");
+    const elements = document.querySelectorAll(".animated li a");
 
     function checkScroll() {
         elements.forEach((element) => {
