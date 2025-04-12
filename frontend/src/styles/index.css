@@ -1,4 +1,3 @@
-/* Seu CSS existente */
 * {
     padding: 0;
     margin: 0;
@@ -143,11 +142,6 @@ a {
     line-height: 1.2;
     direction: ltr;
 }
-
-
-
-
-
 
 header {
     width: 100%;
@@ -358,13 +352,12 @@ main {
     flex-direction: column;
 }
 
-
 .titleSaibamais {
     color: black;
     font-family: "Poppins", sans-serif;
     font-size: 25px;
 }
-.capa a{
+.capa a {
     display: flex;
     margin-top: 20px;
     align-items: center;
@@ -600,7 +593,7 @@ main {
     font-family: "Poppins", sans-serif;
     width: 50%;
 }
-#doubt h1{
+#doubt h1 {
     margin-top: 20px;
 }
 
@@ -668,11 +661,6 @@ main {
     font-size: 16px;
     margin-bottom: 20px;
 }
-
-
-
-
-
 
 /* Media Query para celulares (max-width: 768px) */
 @media (max-width: 768px) {
@@ -801,7 +789,7 @@ main {
         width: 90%;
         letter-spacing: 1px;
     }
-    #paraPais p{
+    #paraPais p {
         width: 90%;
     }
     #form form {
