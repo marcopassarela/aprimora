@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/frontend/src/styles/cadastro.css">
-    
+    <script src="/frontend/src/utils/index.js"></script>
     <title>Aprimora</title>
 </head>
 <body>
@@ -29,9 +29,18 @@
                 <li><a href="#" id="openModal" data-i18n="language" class="language">Idioma</a></li>
             </ul>
           </div>
+    </header>
 
   <div id="container">
     <div class="content">
+      <div class="img animated">
+        <img src="/frontend/src/assets/aprimora.png" alt="capa">
+      </div>
+      <div id="seta" class="animated">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 9L12 15L18 9" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <div id="cadastro">
         <div id="form">
           <form id="registerForm">
