@@ -43,7 +43,7 @@ menuLinks.forEach(link => {
     link.addEventListener("click", function(event) {
         const href = link.getAttribute("href");
 
-        // Fecha o menu sempre
+        // Fecha o menu sempre, se estiver aberto
         if (menuToggle && menuToggle.checked) {
             menuToggle.checked = false;
         }
@@ -56,9 +56,9 @@ menuLinks.forEach(link => {
                 target.scrollIntoView({ behavior: "smooth" });
             }
         }
+        // Links normais (como "/cadastro", "/login", "/") seguem o comportamento padrão
     });
 });
-
 
 // Redirecionamento após envio 
 document.addEventListener('DOMContentLoaded', function() {
