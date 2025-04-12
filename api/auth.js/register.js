@@ -1,6 +1,7 @@
 const authRoutes = require('../../backend/routes/auth');
 
 module.exports = async (req, res) => {
+  console.log('Requisição recebida em /api/auth/register:', req.method, req.body); // Debug
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Método não permitido' });
   }
@@ -9,7 +10,7 @@ module.exports = async (req, res) => {
     const result = await authRoutes.register(req);
     return res.status(result.status).json(result.body);
   } catch (err) {
-    console.error('Erro em /api/auth/register:', err.message); // Log para Vercel
+    console.error('Erro em /api/auth/register:', err.message); // Debug
     return res.status(400).json({ message: err.message });
   }
 };

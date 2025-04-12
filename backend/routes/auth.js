@@ -9,6 +9,8 @@ module.exports = {
   register: async (req) => {
     const { email, password } = req.body;
 
+    console.log('Tentativa de registro:', email); // Debug
+
     // Ler arquivo de usuários
     let users = [];
     try {
@@ -16,6 +18,7 @@ module.exports = {
       users = JSON.parse(data);
     } catch (err) {
       console.error('Erro ao ler users.json:', err); // Debug
+      users = []; // Inicializar como vazio se o arquivo não existir
     }
 
     // Verificar se o usuário existe
@@ -39,12 +42,17 @@ module.exports = {
     // Salvar no arquivo
     try {
       await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
+      console.log('Usuário salvo:', email); // Debug
     } catch (err) {
       console.error('Erro ao salvar users.json:', err); // Debug
       throw new Error('Erro ao salvar usuário');
     }
 
     // Gerar token JWT
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET não definido'); // Debug
+      throw new Error('Erro de configuração do servidor');
+    }
     const token = jwt.sign({ id: newUser.id, email: newUser.email }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
@@ -55,12 +63,15 @@ module.exports = {
   login: async (req) => {
     const { email, password } = req.body;
 
+    console.log('Tentativa de login:', email); // Debug
+
     // Ler arquivo de usuários
     let users = [];
     try {
       const data = await fs.readFile(USERS_FILE, 'utf8');
       users = JSON.parse(data);
     } catch (err) {
+      console.error('Erro ao ler users.json:', err); // Debug
       throw new Error('Credenciais inválidas');
     }
 
@@ -77,6 +88,10 @@ module.exports = {
     }
 
     // Gerar token JWT
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET não definido'); // Debug
+      throw new Error('Erro de configuração do servidor');
+    }
     const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
