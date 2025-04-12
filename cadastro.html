@@ -77,7 +77,7 @@
                 <h1 class="titleCadastro">Cadastrar</h1>
                 <p class="descriptionCadastro">Acesse a plataforma</p>
                 <input type="email" id="email" name="email" placeholder="E-mail" autocomplete="email" required>
-                <input type="password" id="senha" name="senha" placeholder="Senha" required>
+                <input type="password" id="password" name="password" placeholder="Senha" required>
                 <button type="submit" class="btnSubmit">Cadastrar</button>
               </form>
             </div>
@@ -86,29 +86,33 @@
       </div>
       
       <script>
-        // Garantir que o DOM esteja carregado
         document.addEventListener('DOMContentLoaded', () => {
           const form = document.getElementById('registerForm');
           if (!form) {
-            console.error('Formulário com id="registerForm" não encontrado');
+            console.error('Erro: Elemento com id="registerForm" não encontrado');
             return;
           }
       
           form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            console.log('Formulário submetido'); // Debug
+      
             const email = document.getElementById('email').value;
-            const password = document.getElementById('senha').value;
+            const password = document.getElementById('password').value;
       
             // Validações básicas
             if (!email.includes('@')) {
               alert('Email inválido');
+              console.log('Validação falhou: Email inválido');
               return;
             }
             if (password.length < 6) {
               alert('A senha deve ter pelo menos 6 caracteres');
+              console.log('Validação falhou: Senha curta');
               return;
             }
       
+            console.log('Enviando requisição para /api/auth/register'); // Debug
             try {
               const response = await fetch('/api/auth/register', {
                 method: 'POST',
@@ -116,15 +120,18 @@
                 body: JSON.stringify({ email, password }),
               });
       
+              console.log('Resposta recebida:', response.status); // Debug
               const data = await response.json();
               if (response.ok) {
+                console.log('Cadastro bem-sucedido, token:', data.token); // Debug
                 localStorage.setItem('token', data.token);
                 window.location.href = '/painel.html';
               } else {
+                console.error('Erro na API:', data.message); // Debug
                 alert(data.message || 'Erro ao cadastrar');
               }
             } catch (err) {
-              console.error('Erro na requisição:', err);
+              console.error('Erro na requisição:', err); // Debug
               alert('Erro ao cadastrar: ' + err.message);
             }
           });

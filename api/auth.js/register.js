@@ -9,6 +9,7 @@ module.exports = async (req, res) => {
     const result = await authRoutes.register(req);
     return res.status(result.status).json(result.body);
   } catch (err) {
+    console.error('Erro em /api/auth/register:', err.message); // Log para Vercel
     return res.status(400).json({ message: err.message });
   }
 };
