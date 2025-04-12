@@ -1,17 +1,1 @@
-[
-  {
-    "id": 1,
-    "email": "teste12@hotmail.com",
-    "password": "$2a$10$cWDgaJOKCxrk8/1aImOYpeUYVFpaGoyivptvzJuuJSIP0kmavkvOO"
-  },
-  {
-    "id": 2,
-    "email": "teste14@hotmail.com",
-    "password": "$2a$10$QS4uPLwxAZAhY39VPlxIEufJjLE2iA6TjOIGjMmaWv.plC3wGhOyq"
-  },
-  {
-    "id": 3,
-    "email": "teste15@hotmail.com",
-    "password": "$2a$10$u1MyAZTzPZEDbqxsNCYIUOOCs4uc8ph1y6aJ1z1ZVn4TC.FBJ/bqy"
-  }
-]
+[]
