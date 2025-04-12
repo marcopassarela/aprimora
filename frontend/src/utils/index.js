@@ -93,32 +93,6 @@ function changeLanguage(language) {
         .catch(error => console.error("Erro ao carregar o idioma: ", error));
 }
 
-window.onload = function() {
-    const path = window.location.pathname;
-    console.log("Caminho atual:", path);
-    if (path.startsWith('/intl-')) {
-        const langCode = path.replace('/intl-', '');
-        const languageMap = {
-            'pt': 'pt-BR',
-            'pt-pt': 'pt-PT',
-            'es': 'es',
-            'en': 'en',
-            'it': 'it',
-            'fr': 'fr',
-            'ar-ma': 'ar-MA',
-            'ar-sa': 'ar-SA',
-            'ar-eg': 'ar-EG',
-            'ja': 'ja',
-            'zh': 'zh',
-            'ru': 'ru'
-        };
-        const language = languageMap[langCode] || 'pt-BR';
-        console.log("Idioma detectado:", language);
-        changeLanguage(language);
-    } else {
-        changeLanguage('pt-BR');
-    }
-};
 
 
 // Redirecionamento após envio 
