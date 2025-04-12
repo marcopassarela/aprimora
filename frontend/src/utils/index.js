@@ -43,20 +43,19 @@ menuLinks.forEach(link => {
     link.addEventListener("click", function(event) {
         const href = link.getAttribute("href");
 
-        // Se o link for âncora, rola até a seção correspondente
+        // Fecha o menu antes de tudo
+        menuToggle.checked = false;
+
+        // Se for link interno (ancora), impede comportamento padrão e faz scroll
         if (href.startsWith("#")) {
-            event.preventDefault(); // Impede o comportamento padrão
+            event.preventDefault();
             const target = document.querySelector(href);
             if (target) {
                 target.scrollIntoView({ behavior: "smooth" });
             }
         }
-
-        // Fecha o menu mesmo assim
-        menuToggle.checked = false;
     });
 });
-
 
 // Redirecionamento após envio 
 document.addEventListener('DOMContentLoaded', function() {
