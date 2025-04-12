@@ -6,6 +6,8 @@ let users = [];
 
 module.exports = {
   register: async (req) => {
+    console.log('Iniciando registro:', req.body);
+
     const { email, password } = req.body;
 
     console.log('Tentativa de registro:', email);
@@ -45,6 +47,7 @@ module.exports = {
       console.error('JWT_SECRET não definido');
       throw new Error('Erro de configuração do servidor');
     }
+    console.log('JWT_SECRET presente');
 
     // Gerar token JWT
     const token = jwt.sign({ id: newUser.id, email: newUser.email }, process.env.JWT_SECRET, {
@@ -56,6 +59,8 @@ module.exports = {
   },
 
   login: async (req) => {
+    console.log('Iniciando login:', req.body);
+
     const { email, password } = req.body;
 
     console.log('Tentativa de login:', email);
@@ -85,6 +90,7 @@ module.exports = {
       console.error('JWT_SECRET não definido');
       throw new Error('Erro de configuração do servidor');
     }
+    console.log('JWT_SECRET presente');
 
     // Gerar token JWT
     const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
