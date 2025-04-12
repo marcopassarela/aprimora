@@ -1,9 +1,6 @@
 {
   "name": "aprimora",
   "version": "1.0.0",
-  "scripts": {
-    "start": "vercel dev"
-  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2"
