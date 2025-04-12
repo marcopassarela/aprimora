@@ -22,6 +22,14 @@
       "destination": "/cadastro.html"
     },
     {
+      "source": "/registro",         
+      "destination": "/cadastro.html"
+    },
+    {
+      "source": "/inicio",
+      "destination": "/index.html"
+    },
+    {
       "source": "/login",
       "destination": "/login.html"
     },
