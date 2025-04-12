@@ -40,10 +40,23 @@ window.onclick = function(event) {
 
 // Fechar o menu hambúrguer ao clicar em qualquer link
 menuLinks.forEach(link => {
-    link.addEventListener("click", function() {
-        menuToggle.checked = false; // Desmarca o checkbox, fechando o menu
+    link.addEventListener("click", function(event) {
+        const href = link.getAttribute("href");
+
+        // Se o link for âncora, rola até a seção correspondente
+        if (href.startsWith("#")) {
+            event.preventDefault(); // Impede o comportamento padrão
+            const target = document.querySelector(href);
+            if (target) {
+                target.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+
+        // Fecha o menu mesmo assim
+        menuToggle.checked = false;
     });
 });
+
 
 // Redirecionamento após envio 
 document.addEventListener('DOMContentLoaded', function() {
