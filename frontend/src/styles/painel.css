@@ -355,9 +355,10 @@ textarea {
     width: 90%;
     height: 60px;
     padding: 4px;
-    resize: none; /* impede redimensionamento, se quiser */
+    resize: none;
     overflow-wrap: break-word;
     word-break: break-word;
+    font-size: 15px;
 }
 
 button {
