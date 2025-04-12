@@ -15,7 +15,7 @@ module.exports = {
       const data = await fs.readFile(USERS_FILE, 'utf8');
       users = JSON.parse(data);
     } catch (err) {
-      // Arquivo não existe ou está vazio
+      console.error('Erro ao ler users.json:', err); // Debug
     }
 
     // Verificar se o usuário existe
@@ -37,7 +37,12 @@ module.exports = {
     users.push(newUser);
 
     // Salvar no arquivo
-    await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
+    try {
+      await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
+    } catch (err) {
+      console.error('Erro ao salvar users.json:', err); // Debug
+      throw new Error('Erro ao salvar usuário');
+    }
 
     // Gerar token JWT
     const token = jwt.sign({ id: newUser.id, email: newUser.email }, process.env.JWT_SECRET, {
