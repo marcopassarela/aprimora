@@ -1,49 +1,19 @@
-const fs = require('fs').promises;
-const path = require('path');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// Caminho absoluto
-const USERS_FILE = path.resolve(__dirname, '../../data/users.json');
+// Armazenamento em memória (temporário para testes)
+let users = [];
 
 module.exports = {
   register: async (req) => {
     const { email, password } = req.body;
 
     console.log('Tentativa de registro:', email);
-    console.log('Caminho do USERS_FILE:', USERS_FILE);
 
     // Validar entrada
     if (!email || !password) {
       console.error('Dados incompletos:', { email, password });
       throw new Error('Email e senha são obrigatórios');
-    }
-
-    // Criar diretório se não existir
-    const dir = path.dirname(USERS_FILE);
-    try {
-      await fs.mkdir(dir, { recursive: true });
-      console.log('Diretório criado ou já existe:', dir);
-    } catch (err) {
-      console.error('Erro ao criar diretório:', err.message);
-      throw new Error(`Erro ao preparar salvamento: ${err.message}`);
-    }
-
-    // Ler arquivo de usuários
-    let users = [];
-    try {
-      const data = await fs.readFile(USERS_FILE, 'utf8');
-      console.log('Conteúdo bruto de users.json:', data);
-      users = JSON.parse(data);
-      console.log('Arquivo users.json lido com sucesso, usuários:', users);
-    } catch (err) {
-      if (err.code === 'ENOENT') {
-        console.log('users.json não existe, inicializando como vazio');
-        users = [];
-      } else {
-        console.error('Erro ao ler users.json:', err.message);
-        throw new Error('Erro ao acessar dados de usuários');
-      }
     }
 
     // Verificar se o usuário existe
@@ -68,28 +38,7 @@ module.exports = {
     // Adicionar novo usuário
     const newUser = { id: users.length + 1, email, password: hashedPassword };
     users.push(newUser);
-    console.log('Novo usuário adicionado ao array:', newUser);
-
-    // Verificar permissões de escrita
-    try {
-      await fs.access(dir, fs.constants.W_OK);
-      console.log('Permissão de escrita confirmada para:', dir);
-    } catch (err) {
-      console.error('Sem permissão de escrita em:', dir, err.message);
-      throw new Error(`Sem permissão de escrita: ${err.message}`);
-    }
-
-    // Salvar no arquivo
-    try {
-      await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
-      console.log('Usuário salvo com sucesso em users.json:', email);
-      // Verificar se o arquivo foi realmente escrito
-      const savedData = await fs.readFile(USERS_FILE, 'utf8');
-      console.log('Conteúdo após salvamento:', savedData);
-    } catch (err) {
-      console.error('Erro detalhado ao salvar users.json:', err);
-      throw new Error(`Erro ao salvar usuário: ${err.message}`);
-    }
+    console.log('Novo usuário adicionado:', newUser);
 
     // Verificar JWT_SECRET
     if (!process.env.JWT_SECRET) {
@@ -110,24 +59,11 @@ module.exports = {
     const { email, password } = req.body;
 
     console.log('Tentativa de login:', email);
-    console.log('Caminho do USERS_FILE:', USERS_FILE);
 
     // Validar entrada
     if (!email || !password) {
       console.error('Dados incompletos:', { email, password });
       throw new Error('Email e senha são obrigatórios');
-    }
-
-    // Ler arquivo de usuários
-    let users = [];
-    try {
-      const data = await fs.readFile(USERS_FILE, 'utf8');
-      console.log('Conteúdo bruto de users.json:', data);
-      users = JSON.parse(data);
-      console.log('Arquivo users.json lido com sucesso, usuários:', users);
-    } catch (err) {
-      console.error('Erro ao ler users.json:', err.message);
-      throw new Error('Credenciais inválidas');
     }
 
     // Verificar usuário
