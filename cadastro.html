@@ -69,83 +69,85 @@
   <title>Cadastro</title>
 </head>
 <body>
-    <div id="container">
-        <div class="content">
-          <div id="cadastro">
-            <div id="form">
-              <form id="registerForm">
-                <h1 class="titleCadastro">Cadastrar</h1>
-                <p class="descriptionCadastro">Acesse a plataforma</p>
-                <input type="email" id="email" name="email" placeholder="E-mail" autocomplete="email" required>
-                <input type="password" id="password" name="password" placeholder="Senha" required>
-                <button type="submit" class="btnSubmit">Cadastrar</button>
-              </form>
-            </div>
-          </div>
+  <div id="container">
+    <div class="content">
+      <div id="cadastro">
+        <div id="form">
+          <form id="registerForm">
+            <h1 class="titleCadastro">Cadastrar</h1>
+            <p class="descriptionCadastro">Acesse a plataforma</p>
+            <input type="email" id="email" name="email" placeholder="E-mail" autocomplete="email" required>
+            <input type="password" id="password" name="password" placeholder="Senha" required>
+            <button type="submit" class="btnSubmit">Cadastrar</button>
+          </form>
         </div>
       </div>
-    
-      <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          const form = document.getElementById('registerForm');
-          if (!form) {
-            console.error('Erro: Elemento com id="registerForm" não encontrado');
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('registerForm');
+      if (!form) {
+        console.error('Erro: Elemento com id="registerForm" não encontrado');
+        return;
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        console.log('Formulário submetido');
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        console.log('Dados do formulário:', { email, password });
+
+        if (!email.includes('@')) {
+          console.log('Validação falhou: Email inválido');
+          alert('Email inválido');
+          return;
+        }
+        if (password.length < 6) {
+          console.log('Validação falhou: Senha curta');
+          alert('A senha deve ter pelo menos 6 caracteres');
+          return;
+        }
+
+        console.log('Enviando requisição para /api/auth/register', { email });
+        try {
+          const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+          });
+
+          console.log('Resposta recebida:', response.status, response.statusText);
+          const text = await response.text();
+          console.log('Conteúdo bruto da resposta:', text);
+
+          let data;
+          try {
+            data = JSON.parse(text);
+          } catch (err) {
+            console.error('Erro ao parsear JSON:', err, 'Resposta:', text);
+            alert('Erro ao cadastrar: Resposta inválida do servidor');
             return;
           }
-    
-          form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            console.log('Formulário submetido');
-    
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-    
-            if (!email.includes('@')) {
-              alert('Email inválido');
-              console.log('Validação falhou: Email inválido');
-              return;
-            }
-            if (password.length < 6) {
-              alert('A senha deve ter pelo menos 6 caracteres');
-              console.log('Validação falhou: Senha curta');
-              return;
-            }
-    
-            console.log('Enviando requisição para /api/auth/register', { email });
-            try {
-              const response = await fetch('/api/auth/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
-              });
-    
-              console.log('Resposta recebida:', response.status, response.statusText);
-              const text = await response.text();
-              console.log('Conteúdo bruto da resposta:', text);
-    
-              let data;
-              try {
-                data = JSON.parse(text);
-              } catch (err) {
-                console.error('Erro ao parsear JSON:', err, 'Resposta:', text);
-                alert('Erro ao cadastrar: Resposta inválida do servidor');
-                return;
-              }
-    
-              if (response.ok) {
-                console.log('Cadastro bem-sucedido, token:', data.token);
-                localStorage.setItem('token', data.token);
-                window.location.href = '/painel.html';
-              } else {
-                console.error('Erro na API:', data.message);
-                alert(data.message || 'Erro ao cadastrar');
-              }
-            } catch (err) {
-              console.error('Erro na requisição:', err);
-              alert('Erro ao cadastrar: ' + err.message);
-            }
-          });
-        });
-      </script>
+
+          if (response.ok) {
+            console.log('Cadastro bem-sucedido, token:', data.token);
+            localStorage.setItem('token', data.token);
+            window.location.href = '/painel.html';
+          } else {
+            console.error('Erro na API:', data.message);
+            alert(data.message || 'Erro ao cadastrar');
+          }
+        } catch (err) {
+          console.error('Erro na requisição:', err.message);
+          alert('Erro ao cadastrar: ' + err.message);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
