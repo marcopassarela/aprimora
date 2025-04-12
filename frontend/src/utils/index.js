@@ -46,8 +46,6 @@ menuLinks.forEach(link => {
     });
 });
 
-
-
 // Redirecionamento após envio 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('#form form'); // Seleciona o formulário
