@@ -117,7 +117,7 @@
           if (response.ok) {
             console.log('Cadastro bem-sucedido, token:', data.token);
             localStorage.setItem('token', data.token);
-            window.location.href = '/painel.html';
+            window.location.href = '/login.html';
           } else {
             console.error('Erro na API:', data.message);
             alert(data.message || 'Erro ao cadastrar');
