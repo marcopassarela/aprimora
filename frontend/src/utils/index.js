@@ -43,10 +43,12 @@ menuLinks.forEach(link => {
     link.addEventListener("click", function(event) {
         const href = link.getAttribute("href");
 
-        // Fecha o menu antes de tudo
-        menuToggle.checked = false;
+        // Fecha o menu sempre
+        if (menuToggle && menuToggle.checked) {
+            menuToggle.checked = false;
+        }
 
-        // Se for link interno (ancora), impede comportamento padrão e faz scroll
+        // Se for link interno (âncora), faz scroll suave
         if (href.startsWith("#")) {
             event.preventDefault();
             const target = document.querySelector(href);
@@ -56,6 +58,7 @@ menuLinks.forEach(link => {
         }
     });
 });
+
 
 // Redirecionamento após envio 
 document.addEventListener('DOMContentLoaded', function() {
