@@ -62,7 +62,7 @@
     </header>
 
 
-    <form action="">
+    <form action="loginForm">
         <div id="container">
             <div id="login" class="animated">
                 <h1 class="titleLogin">Login - Acesse a plataforma</h1>
@@ -73,6 +73,32 @@
             </div>
         </div>
     </form>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const email = document.getElementById('email').value;
+          const password = document.getElementById('password').value;
+    
+          try {
+            const response = await fetch('/api/auth/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, password }),
+            });
+    
+            const data = await response.json();
+            if (response.ok) {
+              localStorage.setItem('token', data.token);
+              window.location.href = '/painel.html';
+            } else {
+              alert(data.message);
+            }
+          } catch (err) {
+            alert('Erro ao fazer login');
+          }
+        });
+      </script>
 
 <script src="/frontend/src/utils/index.js"></script>
 </body>

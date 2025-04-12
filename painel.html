@@ -336,22 +336,46 @@
           <button onclick="salvarDados()">Gravar</button>
     </div>
 
-      <script>
-        // Carrega os dados salvos, se houver
-        window.onload = function() {
-          const dadosSalvos = JSON.parse(localStorage.getItem('horarios'));
-          if (dadosSalvos) {
-            const inputs = document.querySelectorAll('tbody input');
-            inputs.forEach((input, index) => {
-              input.value = dadosSalvos[index] || '';
+    <script>
+        // Verifica se o usuário está autenticado
+        window.onload = async function () {
+          const token = localStorage.getItem('token');
+          if (!token) {
+            window.location.href = '/login.html';
+            return;
+          }
+      
+          try {
+            const response = await fetch('/painel.html', {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
             });
+      
+            if (!response.ok) {
+              localStorage.removeItem('token');
+              window.location.href = '/login.html';
+              return;
+            }
+      
+            // Carrega os dados salvos no localStorage
+            const dadosSalvos = JSON.parse(localStorage.getItem('horarios'));
+            if (dadosSalvos) {
+              const inputs = document.querySelectorAll('tbody textarea');
+              inputs.forEach((input, index) => {
+                input.value = dadosSalvos[index] || '';
+              });
+            }
+          } catch (err) {
+            localStorage.removeItem('token');
+            window.location.href = '/login.html';
           }
         };
       
         // Salva os dados no localStorage
         function salvarDados() {
-          const inputs = document.querySelectorAll('tbody input');
-          const valores = Array.from(inputs).map(input => input.value);
+          const inputs = document.querySelectorAll('tbody textarea');
+          const valores = Array.from(inputs).map((input) => input.value);
           localStorage.setItem('horarios', JSON.stringify(valores));
           alert('Dados salvos com sucesso!');
         }
