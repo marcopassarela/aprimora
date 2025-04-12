@@ -347,10 +347,11 @@ table {
     width: 90%;
 }
 th, td {
-    padding: 8px;
+    padding: 6px;
     border: 1px solid #ccc;
     text-align: center;
 }
+
 textarea {
     width: 90%;
     height: 60px;
@@ -359,6 +360,7 @@ textarea {
     overflow-wrap: break-word;
     word-break: break-word;
     font-size: 16px;
+    outline: none;
 }
 
 button {
@@ -371,6 +373,7 @@ button {
     color: white;
     font-family: "Poppins", sans-serif;
     font-size: 16px;
+    margin-bottom: 15px;
 }
 .input-wrapper {
     font-size: 14px;
