@@ -23,14 +23,18 @@ const closeModal = document.getElementById("closeModal");
 const menuToggle = document.getElementById("menu-toggle");
 const menuLinks = document.querySelectorAll("#menu ul li a");
 
-openModal.onclick = function(event) {
-    event.preventDefault();
-    modal.style.display = "block";
-};
+if (openModal) {
+    openModal.onclick = function(event) {
+        event.preventDefault();
+        modal.style.display = "block";
+    };
+}
 
-closeModal.onclick = function() {
-    modal.style.display = "none";
-};
+if (closeModal) {
+    closeModal.onclick = function() {
+        modal.style.display = "none";
+    };
+}
 
 window.onclick = function(event) {
     if (event.target === modal) {
@@ -45,7 +49,7 @@ menuLinks.forEach(link => {
 
         // Fecha o menu sempre, se estiver aberto
         if (menuToggle && menuToggle.checked) {
-            menuToggle.checked = false;
+            menuToggle.checked = false; // Desmarca o checkbox para fechar o menu
         }
 
         // Se for link interno (âncora), faz scroll suave
@@ -67,32 +71,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const loadingMessage = form.querySelector('#loading'); // Mensagem de carregamento
     const thankYouMessage = form.querySelector('#thankYouMessage'); // Mensagem de agradecimento
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();  // Impede o envio imediato do formulário
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();  // Impede o envio imediato do formulário
 
-        // Exibe o loading e esconde o botão de envio
-        submitButton.style.display = 'none';
-        loadingMessage.style.display = 'block';
-        loadingMessage.style.fontSize = '15px';
+            // Exibe o loading e esconde o botão de envio
+            submitButton.style.display = 'none';
+            loadingMessage.style.display = 'block';
+            loadingMessage.style.fontSize = '15px';
 
-        // Simula um tempo de espera (3 segundos) para demonstrar a troca de mensagens
-        setTimeout(function() {
-            loadingMessage.style.display = 'none';  // Esconde a mensagem de "Processando..."
-            
-            // Exibe a mensagem de "Obrigado" e define o tamanho da fonte
-            thankYouMessage.style.display = 'block';
-            thankYouMessage.style.fontSize = '15px';
-
-            // Após 4 segundos, volta ao estado normal
+            // Simula um tempo de espera (3 segundos) para demonstrar a troca de mensagens
             setTimeout(function() {
-                thankYouMessage.style.display = 'none';  // Esconde a mensagem de "Obrigado"
-                submitButton.style.display = 'inline-block';  // Exibe o botão novamente
-            }, 4000);  // Fica exposta por 4 segundos
-        }, 3000);  // Aguarda 3 segundos para simular o processamento
+                loadingMessage.style.display = 'none';  // Esconde a mensagem de "Processando..."
+                
+                // Exibe a mensagem de "Obrigado" e define o tamanho da fonte
+                thankYouMessage.style.display = 'block';
+                thankYouMessage.style.fontSize = '15px';
 
-        // Envia o formulário real para o FormSubmit após a simulação
-        setTimeout(function() {
-            form.submit();  // Envia o formulário
-        }, 3000);  // Envia o formulário após 3 segundos
-    });
+                // Após 4 segundos, volta ao estado normal
+                setTimeout(function() {
+                    thankYouMessage.style.display = 'none';  // Esconde a mensagem de "Obrigado"
+                    submitButton.style.display = 'inline-block';  // Exibe o botão novamente
+                }, 4000);  // Fica exposta por 4 segundos
+            }, 3000);  // Aguarda 3 segundos para simular o processamento
+
+            // Envia o formulário real para o FormSubmit após a simulação
+            setTimeout(function() {
+                form.submit();  // Envia o formulário
+            }, 3000);  // Envia o formulário após 3 segundos
+        });
+    }
 });
