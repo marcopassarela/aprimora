@@ -1,31 +1,42 @@
 {
   "version": 2,
-  "routes": [
-    {
-      "src": "/api/auth/register",
-      "methods": ["POST"],
-      "dest": "/api/auth/register.js"
-    },
-    {
-      "src": "/api/auth/login",
-      "methods": ["POST"],
-      "dest": "/api/auth/login.js"
-    },
-    {
-      "src": "/painel.html",
-      "dest": "/api/painel.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
   "rewrites": [
-    { "source": "/cadastro", "destination": "/cadastro.html" },
-    { "source": "/login", "destination": "/login.html" },
-    { "source": "/intl-:lang*", "destination": "/index.html" },
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/index", "destination": "/index.html" }
+    {
+      "source": "/api/auth/register",
+      "destination": "/api/auth/register.js"
+    },
+    {
+      "source": "/api/auth/login",
+      "destination": "/api/auth/login.js"
+    },
+    {
+      "source": "/painel.html",
+      "destination": "/api/painel.js"
+    },
+    {
+      "source": "/cadastro",
+      "destination": "/cadastro.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/login.html"
+    },
+    {
+      "source": "/intl-:lang*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/index",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/$1"
+    }
   ],
   "env": {
     "JWT_SECRET": "@JWT_SECRET"
