@@ -30,89 +30,88 @@
           </div>
     </header>
 
-    <form id="cadastroForm">
-      <div id="container">
-        <div id="cadastro" class="animated">
-            <h1 class="titleCadastro">Cadastro - Crie sua conta</h1>
-            <p class="descriptionCadastro">Acesso para Escolas e Pais</p>
-            <form id="cadastroForm">
-                <input type="email" id="email" name="email" placeholder="E-mail" autocomplete="email" required>
-                <input type="password" id="password" name="senha" placeholder="Senha" required>
-                <button type="submit" class="btnSubmit">Cadastrar</button>
-            </form>
-        </div>
-    </div>
+    <div id="container">
+      <div id="cadastro" class="animated">
+          <h1 class="titleCadastro">Cadastro - Crie sua conta</h1>
+          <p class="descriptionCadastro">Acesso para Escolas e Pais</p>
+          <form id="cadastroForm">
+              <input type="email" id="email" name="email" placeholder="E-mail" autocomplete="email" required>
+              <input type="password" id="password" name="senha" placeholder="Senha" required>
+              <button type="submit" class="btnSubmit">Cadastrar</button>
+          </form>
+      </div>
+  </div>
 
-    <div id="cadastroModal" class="modal">
-        <div class="modal-content">
-            <h2 id="modalTitle">Cadastro</h2>
-            <p id="modalMessage">Aguarde...</p>
-            <button onclick="closeModal()">Fechar</button>
-        </div>
-    </div>
+  <div id="cadastroModal" class="modal">
+      <div class="modal-content">
+          <h2 id="modalTitle">Cadastro</h2>
+          <p id="modalMessage">Aguarde...</p>
+          <button onclick="closeCadastroModal()">Fechar</button>
+      </div>
+  </div>
 
-    <script>
-        console.log('Carregando cadastro.html');
+  <script>
+      console.log('Carregando cadastro.html');
 
-        function openModal(title, message) {
-            console.log('Abrindo modal:', { title, message });
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalMessage').textContent = message;
-            document.getElementById('cadastroModal').style.display = 'block';
-        }
+      function openCadastroModal(title, message) {
+          console.log('Abrindo modal:', { title, message });
+          document.getElementById('modalTitle').textContent = title;
+          document.getElementById('modalMessage').textContent = message;
+          document.getElementById('cadastroModal').style.display = 'block';
+      }
 
-        function closeModal() {
-            console.log('Fechando modal');
-            document.getElementById('cadastroModal').style.display = 'none';
-        }
+      function closeCadastroModal() {
+          console.log('Fechando modal');
+          document.getElementById('cadastroModal').style.display = 'none';
+      }
 
-        window.onclick = function(event) {
-            if (event.target === document.getElementById('cadastroModal')) {
-                closeModal();
-            }
-        };
+      window.onclick = function(event) {
+          if (event.target === document.getElementById('cadastroModal')) {
+              closeCadastroModal();
+          }
+      };
 
-        const form = document.getElementById('cadastroForm');
-        if (!form) {
-            console.error('Formulário não encontrado');
-        } else {
-            console.log('Formulário encontrado');
-            form.addEventListener('submit', async (event) => {
-                event.preventDefault();
-                console.log('Submit disparado');
+      const form = document.getElementById('cadastroForm');
+      if (!form) {
+          console.error('Formulário não encontrado');
+      } else {
+          console.log('Formulário encontrado');
+          form.addEventListener('submit', async (event) => {
+              event.preventDefault();
+              console.log('Submit disparado');
 
-                const email = document.getElementById('email').value;
-                const senha = document.getElementById('senha').value;
-                console.log('Dados:', { email, senha });
+              const email = document.getElementById('email').value;
+              const senha = document.getElementById('senha').value;
+              console.log('Dados:', { email, senha });
 
-                try {
-                    console.log('Enviando POST /api/auth/register');
-                    const response = await fetch('/api/auth/register', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email, senha })
-                    });
+              try {
+                  console.log('Enviando POST /api/auth/register');
+                  const response = await fetch('/api/auth/register', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ email, senha })
+                  });
 
-                    console.log('Resposta:', response.status);
-                    const data = await response.json();
-                    console.log('Dados recebidos:', data);
+                  console.log('Resposta:', response.status);
+                  const data = await response.json();
+                  console.log('Dados recebidos:', data);
 
-                    if (response.ok) {
-                        localStorage.setItem('token', data.token);
-                        openModal('Sucesso', 'Cadastro realizado com sucesso!');
-                        setTimeout(() => {
-                            console.log('Redirecionando para /login.html');
-                            window.location.href = '/login.html';
-                        }, 2000);
-                    } else {
-                        openModal('Erro', data.error || 'Erro ao cadastrar');
-                    }
-                } catch (error) {
-                    console.error('Erro no cadastro:', error);
-                    openModal('Erro', 'Erro ao conectar com o servidor');
-                }
-            });
-        }
-    </script>
+                  if (response.ok) {
+                      localStorage.setItem('token', data.token);
+                      openCadastroModal('Sucesso', 'Cadastro realizado com sucesso!');
+                      setTimeout(() => {
+                          console.log('Redirecionando para /login.html');
+                          window.location.href = '/login.html';
+                      }, 2000);
+                  } else {
+                      openCadastroModal('Erro', data.error || 'Erro ao cadastrar');
+                  }
+              } catch (error) {
+                  console.error('Erro no cadastro:', error);
+                  openCadastroModal('Erro', 'Erro ao conectar com o servidor');
+              }
+          });
+      }
+  </script>
 </body>
 </html>
