@@ -30,108 +30,110 @@
           </div>
     </header>
 
-  <div id="container" class="animated">
-    <div class="content">
-      <div class="img animated">
-        <img src="/frontend/src/assets/aprimora.png" alt="capa">
+    <form id="cadastroForm">
+      <div id="container">
+          <div id="cadastro" class="animated">
+              <h1 class="titleCadastro">Cadastro - Crie sua conta</h1>
+              <p class="descriptionCadastro">Acesso para Escolas e Pais</p>
+              <input type="email" id="email" name="email" placeholder="E-mail" autocomplete="email" required>
+              <input type="password" id="senha" name="senha" placeholder="Senha" required>
+              <button type="submit" class="btnSubmit">Cadastrar</button>
+          </div>
       </div>
-      <div id="seta" class="animated">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M6 9L12 15L18 9" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+  </form>
+
+  <div id="cadastroModal" class="modal">
+      <div class="modal-content">
+          <h2 id="modalTitle">Cadastro</h2>
+          <p id="modalMessage">Aguarde...</p>
+          <button onclick="closeModal()">Fechar</button>
       </div>
-      <div id="cadastro" class="animated">
-        <div id="form">
-          <form id="registerForm">
-            <h1 class="titleCadastro">Cadastrar</h1>
-            <p class="descriptionCadastro">Acesse a plataforma</p>
-            <input type="email" id="email" name="email" placeholder="E-mail" autocomplete="email" required>
-            <input type="password" id="password" name="password" placeholder="Senha" required>
-            <button type="submit" id="submitButton" class="btnSubmit">Cadastrar</button>
-          </form>
-        </div>
-      </div>
-    </div>
   </div>
 
   <script>
-    console.log('Script de cadastro.html carregado');
-    document.addEventListener('DOMContentLoaded', () => {
-      console.log('DOM completamente carregado');
+      console.log('Script de cadastro.html carregado');
 
-      const form = document.getElementById('registerForm');
-      const submitButton = document.getElementById('submitButton');
-
-      if (!form) {
-        console.error('Erro: Formulário com id="registerForm" não encontrado');
-        return;
-      }
-      if (!submitButton) {
-        console.error('Erro: Botão com id="submitButton" não encontrado');
-        return;
+      function openModal(title, message) {
+          const modal = document.getElementById('cadastroModal');
+          const modalTitle = document.getElementById('modalTitle');
+          const modalMessage = document.getElementById('modalMessage');
+          modalTitle.textContent = title;
+          modalMessage.textContent = message;
+          modal.style.display = 'block';
       }
 
-      console.log('Formulário e botão encontrados');
+      function closeModal() {
+          const modal = document.getElementById('cadastroModal');
+          modal.style.display = 'none';
+      }
 
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        console.log('Evento de submit disparado');
-
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        console.log('Dados do formulário:', { email, password });
-
-        if (!email.includes('@')) {
-          console.log('Validação falhou: Email inválido');
-          alert('Email inválido');
-          return;
-        }
-        if (password.length < 6) {
-          console.log('Validação falhou: Senha curta');
-          alert('A senha deve ter pelo menos 6 caracteres');
-          return;
-        }
-
-        console.log('Enviando requisição para /api/auth/register', { email });
-        try {
-          const response = await fetch('/api/auth/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-          });
-
-          console.log('Resposta recebida:', response.status, response.statusText);
-          const text = await response.text();
-          console.log('Conteúdo bruto da resposta:', text);
-
-          let data;
-          try {
-            data = JSON.parse(text);
-          } catch (err) {
-            console.error('Erro ao parsear JSON:', err.message, 'Resposta:', text);
-            alert('Erro ao cadastrar: Resposta inválida do servidor');
-            return;
+      window.onclick = function(event) {
+          const modal = document.getElementById('cadastroModal');
+          if (event.target === modal) {
+              modal.style.display = 'none';
           }
+      };
 
-          if (response.ok) {
-            console.log('Cadastro bem-sucedido, token:', data.token);
-            localStorage.setItem('token', data.token);
-            window.location.href = '/login.html';
+      document.addEventListener('DOMContentLoaded', () => {
+          console.log('DOM completamente carregado');
+          const form = document.getElementById('cadastroForm');
+          const button = form.querySelector('.btnSubmit');
+
+          if (form && button) {
+              console.log('Formulário e botão encontrados');
+
+              button.addEventListener('click', () => {
+                  console.log('Botão Cadastrar clicado');
+              });
+
+              form.addEventListener('submit', async (e) => {
+                  e.preventDefault();
+                  console.log('Evento de submit disparado');
+
+                  const email = document.getElementById('email').value;
+                  const senha = document.getElementById('senha').value;
+                  console.log('Dados do formulário:', { email, senha });
+
+                  try {
+                      console.log('Enviando requisição para /api/auth/register', { email });
+                      const response = await fetch('/api/auth/register', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ email, senha })
+                      });
+
+                      console.log('Resposta recebida:', response.status);
+
+                      let data;
+                      try {
+                          data = await response.json();
+                      } catch (jsonError) {
+                          console.error('Erro ao parsear JSON:', jsonError);
+                          const text = await response.text();
+                          console.log('Resposta bruta:', text);
+                          throw new Error(`Resposta inválida do servidor: ${text}`);
+                      }
+
+                      if (response.ok) {
+                          console.log('Dados da resposta:', data);
+                          localStorage.setItem('token', data.token);
+                          openModal('Sucesso', 'Cadastro realizado com sucesso!');
+                          setTimeout(() => {
+                              window.location.href = '/login.html';
+                          }, 2000);
+                      } else {
+                          console.log('Erro na resposta:', data);
+                          throw new Error(data.error || 'Erro desconhecido no servidor');
+                      }
+                  } catch (error) {
+                      console.error('Erro no cadastro:', error);
+                      openModal('Erro', error.message || 'Erro ao cadastrar. Tente novamente.');
+                  }
+              });
           } else {
-            console.error('Erro na API:', data.message);
-            alert(data.message || 'Erro ao cadastrar');
+              console.error('Formulário ou botão não encontrados');
           }
-        } catch (err) {
-          console.error('Erro na requisição:', err.message);
-          alert('Erro ao cadastrar: ' + err.message);
-        }
       });
-
-      submitButton.addEventListener('click', () => {
-        console.log('Botão Cadastrar clicado');
-      });
-    });
   </script>
 
 <script src="/frontend/src/utils/index.js"></script>

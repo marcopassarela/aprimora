@@ -414,6 +414,19 @@ header {
 }
 
 
+#container { text-align: center; padding: 20px; }
+        .animated { animation: fadeIn 1s; }
+        .titleCadastro { font-size: 24px; margin-bottom: 10px; }
+        .descriptionCadastro { font-size: 16px; color: #555; margin-bottom: 20px; }
+        input { display: block; margin: 10px auto; padding: 10px; width: 250px; }
+        .btnSubmit { background-color: #007bff; color: white; padding: 10px 20px; border: none; cursor: pointer; }
+        .btnSubmit:hover { background-color: #0056b3; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+        .modal-content { background-color: white; margin: 15% auto; padding: 20px; width: 300px; text-align: center; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+
+
 
 @media screen and (min-width:320px) and (max-width: 480px) {
     header {
