@@ -1,161 +1,113 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/frontend/src/styles/login.css">
-    <title>Aprimora</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Sora:wght@100..800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/frontend/src/styles/login.css" />
+  <title>Aprimora</title>
 </head>
 <body>
-    <header>
-        <a href="/" class="title animated" data-i18n="title">Aprimora</a>
-        <div id="menu">
-            <input type="checkbox" id="menu-toggle" class="menu-toggle">
-            <label for="menu-toggle" class="hamburger animated">
-                <span class="bar top"></span>
-                <span class="bar middle"></span>
-                <span class="bar bottom"></span>
-            </label>
-            <ul class="animated">
-                <li><a href="/" data-i18n="home" class="home">Inicio</a></li>
-                <li><a href="#paraEscola" data-i18n="about" class="about">Sobre</a></li>
-                <li><a href="#form" data-i18n="contact" class="contact">Contato</a></li>
-                <li><a href="/cadastro" data-i18n="register" class="register">Cadastrar</a></li>
-                <li><a href="/login" data-i18n="login" class="login">Login</a></li>
-            </ul>
-        </div>
+  <header>
+    <a href="/" class="title animated" data-i18n="title">Aprimora</a>
+    <div id="menu">
+      <input type="checkbox" id="menu-toggle" class="menu-toggle" />
+      <label for="menu-toggle" class="hamburger animated">
+        <span class="bar top"></span>
+        <span class="bar middle"></span>
+        <span class="bar bottom"></span>
+      </label>
+      <ul class="animated">
+        <li><a href="/" data-i18n="home" class="home">Inicio</a></li>
+        <li><a href="#paraEscola" data-i18n="about" class="about">Sobre</a></li>
+        <li><a href="#form" data-i18n="contact" class="contact">Contato</a></li>
+        <li><a href="/cadastro" data-i18n="register" class="register">Cadastrar</a></li>
+        <li><a href="/login" data-i18n="login" class="login">Login</a></li>
+      </ul>
+    </div>
 
-        <!-- Modal -->
-        <div id="languageModal" class="modal">
-            <div class="modal-content">
-                <span class="close" id="closeModal">×</span>
-                <h2>Escolha o Idioma</h2>
-                <p>Essa configuração atualiza o que você lê.</p>
-                <div class="language-grid">
-                    <ul>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('pt-BR')"><span class="preview">Português</span><span class="variant">Brasil</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('pt-PT')"><span class="preview">Português</span><span class="variant">Portugal</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('es')"><span class="preview">Español</span><span class="variant">Espanhol</span></a></li>
-                    </ul>
-                    <ul>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('en')"><span class="preview">English</span><span class="variant">Inglês</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('it')"><span class="preview">Italian</span><span class="variant">Italiano</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('fr')"><span class="preview">Français</span><span class="variant">Francês</span></a></li>
-                    </ul>
-                    <ul>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-MA')"><span class="preview">العربية</span><span class="variant">Árabe (Marrocos)</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-SA')"><span class="preview">العربية</span><span class="variant">Árabe (Arábia Saudita)</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-EG')"><span class="preview">العربية</span><span class="variant">Árabe (Egípcio)</span></a></li>
-                    </ul>
-                    <ul>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ja')"><span class="preview">日本語</span><span class="variant">Japonês</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('zh')"><span class="preview">中文</span><span class="variant">Chinês</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ru')"><span class="preview">Русский</span><span class="variant">Russo</span></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </header>
+    <!-- Modal -->
+    <div id="loginModal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span class="close" id="closeModal">×</span>
+        <h2 id="modalTitle"></h2>
+        <p id="modalMessage"></p>
+      </div>
+    </div>
+  </header>
 
+  <form id="loginForm">
+    <div id="container">
+      <div id="login" class="animated">
+        <h1 class="titleLogin">Login - Acesse a plataforma</h1>
+        <p class="descriptionLogin">Acesso para Escolas e Pais</p>
+        <input type="email" id="email" name="email" placeholder="E-mail" autocomplete="email" required />
+        <input type="password" id="senha" name="senha" placeholder="Senha" required />
+        <button type="submit" class="btnSubmit">Entrar</button>
+      </div>
+    </div>
+  </form>
 
-    <form action="/api/auth/login" method="POST">
-        <div id="container">
-            <div id="login" class="animated">
-                <h1 class="titleLogin">Login - Acesse a plataforma</h1>
-                <p class="descriptionLogin">Acesso para Escolas e Pais</p>
-                <input type="email" id="email" name="email" placeholder="E-mail" autocomplete="email" required>
-                <input type="password" id="senha" name="senha" placeholder="Senha" required>
-                <button type="submit" class="btnSubmit">Entrar</button>
-            </div>
-        </div>
-    </form>
-
-    <script>
-        console.log('Script de cadastro.html carregado');
-
-// Funções do modal
-function openModal(title, message) {
-    const modal = document.getElementById('cadastroModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalMessage = document.getElementById('modalMessage');
-    modalTitle.textContent = title;
-    modalMessage.textContent = message;
-    modal.style.display = 'block';
-}
-
-function closeModal() {
-    const modal = document.getElementById('cadastroModal');
-    modal.style.display = 'none';
-}
-
-// Fechar modal ao clicar fora
-window.onclick = function(event) {
-    const modal = document.getElementById('cadastroModal');
-    if (event.target === modal) {
-        modal.style.display = 'none';
+  <script>
+    // Modal
+    function openModal(title, message) {
+      const modal = document.getElementById('loginModal');
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalMessage').textContent = message;
+      modal.style.display = 'block';
     }
-};
 
-// Manipular formulário
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM completamente carregado');
-    const form = document.getElementById('cadastroForm');
-    const button = form.querySelector('.btnSubmit');
-
-    if (form && button) {
-        console.log('Formulário e botão encontrados');
-
-        button.addEventListener('click', () => {
-            console.log('Botão Cadastrar clicado');
-        });
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            console.log('Evento de submit disparado');
-
-            const email = document.getElementById('email').value;
-            const senha = document.getElementById('senha').value;
-            console.log('Dados do formulário:', { email, senha });
-
-            try {
-                console.log('Enviando requisição para /api/auth/register', { email });
-                const response = await fetch('/api/auth/register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, senha })
-                });
-
-                console.log('Resposta recebida:', response.status);
-
-                if (!response.ok) {
-                    const text = await response.text();
-                    console.log('Conteúdo bruto da resposta:', text);
-                    throw new Error(`Erro ${response.status}: ${text}`);
-                }
-
-                const data = await response.json();
-                console.log('Dados da resposta:', data);
-
-                // Armazenar token
-                localStorage.setItem('token', data.token);
-                openModal('Sucesso', 'Cadastro realizado com sucesso!');
-                setTimeout(() => {
-                    window.location.href = '/login.html';
-                }, 2000);
-            } catch (error) {
-                console.error('Erro no cadastro:', error);
-                openModal('Erro', error.message || 'Erro ao cadastrar. Tente novamente.');
-            }
-        });
-    } else {
-        console.error('Formulário ou botão não encontrados');
+    function closeModal() {
+      document.getElementById('loginModal').style.display = 'none';
     }
-});
-</script>
 
-<script src="/frontend/src/utils/index.js"></script>
+    window.onclick = function (event) {
+      const modal = document.getElementById('loginModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    };
+
+    document.getElementById('closeModal').onclick = closeModal;
+
+    // Login
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('loginForm');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const senha = document.getElementById('senha').value;
+
+        try {
+          const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, senha })
+          });
+
+          if (!response.ok) {
+            const text = await response.text();
+            throw new Error(`Erro ${response.status}: ${text}`);
+          }
+
+          const data = await response.json();
+          localStorage.setItem('token', data.token);
+          openModal('Sucesso', 'Login realizado com sucesso!');
+
+          setTimeout(() => {
+            window.location.href = '/dashboard'; // Altere para o destino correto
+          }, 2000);
+        } catch (error) {
+          openModal('Erro', error.message || 'Erro ao fazer login.');
+        }
+      });
+    });
+  </script>
+
+  <script src="/frontend/src/utils/index.js"></script>
 </body>
 </html>
