@@ -5,13 +5,12 @@ const fs = require('fs').promises;
 const path = require('path');
 const router = express.Router();
 
-// Usar /tmp no Vercel, fallback para backend/data/users.json localmente
-const isVercel = process.env.VERCEL;
-const usersFile = isVercel
+// Usar /tmp/users.json no Vercel, backend/data/users.json localmente
+const usersFile = process.env.VERCEL
   ? '/tmp/users.json'
   : path.join(__dirname, '../backend/data/users.json');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'sua-chave-secreta-temporaria';
+const JWT_SECRET = process.env.JWT_SECRET || '123';
 
 // Função para ler users.json
 const readUsers = async () => {
@@ -20,10 +19,11 @@ const readUsers = async () => {
     return JSON.parse(data);
   } catch (error) {
     if (error.code === 'ENOENT') {
+      console.log(`Arquivo ${usersFile} não encontrado, criando novo`);
       await fs.writeFile(usersFile, '[]');
       return [];
     }
-    console.error('Erro ao ler users.json:', error);
+    console.error(`Erro ao ler ${usersFile}:`, error);
     throw error;
   }
 };
@@ -32,8 +32,9 @@ const readUsers = async () => {
 const writeUsers = async (users) => {
   try {
     await fs.writeFile(usersFile, JSON.stringify(users, null, 2));
+    console.log(`Escrita bem-sucedida em ${usersFile}`);
   } catch (error) {
-    console.error('Erro ao escrever em users.json:', error);
+    console.error(`Erro ao escrever em ${usersFile}:`, error);
     throw error;
   }
 };
@@ -45,11 +46,13 @@ router.post('/cadastrar', async (req, res) => {
     console.log('Cadastro recebido:', { username, password: '[HIDDEN]' });
 
     if (!username || !password) {
+      console.log('Campos faltando:', { username, password });
       return res.status(400).json({ error: 'Preencha todos os campos' });
     }
 
     const users = await readUsers();
     if (users.find((user) => user.username === username)) {
+      console.log('Usuário já existe:', username);
       return res.status(400).json({ error: 'Usuário já existe' });
     }
 
@@ -73,6 +76,7 @@ router.post('/login', async (req, res) => {
     console.log('Login recebido:', { username, password: '[HIDDEN]' });
 
     if (!username || !password) {
+      console.log('Campos faltando:', { username, password });
       return res.status(400).json({ error: 'Preencha todos os campos' });
     }
 
@@ -91,7 +95,7 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '1h' });
-    console.log('Token gerado:', token);
+    console.log('Token gerado para:', username);
     res.json({ token, redirect: '/painel.html' });
   } catch (error) {
     console.error('Erro no login:', error);
