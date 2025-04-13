@@ -5,7 +5,12 @@ const fs = require('fs').promises;
 const path = require('path');
 const router = express.Router();
 
-const usersFile = path.join(__dirname, '../backend/data/users.json');
+// Usar /tmp no Vercel, fallback para backend/data/users.json localmente
+const isVercel = process.env.VERCEL;
+const usersFile = isVercel
+  ? '/tmp/users.json'
+  : path.join(__dirname, '../backend/data/users.json');
+
 const JWT_SECRET = process.env.JWT_SECRET || 'sua-chave-secreta-temporaria';
 
 // Função para ler users.json
@@ -68,7 +73,6 @@ router.post('/login', async (req, res) => {
     console.log('Login recebido:', { username, password: '[HIDDEN]' });
 
     if (!username || !password) {
-      console.log('Campos faltando:', { username, password });
       return res.status(400).json({ error: 'Preencha todos os campos' });
     }
 
