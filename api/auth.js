@@ -1,46 +1,27 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const fs = require('fs').promises;
-const path = require('path');
+const { Pool } = require('pg');
 const router = express.Router();
-
-// Usar /tmp/users.json no Vercel, backend/data/users.json localmente
-const usersFile = process.env.VERCEL
-  ? '/tmp/users.json'
-  : path.join(__dirname, '../backend/data/users.json');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'sua-chave-secreta-muito-longa-e-unica';
 
-// Função para ler users.json
-const readUsers = async () => {
-  try {
-    const data = await fs.readFile(usersFile, 'utf-8');
-    const users = JSON.parse(data);
-    console.log(`[READ] ${usersFile}:`, { users, count: users.length, raw: data });
-    return users;
-  } catch (error) {
-    if (error.code === 'ENOENT') {
-      console.log(`[READ] ${usersFile} não encontrado, criando novo`);
-      await fs.writeFile(usersFile, '[]');
-      return [];
-    }
-    console.error(`[READ] Erro ao ler ${usersFile}:`, error);
-    throw new Error('Falha ao ler o arquivo de usuários');
-  }
-};
+// Conexão com Aiven PostgreSQL
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.VERCEL
+    ? { rejectUnauthorized: true }
+    : { rejectUnauthorized: false }, // Ignora erro de certificado localmente
+});
 
-// Função para escrever em users.json
-const writeUsers = async (users) => {
-  try {
-    const data = JSON.stringify(users, null, 2);
-    await fs.writeFile(usersFile, data);
-    console.log(`[WRITE] ${usersFile}:`, { users, count: users.length, raw: data });
-  } catch (error) {
-    console.error(`[WRITE] Erro ao escrever em ${usersFile}:`, error);
-    throw new Error('Falha ao escrever no arquivo de usuários');
+// Testar conexão na inicialização
+pool.connect((err) => {
+  if (err) {
+    console.error('[PG] Erro ao conectar ao PostgreSQL:', err.message);
+  } else {
+    console.log('[PG] Conectado ao PostgreSQL');
   }
-};
+});
 
 // Rota de cadastro
 router.post('/cadastrar', async (req, res) => {
@@ -53,24 +34,25 @@ router.post('/cadastrar', async (req, res) => {
       return res.status(400).json({ error: 'Preencha todos os campos' });
     }
 
-    const users = await readUsers();
-    console.log('[CADASTRO] Antes de cadastrar:', { users, count: users.length });
-
-    if (users.find((user) => user.username.toLowerCase() === username.toLowerCase())) {
+    // Verificar se usuário existe
+    const userCheck = await pool.query('SELECT username FROM users WHERE LOWER(username) = LOWER($1)', [username]);
+    if (userCheck.rows.length > 0) {
       console.log('[CADASTRO] Usuário já existe:', username);
       return res.status(400).json({ error: 'Usuário já existe' });
     }
 
+    // Hash da senha
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    users.push({ username, password: hashedPassword });
-    await writeUsers(users);
+    // Inserir usuário
+    await pool.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, hashedPassword]);
+    console.log('[CADASTRO] Usuário inserido:', username);
 
     res.status(201).json({ message: 'Cadastro realizado com sucesso!' });
   } catch (error) {
     console.error('[CADASTRO] Erro:', error.message);
-    res.status(500).json({ error: error.message || 'Erro ao cadastrar' });
+    res.status(500).json({ error: 'Erro ao cadastrar' });
   }
 });
 
@@ -85,21 +67,23 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Preencha todos os campos' });
     }
 
-    const users = await readUsers();
-    console.log('[LOGIN] Usuários carregados:', { users, count: users.length });
+    // Buscar usuário
+    const result = await pool.query('SELECT * FROM users WHERE LOWER(username) = LOWER($1)', [username]);
+    const user = result.rows[0];
 
-    const user = users.find((user) => user.username.toLowerCase() === username.toLowerCase());
     if (!user) {
       console.log('[LOGIN] Usuário não encontrado:', username);
       return res.status(400).json({ error: 'Usuário ou senha inválidos' });
     }
 
+    // Verificar senha
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       console.log('[LOGIN] Senha inválida para:', username);
       return res.status(400).json({ error: 'Usuário ou senha inválidos' });
     }
 
+    // Gerar token
     const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '1h' });
     console.log('[LOGIN] Token gerado para:', username);
     res.json({ token, redirect: '/painel.html' });
@@ -121,7 +105,6 @@ router.get('/painel', (req, res) => {
       return res.status(401).json({ error: 'Acesso negado' });
     }
 
-    console.log('[PAINEL] Verificando token');
     jwt.verify(token, JWT_SECRET, (err, user) => {
       if (err) {
         console.log('[PAINEL] Erro na verificação do token:', err.message);
