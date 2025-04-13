@@ -17,7 +17,7 @@ const readUsers = async () => {
   try {
     const data = await fs.readFile(usersFile, 'utf-8');
     const users = JSON.parse(data);
-    console.log(`Leitura bem-sucedida de ${usersFile}, usuários:`, users);
+    console.log(`Leitura de ${usersFile}:`, { users, count: users.length });
     return users;
   } catch (error) {
     if (error.code === 'ENOENT') {
@@ -34,7 +34,7 @@ const readUsers = async () => {
 const writeUsers = async (users) => {
   try {
     await fs.writeFile(usersFile, JSON.stringify(users, null, 2));
-    console.log(`Escrita bem-sucedida em ${usersFile}, usuários:`, users);
+    console.log(`Escrita em ${usersFile}:`, { users, count: users.length });
   } catch (error) {
     console.error(`Erro ao escrever em ${usersFile}:`, error);
     throw new Error('Falha ao escrever no arquivo de usuários');
@@ -53,7 +53,9 @@ router.post('/cadastrar', async (req, res) => {
     }
 
     const users = await readUsers();
-    if (users.find((user) => user.username === username)) {
+    console.log('Antes de cadastrar:', { users, count: users.length });
+
+    if (users.find((user) => user.username.toLowerCase() === username.toLowerCase())) {
       console.log('Usuário já existe:', username);
       return res.status(400).json({ error: 'Usuário já existe' });
     }
@@ -83,9 +85,9 @@ router.post('/login', async (req, res) => {
     }
 
     const users = await readUsers();
-    console.log('Usuários carregados para login:', users);
+    console.log('Usuários no login:', { users, count: users.length });
 
-    const user = users.find((user) => user.username === username);
+    const user = users.find((user) => user.username.toLowerCase() === username.toLowerCase());
     if (!user) {
       console.log('Usuário não encontrado:', username);
       return res.status(400).json({ error: 'Usuário ou senha inválidos' });
