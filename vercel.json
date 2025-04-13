@@ -26,8 +26,12 @@
       "destination": "/favicon.ico"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/painel.css",
+      "destination": "/painel.css"
+    },
+    {
+      "source": "/index.js",
+      "destination": "/index.js"
     }
   ],
   "functions": {
