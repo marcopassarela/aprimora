@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { Pool } = require('pg');
 const router = express.Router();
 
-const JWT_SECRET = process.env.JWT_SECRET || 'sua-chave-secreta-muito-longa-e-unica';
+const JWT_SECRET = process.env.JWT_SECRET || '12345';
 
 // Conexão com Aiven PostgreSQL
 const pool = new Pool({
