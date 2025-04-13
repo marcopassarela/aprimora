@@ -10,140 +10,357 @@
     <title>Aprimora</title>
 </head>
 <body>
-    <header>
-        <a href="/" class="title animated" data-i18n="title">Aprimora</a>
-        <div id="menu">
-            <input type="checkbox" id="menu-toggle" class="menu-toggle">
-            <label for="menu-toggle" class="hamburger animated">
-                <span class="bar top"></span>
-                <span class="bar middle"></span>
-                <span class="bar bottom"></span>
-            </label>
-            <ul class="animated">
-                <li><a href="/" data-i18n="home" class="home">Inicio</a></li>
-                <li><a href="#paraEscola" data-i18n="about" class="about">Sobre</a></li>
-                <li><a href="#form" data-i18n="contact" class="contact">Contato</a></li>
-            </ul>
-        </div>
-
-        <div id="languageModal" class="modal">
-            <div class="modal-content">
-                <span class="close" id="closeModal">×</span>
-                <h2>Escolha o Idioma</h2>
-                <p>Essa configuração atualiza o que você lê.</p>
-                <div class="language-grid">
-                    <ul>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('pt-BR')"><span class="preview">Português</span><span class="variant">Brasil</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('pt-PT')"><span class="preview">Português</span><span class="variant">Portugal</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('es')"><span class="preview">Español</span><span class="variant">Espanhol</span></a></li>
-                    </ul>
-                    <ul>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('en')"><span class="preview">English</span><span class="variant">Inglês</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('it')"><span class="preview">Italian</span><span class="variant">Italiano</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('fr')"><span class="preview">Français</span><span class="variant">Francês</span></a></li>
-                    </ul>
-                    <ul>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-MA')"><span class="preview">العربية</span><span class="variant">Árabe (Marrocos)</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-SA')"><span class="preview">العربية</span><span class="variant">Árabe (Arábia Saudita)</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-EG')"><span class="preview">العربية</span><span class="variant">Árabe (Egípcio)</span></a></li>
-                    </ul>
-                    <ul>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ja')"><span class="preview">日本語</span><span class="variant">Japonês</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('zh')"><span class="preview">中文</span><span class="variant">Chinês</span></a></li>
-                        <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ru')"><span class="preview">Русский</span><span class="variant">Russo</span></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <div id="tabela-container" class="animated">
-        <h2>Horários das Atividades</h2>
-        <table id="tabela-desktop">
-            <thead>
-                <tr>
-                    <th>Horário</th>
-                    <th>Segunda</th>
-                    <th>Terça</th>
-                    <th>Quarta</th>
-                    <th>Quinta</th>
-                    <th>Sexta</th>
-                    <th>Sábado</th>
-                    <th>Domingo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>08:00 - 09:00</td>
-                    <td><textarea></textarea></td>
-                    <td><textarea></textarea></td>
-                    <td><textarea></textarea></td>
-                    <td><textarea></textarea></td>
-                    <td><textarea></textarea></td>
-                    <td><textarea></textarea></td>
-                    <td><textarea></textarea></td>
-                </tr>
-                <!-- Demais linhas mantidas, abreviadas aqui -->
-                <tr>
-                    <td>09:00 - 10:00</td>
-                    <td><textarea></textarea></td>
-                    <td><textarea></textarea></td>
-                    <td><textarea></textarea></td>
-                    <td><textarea></textarea></td>
-                    <td><textarea></textarea></td>
-                    <td><textarea></textarea></td>
-                    <td><textarea></textarea></td>
-                </tr>
-                <!-- ... até 21:00 - 22:00 -->
-            </tbody>
-        </table>
-
-        <div id="tabela-mobile">
-            <div class="dia-container">
-                <h4>Segunda-feira</h4>
-                <div class="input-wrapper"><label>08:00 - 09:00</label><textarea></textarea></div>
-                <!-- Demais horários e dias mantidos -->
-            </div>
-            <!-- ... outros dias -->
-        </div>
-
-        <button onclick="salvarDados()">Gravar</button>
+  <header>
+    <a href="/" class="title animated" data-i18n="title">Aprimora</a>
+    <div id="menu">
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="hamburger animated">
+            <span class="bar top"></span>
+            <span class="bar middle"></span>
+            <span class="bar bottom"></span>
+        </label>
+        <ul class="animated">
+            <li><a href="/" data-i18n="home" class="home">Inicio</a></li>
+            <li><a href="#paraEscola" data-i18n="about" class="about">Sobre</a></li>
+            <li><a href="#form" data-i18n="contact" class="contact">Contato</a></li>
+            <li><a href="/cadastro" data-i18n="register" class="register">Cadastrar</a></li>
+            <li><a href="/login" data-i18n="login" class="login">Login</a></li>
+            <li><a href="#" id="openModal" data-i18n="language" class="language">Idioma</a></li>
+        </ul>
     </div>
 
-    <script>
-        console.log('Carregando painel.html');
+    <div id="languageModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">×</span>
+            <h2>Escolha o Idioma</h2>
+            <p>Essa configuração atualiza o que você lê.</p>
+            <div class="language-grid">
+                <ul>
+                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('pt-BR')"><span class="preview">Português</span><span class="variant">Brasil</span></a></li>
+                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('pt-PT')"><span class="preview">Português</span><span class="variant">Portugal</span></a></li>
+                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('es')"><span class="preview">Español</span><span class="variant">Espanhol</span></a></li>
+                </ul>
+                <ul>
+                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('en')"><span class="preview">English</span><span class="variant">Inglês</span></a></li>
+                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('it')"><span class="preview">Italian</span><span class="variant">Italiano</span></a></li>
+                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('fr')"><span class="preview">Français</span><span class="variant">Francês</span></a></li>
+                </ul>
+                <ul>
+                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-MA')"><span class="preview">العربية</span><span class="variant">Árabe (Marrocos)</span></a></li>
+                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-SA')"><span class="preview">العربية</span><span class="variant">Árabe (Arábia Saudita)</span></a></li>
+                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-EG')"><span class="preview">العربية</span><span class="variant">Árabe (Egípcio)</span></a></li>
+                </ul>
+                <ul>
+                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ja')"><span class="preview">日本語</span><span class="variant">Japonês</span></a></li>
+                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('zh')"><span class="preview">中文</span><span class="variant">Chinês</span></a></li>
+                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ru')"><span class="preview">Русский</span><span class="variant">Russo</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
 
-        const token = localStorage.getItem('token');
-        if (!token) {
-            console.log('Nenhum token, redirecionando para /login.html');
-            window.location.href = '/login.html';
-        }
+<div id="tabela-container" class="animated">
+    <h2>Horários das Atividades</h2>
+    <table id="tabela-desktop">
+        <thead>
+            <tr>
+                <th>Horário</th>
+                <th>Segunda</th>
+                <th>Terça</th>
+                <th>Quarta</th>
+                <th>Quinta</th>
+                <th>Sexta</th>
+                <th>Sábado</th>
+                <th>Domingo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>08:00 - 09:00</td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+            </tr>
+            <tr>
+                <td>09:00 - 10:00</td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+            </tr>
+            <tr>
+                <td>10:00 - 11:00</td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+            </tr>
+            <tr>
+                <td>11:00 - 12:00</td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+            </tr>
+            <tr>
+                <td>13:00 - 14:00</td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+            </tr>
+            <tr>
+                <td>14:00 - 15:00</td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+            </tr>
+            <tr>
+                <td>15:00 - 16:00</td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+            </tr>
+            <tr>
+                <td>16:00 - 17:00</td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+            </tr>
+            <tr>
+                <td>17:00 - 18:00</td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+            </tr>
+            <tr>
+                <td>18:00 - 19:00</td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+            </tr>
+            <tr>
+                <td>19:00 - 20:00</td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+            </tr>
+            <tr>
+                <td>20:00 - 21:00</td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+            </tr>
+            <tr>
+                <td>21:00 - 22:00</td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+                <td><textarea></textarea></td>
+            </tr>
+        </tbody>
+    </table>
 
-        function logout() {
-            console.log('Logout');
-            localStorage.removeItem('token');
-            window.location.href = '/login.html';
-        }
+    <div id="tabela-mobile">
+        <div class="dia-container">
+            <h4>Segunda-feira</h4>
+            <div class="input-wrapper"><label>08:00 - 09:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>09:00 - 10:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>10:00 - 11:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>11:00 - 12:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>13:00 - 14:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>14:00 - 15:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>15:00 - 16:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>16:00 - 17:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>17:00 - 18:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>18:00 - 19:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>19:00 - 20:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>20:00 - 21:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>21:00 - 22:00</label><textarea></textarea></div>
+        </div>
+        <div class="dia-container">
+            <h4>Terça-feira</h4>
+            <div class="input-wrapper"><label>08:00 - 09:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>09:00 - 10:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>10:00 - 11:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>11:00 - 12:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>13:00 - 14:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>14:00 - 15:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>15:00 - 16:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>16:00 - 17:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>17:00 - 18:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>18:00 - 19:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>19:00 - 20:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>20:00 - 21:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>21:00 - 22:00</label><textarea></textarea></div>
+        </div>
+        <div class="dia-container">
+            <h4>Quarta-feira</h4>
+            <div class="input-wrapper"><label>08:00 - 09:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>09:00 - 10:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>10:00 - 11:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>11:00 - 12:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>13:00 - 14:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>14:00 - 15:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>15:00 - 16:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>16:00 - 17:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>17:00 - 18:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>18:00 - 19:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>19:00 - 20:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>20:00 - 21:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>21:00 - 22:00</label><textarea></textarea></div>
+        </div>
+        <div class="dia-container">
+            <h4>Quinta-feira</h4>
+            <div class="input-wrapper"><label>08:00 - 09:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>09:00 - 10:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>10:00 - 11:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>11:00 - 12:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>13:00 - 14:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>14:00 - 15:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>15:00 - 16:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>16:00 - 17:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>17:00 - 18:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>18:00 - 19:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>19:00 - 20:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>20:00 - 21:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>21:00 - 22:00</label><textarea></textarea></div>
+        </div>
+        <div class="dia-container">
+            <h4>Sexta-feira</h4>
+            <div class="input-wrapper"><label>08:00 - 09:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>09:00 - 10:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>10:00 - 11:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>11:00 - 12:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>13:00 - 14:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>14:00 - 15:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>15:00 - 16:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>16:00 - 17:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>17:00 - 18:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>18:00 - 19:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>19:00 - 20:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>20:00 - 21:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>21:00 - 22:00</label><textarea></textarea></div>
+        </div>
+        <div class="dia-container">
+            <h4>Sábado</h4>
+            <div class="input-wrapper"><label>08:00 - 09:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>09:00 - 10:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>10:00 - 11:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>11:00 - 12:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>13:00 - 14:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>14:00 - 15:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>15:00 - 16:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>16:00 - 17:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>17:00 - 18:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>18:00 - 19:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>19:00 - 20:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>20:00 - 21:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>21:00 - 22:00</label><textarea></textarea></div>
+        </div>
+        <div class="dia-container" id="domingo">
+            <h4>Domingo</h4>
+            <div class="input-wrapper"><label>08:00 - 09:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>09:00 - 10:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>10:00 - 11:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>11:00 - 12:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>13:00 - 14:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>14:00 - 15:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>15:00 - 16:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>16:00 - 17:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>17:00 - 18:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>18:00 - 19:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>19:00 - 20:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>20:00 - 21:00</label><textarea></textarea></div>
+            <div class="input-wrapper"><label>21:00 - 22:00</label><textarea></textarea></div>
+        </div>
+    </div>
 
-        window.onload = function () {
-            console.log('Carregando dados salvos');
-            const dadosSalvos = JSON.parse(localStorage.getItem('horarios'));
-            if (dadosSalvos) {
-                const inputs = document.querySelectorAll('tbody textarea');
-                inputs.forEach((input, index) => {
-                    input.value = dadosSalvos[index] || '';
-                });
-            }
-        };
+    <button onclick="salvarDados()">Gravar</button>
+</div>
 
-        function salvarDados() {
-            console.log('Salvando dados');
+<script>
+    console.log('Carregando painel.html');
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.log('Nenhum token, redirecionando para /login.html');
+        window.location.href = '/login.html';
+    }
+
+    function logout() {
+        console.log('Logout');
+        localStorage.removeItem('token');
+        window.location.href = '/login.html';
+    }
+
+    window.onload = function () {
+        console.log('Carregando dados salvos');
+        const dadosSalvos = JSON.parse(localStorage.getItem('horarios'));
+        if (dadosSalvos) {
             const inputs = document.querySelectorAll('tbody textarea');
-            const valores = Array.from(inputs).map(input => input.value);
-            localStorage.setItem('horarios', JSON.stringify(valores));
-            alert('Dados salvos com sucesso!');
+            inputs.forEach((input, index) => {
+                input.value = dadosSalvos[index] || '';
+            });
         }
-    </script>
+    };
+
+    function salvarDados() {
+        console.log('Salvando dados');
+        const inputs = document.querySelectorAll('tbody textarea');
+        const valores = Array.from(inputs).map(input => input.value);
+        localStorage.setItem('horarios', JSON.stringify(valores));
+        alert('Dados salvos com sucesso!');
+    }
+</script>
 
     <script src="/frontend/src/utils/index.js"></script>
 </body>
