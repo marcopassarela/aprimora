@@ -17,15 +17,15 @@ const readUsers = async () => {
   try {
     const data = await fs.readFile(usersFile, 'utf-8');
     const users = JSON.parse(data);
-    console.log(`Leitura de ${usersFile}:`, { users, count: users.length });
+    console.log(`[READ] ${usersFile}:`, { users, count: users.length, raw: data });
     return users;
   } catch (error) {
     if (error.code === 'ENOENT') {
-      console.log(`Arquivo ${usersFile} não encontrado, criando novo`);
+      console.log(`[READ] ${usersFile} não encontrado, criando novo`);
       await fs.writeFile(usersFile, '[]');
       return [];
     }
-    console.error(`Erro ao ler ${usersFile}:`, error);
+    console.error(`[READ] Erro ao ler ${usersFile}:`, error);
     throw new Error('Falha ao ler o arquivo de usuários');
   }
 };
@@ -33,10 +33,11 @@ const readUsers = async () => {
 // Função para escrever em users.json
 const writeUsers = async (users) => {
   try {
-    await fs.writeFile(usersFile, JSON.stringify(users, null, 2));
-    console.log(`Escrita em ${usersFile}:`, { users, count: users.length });
+    const data = JSON.stringify(users, null, 2);
+    await fs.writeFile(usersFile, data);
+    console.log(`[WRITE] ${usersFile}:`, { users, count: users.length, raw: data });
   } catch (error) {
-    console.error(`Erro ao escrever em ${usersFile}:`, error);
+    console.error(`[WRITE] Erro ao escrever em ${usersFile}:`, error);
     throw new Error('Falha ao escrever no arquivo de usuários');
   }
 };
@@ -45,18 +46,18 @@ const writeUsers = async (users) => {
 router.post('/cadastrar', async (req, res) => {
   try {
     const { username, password } = req.body;
-    console.log('Cadastro recebido:', { username, password: '[HIDDEN]' });
+    console.log('[CADASTRO] Recebido:', { username, password: '[HIDDEN]' });
 
     if (!username || !password) {
-      console.log('Campos faltando:', { username, password });
+      console.log('[CADASTRO] Campos faltando:', { username, password });
       return res.status(400).json({ error: 'Preencha todos os campos' });
     }
 
     const users = await readUsers();
-    console.log('Antes de cadastrar:', { users, count: users.length });
+    console.log('[CADASTRO] Antes de cadastrar:', { users, count: users.length });
 
     if (users.find((user) => user.username.toLowerCase() === username.toLowerCase())) {
-      console.log('Usuário já existe:', username);
+      console.log('[CADASTRO] Usuário já existe:', username);
       return res.status(400).json({ error: 'Usuário já existe' });
     }
 
@@ -68,7 +69,7 @@ router.post('/cadastrar', async (req, res) => {
 
     res.status(201).json({ message: 'Cadastro realizado com sucesso!' });
   } catch (error) {
-    console.error('Erro no cadastro:', error.message);
+    console.error('[CADASTRO] Erro:', error.message);
     res.status(500).json({ error: error.message || 'Erro ao cadastrar' });
   }
 });
@@ -77,33 +78,33 @@ router.post('/cadastrar', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
-    console.log('Login recebido:', { username, password: '[HIDDEN]' });
+    console.log('[LOGIN] Recebido:', { username, password: '[HIDDEN]' });
 
     if (!username || !password) {
-      console.log('Campos faltando:', { username, password });
+      console.log('[LOGIN] Campos faltando:', { username, password });
       return res.status(400).json({ error: 'Preencha todos os campos' });
     }
 
     const users = await readUsers();
-    console.log('Usuários no login:', { users, count: users.length });
+    console.log('[LOGIN] Usuários carregados:', { users, count: users.length });
 
     const user = users.find((user) => user.username.toLowerCase() === username.toLowerCase());
     if (!user) {
-      console.log('Usuário não encontrado:', username);
+      console.log('[LOGIN] Usuário não encontrado:', username);
       return res.status(400).json({ error: 'Usuário ou senha inválidos' });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      console.log('Senha inválida para:', username);
+      console.log('[LOGIN] Senha inválida para:', username);
       return res.status(400).json({ error: 'Usuário ou senha inválidos' });
     }
 
     const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '1h' });
-    console.log('Token gerado para:', username);
+    console.log('[LOGIN] Token gerado para:', username);
     res.json({ token, redirect: '/painel.html' });
   } catch (error) {
-    console.error('Erro no login:', error.message);
+    console.error('[LOGIN] Erro:', error.message);
     res.status(500).json({ error: 'Erro ao fazer login' });
   }
 });
@@ -112,25 +113,25 @@ router.post('/login', async (req, res) => {
 router.get('/painel', (req, res) => {
   try {
     const authHeader = req.headers['authorization'];
-    console.log('Cabeçalho Authorization recebido:', authHeader);
+    console.log('[PAINEL] Cabeçalho Authorization:', authHeader);
 
     const token = authHeader && authHeader.split(' ')[1];
     if (!token) {
-      console.log('Token não fornecido');
+      console.log('[PAINEL] Token não fornecido');
       return res.status(401).json({ error: 'Acesso negado' });
     }
 
-    console.log('Verificando token:', token);
+    console.log('[PAINEL] Verificando token');
     jwt.verify(token, JWT_SECRET, (err, user) => {
       if (err) {
-        console.log('Erro na verificação do token:', err.message);
+        console.log('[PAINEL] Erro na verificação do token:', err.message);
         return res.status(403).json({ error: 'Token inválido' });
       }
-      console.log('Token válido, usuário:', user);
+      console.log('[PAINEL] Token válido, usuário:', user);
       res.json({ message: 'Bem-vindo ao painel!', user });
     });
   } catch (error) {
-    console.error('Erro ao processar /api/auth/painel:', error.message);
+    console.error('[PAINEL] Erro:', error.message);
     res.status(500).json({ error: 'Erro ao acessar o painel' });
   }
 });
