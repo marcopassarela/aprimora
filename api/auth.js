@@ -11,7 +11,7 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: process.env.VERCEL
     ? { rejectUnauthorized: true }
-    : { rejectUnauthorized: false }, // Ignora erro de certificado localmente
+    : { rejectUnauthorized: false }, // Ignora erro de certificado localmente 
 });
 
 // Testar conexão na inicialização
