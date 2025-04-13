@@ -30,7 +30,7 @@
           </div>
     </header>
 
-    <form id="cadastroForm">
+    <form id="cadastroForm" method="POST">
       <div id="container">
           <div id="cadastro" class="animated">
               <h1 class="titleCadastro">Cadastro - Crie sua conta</h1>
@@ -51,9 +51,8 @@
   </div>
 
   <script>
-      console.log('Script de cadastro.html carregado');
-
       function openModal(title, message) {
+          console.log('Abrindo modal:', { title, message });
           const modal = document.getElementById('cadastroModal');
           const modalTitle = document.getElementById('modalTitle');
           const modalMessage = document.getElementById('modalMessage');
@@ -63,6 +62,7 @@
       }
 
       function closeModal() {
+          console.log('Fechando modal');
           const modal = document.getElementById('cadastroModal');
           modal.style.display = 'none';
       }
@@ -70,60 +70,53 @@
       window.onclick = function(event) {
           const modal = document.getElementById('cadastroModal');
           if (event.target === modal) {
-              modal.style.display = 'none';
+              closeModal();
           }
       };
 
       document.addEventListener('DOMContentLoaded', () => {
-          console.log('DOM completamente carregado');
+          console.log('DOM carregado');
           const form = document.getElementById('cadastroForm');
-          const button = form.querySelector('.btnSubmit');
 
-          if (form && button) {
-              console.log('Formulário e botão encontrados');
-
-              button.addEventListener('click', () => {
-                  console.log('Botão Cadastrar clicado');
-              });
-
+          if (form) {
+              console.log('Formulário encontrado');
               form.addEventListener('submit', async (e) => {
                   e.preventDefault();
-                  console.log('Evento de submit disparado');
+                  console.log('Submit disparado');
 
                   const email = document.getElementById('email').value;
                   const senha = document.getElementById('senha').value;
                   console.log('Dados do formulário:', { email, senha });
 
                   try {
-                      console.log('Enviando requisição para /api/auth/register', { email });
+                      console.log('Enviando POST /api/auth/register');
                       const response = await fetch('/api/auth/register', {
                           method: 'POST',
                           headers: { 'Content-Type': 'application/json' },
                           body: JSON.stringify({ email, senha })
                       });
 
-                      console.log('Resposta recebida:', response.status);
-
+                      console.log('Resposta:', response.status, response.statusText);
                       let data;
                       try {
                           data = await response.json();
+                          console.log('Dados:', data);
                       } catch (jsonError) {
                           console.error('Erro ao parsear JSON:', jsonError);
                           const text = await response.text();
                           console.log('Resposta bruta:', text);
-                          throw new Error(`Resposta inválida do servidor: ${text}`);
+                          throw new Error(`Erro ${response.status}: ${text || 'Resposta inválida'}`);
                       }
 
                       if (response.ok) {
-                          console.log('Dados da resposta:', data);
                           localStorage.setItem('token', data.token);
                           openModal('Sucesso', 'Cadastro realizado com sucesso!');
                           setTimeout(() => {
+                              console.log('Redirecionando para /login.html');
                               window.location.href = '/login.html';
                           }, 2000);
                       } else {
-                          console.log('Erro na resposta:', data);
-                          throw new Error(data.error || 'Erro desconhecido no servidor');
+                          throw new Error(data.error || `Erro ${response.status}`);
                       }
                   } catch (error) {
                       console.error('Erro no cadastro:', error);
@@ -131,7 +124,7 @@
                   }
               });
           } else {
-              console.error('Formulário ou botão não encontrados');
+              console.error('Formulário não encontrado');
           }
       });
   </script>

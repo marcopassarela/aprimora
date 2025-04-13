@@ -337,6 +337,17 @@
     </div>
 
     <script>
+
+        // Verificar token
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login.html';
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/login.html';
+        }
         // Verifica se o usuário está autenticado
         window.onload = async function () {
           const token = localStorage.getItem('token');
@@ -379,6 +390,7 @@
           localStorage.setItem('horarios', JSON.stringify(valores));
           alert('Dados salvos com sucesso!');
         }
+        
       </script>
       
       
