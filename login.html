@@ -61,7 +61,7 @@
     </header>
 
 
-    <form action="loginForm">
+    <form action="/api/auth/login" method="POST">
         <div id="container">
             <div id="login" class="animated">
                 <h1 class="titleLogin">Login - Acesse a plataforma</h1>
@@ -75,28 +75,29 @@
 
     <script>
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
-          e.preventDefault();
-          const email = document.getElementById('email').value;
-          const password = document.getElementById('password').value;
-    
-          try {
+        e.preventDefault(); // Impede o envio padrão do formulário
+        const email = document.getElementById('email').value;
+        const senha = document.getElementById('senha').value;
+
+        try {
             const response = await fetch('/api/auth/login', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email, password }),
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, senha })
             });
-    
             const data = await response.json();
+
             if (response.ok) {
-              localStorage.setItem('token', data.token);
-              window.location.href = '/painel.html';
+                alert('Login bem-sucedido!');
+                window.location.href = '/painel.html'; // Ajuste para sua página
             } else {
-              alert(data.message);
+                alert('Erro: ' + data.error);
             }
-          } catch (err) {
-            alert('Erro ao fazer login');
-          }
-        });
+        } catch (error) {
+            console.error('Erro ao logar:', error);
+            alert('Erro ao conectar com o servidor');
+        }
+    });
       </script>
 
 <script src="/frontend/src/utils/index.js"></script>
