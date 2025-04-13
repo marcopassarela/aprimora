@@ -1,5 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcryptjs'); // Alterado de bcrypt para bcryptjs
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fs = require('fs').promises;
 const path = require('path');
@@ -17,7 +17,7 @@ const readUsers = async () => {
   try {
     const data = await fs.readFile(usersFile, 'utf-8');
     const users = JSON.parse(data);
-    console.log(`Leitura bem-sucedida de ${usersFile}, usuários:`, users.length);
+    console.log(`Leitura bem-sucedida de ${usersFile}, usuários:`, users);
     return users;
   } catch (error) {
     if (error.code === 'ENOENT') {
@@ -34,7 +34,7 @@ const readUsers = async () => {
 const writeUsers = async (users) => {
   try {
     await fs.writeFile(usersFile, JSON.stringify(users, null, 2));
-    console.log(`Escrita bem-sucedida em ${usersFile}, usuários:`, users.length);
+    console.log(`Escrita bem-sucedida em ${usersFile}, usuários:`, users);
   } catch (error) {
     console.error(`Erro ao escrever em ${usersFile}:`, error);
     throw new Error('Falha ao escrever no arquivo de usuários');
@@ -83,8 +83,9 @@ router.post('/login', async (req, res) => {
     }
 
     const users = await readUsers();
-    const user = users.find((user) => user.username === username);
+    console.log('Usuários carregados para login:', users);
 
+    const user = users.find((user) => user.username === username);
     if (!user) {
       console.log('Usuário não encontrado:', username);
       return res.status(400).json({ error: 'Usuário ou senha inválidos' });

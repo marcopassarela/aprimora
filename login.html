@@ -51,17 +51,15 @@
             });
             const data = await response.json();
       
-            console.log('Resposta do login:', data);
+            console.log('Resposta do login:', { status: response.status, data });
       
             const mensagem = document.getElementById('mensagem');
-            mensagem.textContent = data.error || data.message || '';
+            mensagem.textContent = data.error || data.message || 'Erro desconhecido';
       
             if (response.ok) {
-              console.log('Salvando token:', data.token);
+              console.log('Login bem-sucedido, salvando token:', data.token);
               localStorage.setItem('token', data.token);
               window.location.href = data.redirect || '/painel.html';
-            } else {
-              console.log('Erro no login, status:', response.status);
             }
           } catch (error) {
             console.error('Erro no frontend:', error);
