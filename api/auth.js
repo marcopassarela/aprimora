@@ -6,25 +6,34 @@ const router = express.Router();
 
 const JWT_SECRET = process.env.JWT_SECRET || '12345';
 
-// Conexão com Aiven PostgreSQL
+// Definindo se estamos em produção ou desenvolvimento
+const isProduction = process.env.NODE_ENV === 'production';
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.VERCEL
-    ? { rejectUnauthorized: true }
-    : { rejectUnauthorized: false }, // Ignora erro de certificado localmente 
-});
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }, // para Aiven, é necessário aceitar certificados autoassinados
+  }); 
+  
 
 // Testar conexão na inicialização
-pool.connect((err) => {
+pool.connect((err, client, release) => {
   if (err) {
-    console.error('[PG] Erro ao conectar ao PostgreSQL:', err.message);
-  } else {
-    console.log('[PG] Conectado ao PostgreSQL');
+    console.error('[PG] Erro ao conectar ao PostgreSQL:', err.message, err.stack);
+    return;
   }
+  console.log('[PG] Conectado ao PostgreSQL');
+  client.query('SELECT 1 FROM users LIMIT 1', (err, result) => {
+    release();
+    if (err) {
+      console.error('[PG] Erro ao verificar tabela users:', err.message);
+    } else {
+      console.log('[PG] Tabela users acessível');
+    }
+  });
 });
 
-// Rota de cadastro
 router.post('/cadastrar', async (req, res) => {
+  let client;
   try {
     const { username, password } = req.body;
     console.log('[CADASTRO] Recebido:', { username, password: '[HIDDEN]' });
@@ -34,30 +43,37 @@ router.post('/cadastrar', async (req, res) => {
       return res.status(400).json({ error: 'Preencha todos os campos' });
     }
 
-    // Verificar se usuário existe
-    const userCheck = await pool.query('SELECT username FROM users WHERE LOWER(username) = LOWER($1)', [username]);
+    client = await pool.connect();
+    console.log('[CADASTRO] Cliente conectado para:', username);
+
+    const userCheck = await client.query('SELECT username FROM users WHERE username = $1', [username]);
+    console.log('[CADASTRO] Resultado da verificação:', userCheck.rows);
     if (userCheck.rows.length > 0) {
       console.log('[CADASTRO] Usuário já existe:', username);
       return res.status(400).json({ error: 'Usuário já existe' });
     }
 
-    // Hash da senha
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
+    console.log('[CADASTRO] Senha hasheada:', hashedPassword);
 
-    // Inserir usuário
-    await pool.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, hashedPassword]);
-    console.log('[CADASTRO] Usuário inserido:', username);
+    const insertResult = await client.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING username', [username, hashedPassword]);
+    console.log('[CADASTRO] Usuário inserido:', insertResult.rows[0]);
 
     res.status(201).json({ message: 'Cadastro realizado com sucesso!' });
   } catch (error) {
-    console.error('[CADASTRO] Erro:', error.message);
-    res.status(500).json({ error: 'Erro ao cadastrar' });
+    console.error('[CADASTRO] Erro:', error.message, err.stack);
+    res.status(500).json({ error: 'Erro ao cadastrar', details: error.message });
+  } finally {
+    if (client) {
+      client.release();
+      console.log('[CADASTRO] Cliente liberado');
+    }
   }
 });
 
-// Rota de login
 router.post('/login', async (req, res) => {
+  let client;
   try {
     const { username, password } = req.body;
     console.log('[LOGIN] Recebido:', { username, password: '[HIDDEN]' });
@@ -67,8 +83,11 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Preencha todos os campos' });
     }
 
-    // Buscar usuário
-    const result = await pool.query('SELECT * FROM users WHERE LOWER(username) = LOWER($1)', [username]);
+    client = await pool.connect();
+    console.log('[LOGIN] Cliente conectado para:', username);
+
+    const result = await client.query('SELECT * FROM users WHERE username = $1', [username]);
+    console.log('[LOGIN] Resultado da query:', result.rows);
     const user = result.rows[0];
 
     if (!user) {
@@ -76,24 +95,29 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Usuário ou senha inválidos' });
     }
 
-    // Verificar senha
+    console.log('[LOGIN] Senha armazenada:', user.password);
     const passwordMatch = await bcrypt.compare(password, user.password);
+    console.log('[LOGIN] Senha corresponde:', passwordMatch);
+
     if (!passwordMatch) {
       console.log('[LOGIN] Senha inválida para:', username);
       return res.status(400).json({ error: 'Usuário ou senha inválidos' });
     }
 
-    // Gerar token
     const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '1h' });
     console.log('[LOGIN] Token gerado para:', username);
     res.json({ token, redirect: '/painel.html' });
   } catch (error) {
-    console.error('[LOGIN] Erro:', error.message);
-    res.status(500).json({ error: 'Erro ao fazer login' });
+    console.error('[LOGIN] Erro:', error.message, err.stack);
+    res.status(500).json({ error: 'Erro ao fazer login', details: error.message });
+  } finally {
+    if (client) {
+      client.release();
+      console.log('[LOGIN] Cliente liberado');
+    }
   }
 });
 
-// Rota protegida para o painel
 router.get('/painel', (req, res) => {
   try {
     const authHeader = req.headers['authorization'];
