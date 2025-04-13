@@ -1,38 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs').promises;
-const path = require('path');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// Caminho para users.json
-const filePath = path.join(__dirname, '../data/users.json');
+// Armazenamento em memória (temporário para Vercel)
+let users = [];
 
-// Função auxiliar para ler users.json
-async function readUsers() {
-    try {
-        const data = await fs.readFile(filePath, 'utf8');
-        return JSON.parse(data);
-    } catch (error) {
-        if (error.code === 'ENOENT') {
-            await fs.writeFile(filePath, '[]', 'utf8');
-            return [];
-        }
-        throw error;
-    }
-}
-
-// Função auxiliar para escrever em users.json
-async function writeUsers(users) {
-    try {
-        await fs.writeFile(filePath, JSON.stringify(users, null, 2), 'utf8');
-    } catch (error) {
-        console.error('Erro ao escrever users.json:', error);
-        throw new Error('Falha ao salvar dados do usuário');
-    }
-}
-
-// Registro
 router.post('/register', async (req, res) => {
     try {
         const { email, senha } = req.body;
@@ -42,9 +15,6 @@ router.post('/register', async (req, res) => {
             console.error('Dados incompletos:', { email, senha });
             return res.status(400).json({ error: 'Email e senha são obrigatórios' });
         }
-
-        // Ler usuários
-        let users = await readUsers();
 
         // Verificar se o usuário existe
         if (users.find(user => user.email === email)) {
@@ -66,7 +36,6 @@ router.post('/register', async (req, res) => {
         // Adicionar novo usuário
         const newUser = { id: users.length + 1, email, senha: hashedPassword };
         users.push(newUser);
-        await writeUsers(users);
         console.log('Novo usuário adicionado:', newUser);
 
         // Verificar JWT_SECRET
@@ -88,7 +57,6 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Login
 router.post('/login', async (req, res) => {
     try {
         const { email, senha } = req.body;
@@ -98,9 +66,6 @@ router.post('/login', async (req, res) => {
             console.error('Dados incompletos:', { email, senha });
             return res.status(400).json({ error: 'Email e senha são obrigatórios' });
         }
-
-        // Ler usuários
-        const users = await readUsers();
 
         // Verificar usuário
         const user = users.find(user => user.email === email);
