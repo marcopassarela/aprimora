@@ -101,3 +101,29 @@ module.exports = {
     return { status: 200, body: { token } };
   },
 };
+
+const express = require('express');
+const router = express.Router();
+const fs = require('fs').promises;
+const path = require('path');
+
+router.post('/login', async (req, res) => {
+    try {
+        const { email, senha } = req.body;
+        const filePath = path.join(__dirname, '../data/users.json');
+        const data = await fs.readFile(filePath, 'utf8');
+        const users = JSON.parse(data);
+
+        const user = users.find(u => u.email === email && u.senha === senha);
+        if (!user) {
+            return res.status(404).json({ error: 'Usuário não encontrado' });
+        }
+
+        res.json({ message: 'Login bem-sucedido' });
+    } catch (error) {
+        console.error('Erro no login:', error);
+        res.status(500).json({ error: 'Erro no servidor' });
+    }
+});
+
+module.exports = router;
