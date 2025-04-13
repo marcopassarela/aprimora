@@ -28,36 +28,6 @@
             <li><a href="#" id="openModal" data-i18n="language" class="language">Idioma</a></li>
         </ul>
     </div>
-
-    <div id="languageModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModal">×</span>
-            <h2>Escolha o Idioma</h2>
-            <p>Essa configuração atualiza o que você lê.</p>
-            <div class="language-grid">
-                <ul>
-                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('pt-BR')"><span class="preview">Português</span><span class="variant">Brasil</span></a></li>
-                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('pt-PT')"><span class="preview">Português</span><span class="variant">Portugal</span></a></li>
-                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('es')"><span class="preview">Español</span><span class="variant">Espanhol</span></a></li>
-                </ul>
-                <ul>
-                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('en')"><span class="preview">English</span><span class="variant">Inglês</span></a></li>
-                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('it')"><span class="preview">Italian</span><span class="variant">Italiano</span></a></li>
-                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('fr')"><span class="preview">Français</span><span class="variant">Francês</span></a></li>
-                </ul>
-                <ul>
-                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-MA')"><span class="preview">العربية</span><span class="variant">Árabe (Marrocos)</span></a></li>
-                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-SA')"><span class="preview">العربية</span><span class="variant">Árabe (Arábia Saudita)</span></a></li>
-                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ar-EG')"><span class="preview">العربية</span><span class="variant">Árabe (Egípcio)</span></a></li>
-                </ul>
-                <ul>
-                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ja')"><span class="preview">日本語</span><span class="variant">Japonês</span></a></li>
-                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('zh')"><span class="preview">中文</span><span class="variant">Chinês</span></a></li>
-                    <li class="grid"><a href="javascript:void(0);" onclick="changeLanguage('ru')"><span class="preview">Русский</span><span class="variant">Russo</span></a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
 </header>
 
 <div id="tabela-container" class="animated">
@@ -328,39 +298,45 @@
 </div>
 
 <script>
-    console.log('Carregando painel.html');
-
     const token = localStorage.getItem('token');
+    console.log('Token carregado em painel.html:', token);
+  
     if (!token) {
-        console.log('Nenhum token, redirecionando para /login.html');
-        window.location.href = '/login.html';
+      console.log('Nenhum token encontrado, redirecionando para login.html');
+      window.location.href = '/login.html';
+      return;
     }
-
-    function logout() {
-        console.log('Logout');
+  
+    fetch('/api/auth/painel', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        console.log('Resposta de /api/auth/painel:', response.status, response.statusText);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Dados recebidos:', data);
+        if (data.error) {
+          console.log('Erro retornado pelo backend:', data.error);
+          localStorage.removeItem('token');
+          window.location.href = '/login.html';
+        } else {
+          document.getElementById('mensagem').textContent = data.message || 'Bem-vindo ao painel!';
+        }
+      })
+      .catch((error) => {
+        console.error('Erro ao acessar /api/auth/painel:', error.message);
         localStorage.removeItem('token');
         window.location.href = '/login.html';
-    }
-
-    window.onload = function () {
-        console.log('Carregando dados salvos');
-        const dadosSalvos = JSON.parse(localStorage.getItem('horarios'));
-        if (dadosSalvos) {
-            const inputs = document.querySelectorAll('tbody textarea');
-            inputs.forEach((input, index) => {
-                input.value = dadosSalvos[index] || '';
-            });
-        }
-    };
-
-    function salvarDados() {
-        console.log('Salvando dados');
-        const inputs = document.querySelectorAll('tbody textarea');
-        const valores = Array.from(inputs).map(input => input.value);
-        localStorage.setItem('horarios', JSON.stringify(valores));
-        alert('Dados salvos com sucesso!');
-    }
-</script>
+      });
+  </script>
 
     <script src="/frontend/src/utils/index.js"></script>
 </body>

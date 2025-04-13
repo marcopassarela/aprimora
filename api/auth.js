@@ -1,85 +1,125 @@
 const express = require('express');
-const router = express.Router();
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const fs = require('fs').promises;
+const path = require('path');
+const router = express.Router();
 
-let users = [];
+const usersFile = path.join(__dirname, '../backend/data/users.json');
+const JWT_SECRET = process.env.JWT_SECRET || 'sua-chave-secreta-temporaria';
 
-router.post('/register', async (req, res) => {
-    try {
-        console.log('POST /api/auth/register:', req.body);
-        const { email, senha } = req.body;
-
-        if (!email || !senha) {
-            console.error('Dados incompletos:', { email, senha });
-            return res.status(400).json({ error: 'Email e senha são obrigatórios' });
-        }
-
-        if (users.find(user => user.email === email)) {
-            console.error('Usuário já existe:', email);
-            return res.status(400).json({ error: 'Usuário já existe' });
-        }
-
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(senha, salt);
-        const newUser = { id: users.length + 1, email, senha: hashedPassword };
-        users.push(newUser);
-        console.log('Usuário registrado:', newUser);
-
-        if (!process.env.JWT_SECRET) {
-            console.error('JWT_SECRET não definido');
-            return res.status(500).json({ error: 'Erro de configuração do servidor' });
-        }
-
-        const token = jwt.sign({ id: newUser.id, email: newUser.email }, process.env.JWT_SECRET, {
-            expiresIn: '1h',
-        });
-        console.log('Token gerado:', token);
-
-        res.status(201).json({ token });
-    } catch (error) {
-        console.error('Erro no registro:', error.stack);
-        res.status(500).json({ error: 'Erro no servidor' });
+// Função para ler users.json
+const readUsers = async () => {
+  try {
+    const data = await fs.readFile(usersFile, 'utf-8');
+    return JSON.parse(data);
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      await fs.writeFile(usersFile, '[]');
+      return [];
     }
+    console.error('Erro ao ler users.json:', error);
+    throw error;
+  }
+};
+
+// Função para escrever em users.json
+const writeUsers = async (users) => {
+  try {
+    await fs.writeFile(usersFile, JSON.stringify(users, null, 2));
+  } catch (error) {
+    console.error('Erro ao escrever em users.json:', error);
+    throw error;
+  }
+};
+
+// Rota de cadastro
+router.post('/cadastrar', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    console.log('Cadastro recebido:', { username, password: '[HIDDEN]' });
+
+    if (!username || !password) {
+      return res.status(400).json({ error: 'Preencha todos os campos' });
+    }
+
+    const users = await readUsers();
+    if (users.find((user) => user.username === username)) {
+      return res.status(400).json({ error: 'Usuário já existe' });
+    }
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    users.push({ username, password: hashedPassword });
+    await writeUsers(users);
+
+    res.status(201).json({ message: 'Cadastro realizado com sucesso!' });
+  } catch (error) {
+    console.error('Erro no cadastro:', error);
+    res.status(500).json({ error: 'Erro ao cadastrar' });
+  }
 });
 
+// Rota de login
 router.post('/login', async (req, res) => {
-    try {
-        console.log('POST /api/auth/login:', req.body);
-        const { email, senha } = req.body;
+  try {
+    const { username, password } = req.body;
+    console.log('Login recebido:', { username, password: '[HIDDEN]' });
 
-        if (!email || !senha) {
-            console.error('Dados incompletos:', { email, senha });
-            return res.status(400).json({ error: 'Email e senha são obrigatórios' });
-        }
-
-        const user = users.find(user => user.email === email);
-        if (!user) {
-            console.error('Usuário não encontrado:', email);
-            return res.status(401).json({ error: 'Credenciais inválidas' });
-        }
-
-        const isMatch = await bcrypt.compare(senha, user.senha);
-        if (!isMatch) {
-            console.error('Senha incorreta:', email);
-            return res.status(401).json({ error: 'Credenciais inválidas' });
-        }
-
-        if (!process.env.JWT_SECRET) {
-            console.error('JWT_SECRET não definido');
-            return res.status(500).json({ error: 'Erro de configuração do servidor' });
-        }
-
-        const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
-            expiresIn: '1h',
-        });
-        console.log('Token gerado:', token);
-
-        res.status(200).json({ token });
-    } catch (error) {
-        console.error('Erro no login:', error.stack);
-        res.status(500).json({ error: 'Erro no servidor' });
+    if (!username || !password) {
+      console.log('Campos faltando:', { username, password });
+      return res.status(400).json({ error: 'Preencha todos os campos' });
     }
+
+    const users = await readUsers();
+    const user = users.find((user) => user.username === username);
+
+    if (!user) {
+      console.log('Usuário não encontrado:', username);
+      return res.status(400).json({ error: 'Usuário ou senha inválidos' });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      console.log('Senha inválida para:', username);
+      return res.status(400).json({ error: 'Usuário ou senha inválidos' });
+    }
+
+    const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '1h' });
+    console.log('Token gerado:', token);
+    res.json({ token, redirect: '/painel.html' });
+  } catch (error) {
+    console.error('Erro no login:', error);
+    res.status(500).json({ error: 'Erro ao fazer login' });
+  }
+});
+
+// Rota protegida para o painel
+router.get('/painel', (req, res) => {
+  try {
+    const authHeader = req.headers['authorization'];
+    console.log('Cabeçalho Authorization recebido:', authHeader);
+
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) {
+      console.log('Token não fornecido');
+      return res.status(401).json({ error: 'Acesso negado' });
+    }
+
+    console.log('Verificando token:', token);
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+      if (err) {
+        console.log('Erro na verificação do token:', err.message);
+        return res.status(403).json({ error: 'Token inválido' });
+      }
+      console.log('Token válido, usuário:', user);
+      res.json({ message: 'Bem-vindo ao painel!', user });
+    });
+  } catch (error) {
+    console.error('Erro ao processar /api/auth/painel:', error);
+    res.status(500).json({ error: 'Erro ao acessar o painel' });
+  }
 });
 
 module.exports = router;
