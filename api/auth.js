@@ -1,5 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs'); // Alterado de bcrypt para bcryptjs
 const jwt = require('jsonwebtoken');
 const fs = require('fs').promises;
 const path = require('path');
@@ -10,13 +10,15 @@ const usersFile = process.env.VERCEL
   ? '/tmp/users.json'
   : path.join(__dirname, '../backend/data/users.json');
 
-const JWT_SECRET = process.env.JWT_SECRET || '123';
+const JWT_SECRET = process.env.JWT_SECRET || 'sua-chave-secreta-muito-longa-e-unica';
 
 // Função para ler users.json
 const readUsers = async () => {
   try {
     const data = await fs.readFile(usersFile, 'utf-8');
-    return JSON.parse(data);
+    const users = JSON.parse(data);
+    console.log(`Leitura bem-sucedida de ${usersFile}, usuários:`, users.length);
+    return users;
   } catch (error) {
     if (error.code === 'ENOENT') {
       console.log(`Arquivo ${usersFile} não encontrado, criando novo`);
@@ -24,7 +26,7 @@ const readUsers = async () => {
       return [];
     }
     console.error(`Erro ao ler ${usersFile}:`, error);
-    throw error;
+    throw new Error('Falha ao ler o arquivo de usuários');
   }
 };
 
@@ -32,10 +34,10 @@ const readUsers = async () => {
 const writeUsers = async (users) => {
   try {
     await fs.writeFile(usersFile, JSON.stringify(users, null, 2));
-    console.log(`Escrita bem-sucedida em ${usersFile}`);
+    console.log(`Escrita bem-sucedida em ${usersFile}, usuários:`, users.length);
   } catch (error) {
     console.error(`Erro ao escrever em ${usersFile}:`, error);
-    throw error;
+    throw new Error('Falha ao escrever no arquivo de usuários');
   }
 };
 
@@ -64,8 +66,8 @@ router.post('/cadastrar', async (req, res) => {
 
     res.status(201).json({ message: 'Cadastro realizado com sucesso!' });
   } catch (error) {
-    console.error('Erro no cadastro:', error);
-    res.status(500).json({ error: 'Erro ao cadastrar' });
+    console.error('Erro no cadastro:', error.message);
+    res.status(500).json({ error: error.message || 'Erro ao cadastrar' });
   }
 });
 
@@ -98,7 +100,7 @@ router.post('/login', async (req, res) => {
     console.log('Token gerado para:', username);
     res.json({ token, redirect: '/painel.html' });
   } catch (error) {
-    console.error('Erro no login:', error);
+    console.error('Erro no login:', error.message);
     res.status(500).json({ error: 'Erro ao fazer login' });
   }
 });
@@ -125,7 +127,7 @@ router.get('/painel', (req, res) => {
       res.json({ message: 'Bem-vindo ao painel!', user });
     });
   } catch (error) {
-    console.error('Erro ao processar /api/auth/painel:', error);
+    console.error('Erro ao processar /api/auth/painel:', error.message);
     res.status(500).json({ error: 'Erro ao acessar o painel' });
   }
 });
