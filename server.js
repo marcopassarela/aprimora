@@ -10,12 +10,12 @@ app.use(express.json());
 // Montar rotas de autenticação
 app.use('/api/auth', authRoutes);
 
-// Servir arquivos estáticos
-app.use(express.static(path.join(__dirname, 'public')));
+// Servir arquivos estáticos da raiz
+app.use(express.static(__dirname));
 
-// Fallback para index.html (SPA)
+// Fallback para index.html na raiz
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
