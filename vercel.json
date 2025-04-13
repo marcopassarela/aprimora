@@ -2,46 +2,34 @@
   "version": 2,
   "rewrites": [
     {
-      "source": "/api/test",
-      "destination": "/api/test.js"
-    },
-    {
-      "source": "/api/auth/register",
-      "destination": "/api/auth/register.js"
-    },
-    {
-      "source": "/api/auth/login",
-      "destination": "/api/auth/login.js"
-    },
-    {
-      "source": "/painel.html",
-      "destination": "/api/painel.js"
+      "source": "/api/auth/(.*)",
+      "destination": "/api/auth.js"
     },
     {
       "source": "/cadastro",
       "destination": "/cadastro.html"
     },
     {
-      "source": "/registro",         
+      "source": "/registro",
       "destination": "/cadastro.html"
-    },
-    {
-      "source": "/",
-      "destination": "/index.html"
     },
     {
       "source": "/login",
       "destination": "/login.html"
     },
     {
-      "source": "/",
+      "source": "/painel",
+      "destination": "/painel.html"
+    },
+    {
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
   "functions": {
-        "api/**/*": {
-            "memory": 1024,
-            "maxDuration": 10
-        }
+    "api/**/*": {
+      "memory": 1024,
+      "maxDuration": 10
     }
+  }
 }
